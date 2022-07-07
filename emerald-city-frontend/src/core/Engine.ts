@@ -9,6 +9,7 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomPass.js";
 import * as dat from "dat.gui";
 import { setupScene } from "./scene/BaseScene";
+import Stats from "stats.js";
 
 export class Engine {
   container: HTMLDivElement | null;
@@ -32,6 +33,7 @@ export class Engine {
   geometry!: THREE.PlaneBufferGeometry | THREE.BufferGeometry;
   mesh!: THREE.Mesh | THREE.Points;
   renderer: THREE.WebGLRenderer | null;
+  stats: Stats;
 
   constructor() {
     console.warn("Engine Loaded");
@@ -61,6 +63,10 @@ export class Engine {
     this.settings = {};
     this.setupResize();
     this.setupScene();
+
+    this.stats = new Stats();
+    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this.stats.dom);
   }
   async setupScene() {
     return setupScene(this);
@@ -124,10 +130,14 @@ export class Engine {
 
   render() {
     if (!this.isPlaying && !this.renderer) return;
+
     requestAnimationFrame(this.render.bind(this));
+
+    this.stats.begin();
     this.delta = this.clock.getDelta();
     this.controls!.update(this.delta * this.clockSpeed);
     this.renderer!.render(this.scene, this.camera);
+    this.stats.end();
     //this.composer.render();
   }
 }
