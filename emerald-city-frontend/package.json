@@ -1,0 +1,86 @@
+{
+  "name": "emerald-city-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@date-io/date-fns": "^2.14.0",
+    "@emotion/cache": "^11.9.3",
+    "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.88",
+    "@mui/material": "^5.8.6",
+    "@mui/x-data-grid": "^5.12.3",
+    "@mui/x-date-pickers": "^5.0.0-alpha.7",
+    "@reduxjs/toolkit": "^1.8.3",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "content-disposition": "^0.5.4",
+    "dat.gui": "^0.7.9",
+    "file-saver": "^2.0.5",
+    "formik": "^2.2.9",
+    "framer-motion": "^6.3.16",
+    "glslify-loader": "^2.0.0",
+    "http-status-codes": "^2.2.0",
+    "kind-of": "^6.0.3",
+    "mime": "^3.0.0",
+    "normalize.css": "^8.0.1",
+    "notistack": "^2.0.5",
+    "raw-loader": "^4.0.2",
+    "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
+    "react-scripts": "5.0.1",
+    "three": "^0.142.0",
+    "typescript": "^4.4.2",
+    "uuid": "^8.3.2",
+    "web-vitals": "^2.1.0",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/content-disposition": "^0.5.5",
+    "@types/dat.gui": "^0.7.7",
+    "@types/file-saver": "^2.0.5",
+    "@types/mime": "^2.0.3",
+    "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/three": "^0.141.0",
+    "@types/uuid": "^8.3.4",
+    "cross-env": "^7.0.3",
+    "react-app-rewire-alias": "^1.1.7",
+    "react-app-rewired": "^2.2.1"
+  }
+}

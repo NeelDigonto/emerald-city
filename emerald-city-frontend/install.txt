@@ -1,0 +1,2 @@
+yarn add @date-io/date-fns @emotion/cache @emotion/react @emotion/server @emotion/styled @mui/icons-material @mui/lab @mui/material @mui/x-data-grid @mui/x-date-pickers @reduxjs/toolkit axios bcryptjs content-disposition dat.gui file-saver formik framer-motion glslify-loader http-status-codes kind-of mime normalize.css notistack raw-loader react-beautiful-dnd react-redux three uuid yup
+yarn add --dev cross-env @types/bcryptjs @types/content-disposition @types/dat.gui @types/file-saver @types/mime @types/react-beautiful-dnd @types/three @types/uuid
