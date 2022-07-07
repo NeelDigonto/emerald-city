@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
+import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 
+import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomPass.js";
@@ -12,12 +15,14 @@ export class Engine {
   canvas: HTMLCanvasElement | null;
   isDomRenderTargetAttached: boolean;
   camera: THREE.PerspectiveCamera;
-  time: number;
+  clock: THREE.Clock;
+  clockSpeed: number;
+  delta: number;
   isPlaying: boolean;
   scene: THREE.Scene;
   width: number;
   height: number;
-  controls: OrbitControls | null;
+  controls: OrbitControls | FirstPersonControls | FlyControls | null;
   renderScene!: RenderPass;
   bloomPass!: UnrealBloomPass;
   composer!: EffectComposer;
@@ -34,7 +39,9 @@ export class Engine {
     this.container = null;
     this.canvas = null;
     this.isDomRenderTargetAttached = false;
-    this.time = 0;
+    this.clock = new THREE.Clock();
+    this.clockSpeed = 25;
+    this.delta = 0;
     this.isPlaying = false;
     this.height = 0;
     this.width = 0;
@@ -73,7 +80,7 @@ export class Engine {
     this.renderer.setSize(this.width, this.height);
     this.renderer.setClearColor(0x000000, 1);
     this.renderer.physicallyCorrectLights = true;
-    //this.renderer.outputEncoding = THREE.sRGBEncoding;
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
@@ -117,9 +124,9 @@ export class Engine {
 
   render() {
     if (!this.isPlaying && !this.renderer) return;
-    this.time += 1;
     requestAnimationFrame(this.render.bind(this));
-
+    this.delta = this.clock.getDelta();
+    this.controls!.update(this.delta * this.clockSpeed);
     this.renderer!.render(this.scene, this.camera);
     //this.composer.render();
   }

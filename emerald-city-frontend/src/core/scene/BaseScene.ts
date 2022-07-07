@@ -24,6 +24,4 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   engine.camera.position.set(0, -10, 5);
   //this.camera.updateMatrix();
-
-
 }
