@@ -10,6 +10,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomP
 import * as dat from "dat.gui";
 import { setupScene } from "./scene/BaseScene";
 import Stats from "stats.js";
+import { Controller } from "./Controller";
 
 export class Engine {
   container: HTMLDivElement | null;
@@ -23,7 +24,11 @@ export class Engine {
   scene: THREE.Scene;
   width: number;
   height: number;
-  controls: OrbitControls | FirstPersonControls | FlyControls | null;
+  //controls: OrbitControls | null;
+  //  | FirstPersonControls
+  //  | FlyControls
+  //  | FirstPersonControls
+  controls: Controller | null;
   renderScene!: RenderPass;
   bloomPass!: UnrealBloomPass;
   composer!: EffectComposer;
@@ -83,15 +88,24 @@ export class Engine {
       antialias: true,
     });
 
+    this.container.addEventListener("keydown", (ev: KeyboardEvent) => {
+      if (ev.code == "ControlLeft") {
+        canvas.requestPointerLock();
+        console.log("locked");
+      }
+    });
+
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
-    this.renderer.setClearColor(0x000000, 1);
+    this.renderer.setClearColor(0x87ceeb, 1);
     this.renderer.physicallyCorrectLights = true;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.75;
 
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new Controller(this.camera, this.container);
+    //this.controls.lock();
 
     this.resize();
     this.setupResize();
@@ -136,6 +150,8 @@ export class Engine {
 
     this.stats.begin();
     this.delta = this.clock.getDelta();
+    //this.controls!.update();
+    //this.controls!.moveRight(1);
     this.controls!.update(this.delta * this.clockSpeed);
     this.renderer!.render(this.scene, this.camera);
     this.stats.end();

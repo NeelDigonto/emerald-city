@@ -8,7 +8,8 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_1k.hdr");
   envMap.mapping = THREE.EquirectangularReflectionMapping;
-  engine.scene.background = envMap;
+
+  //engine.scene.background = envMap;
   engine.scene.environment = envMap; // ibl
 
   const albedoMap = await loader.loadAsync(
@@ -28,6 +29,12 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   // check if roughness and albedo ar working or not
 
+  /*   const anis = engine.renderer!.capabilities.getMaxAnisotropy();
+  console.log(anis); */
+
+  const planeWidth: number = 100;
+  const planeHeight: number = 100;
+
   albedoMap.wrapS = THREE.RepeatWrapping;
   albedoMap.wrapT = THREE.RepeatWrapping;
 
@@ -40,17 +47,15 @@ export async function setupScene(engine: Engine): Promise<void> {
   aoMap.wrapS = THREE.RepeatWrapping;
   aoMap.wrapT = THREE.RepeatWrapping;
 
-  const repeatX: number = 100 / 5;
-  const repeatY: number = 100 / 5;
+  const repeatX: number = planeWidth / 5;
+  const repeatY: number = planeHeight / 5;
 
   albedoMap.repeat.set(repeatX, repeatY);
   normalMap.repeat.set(repeatX, repeatY);
   roughnessMap.repeat.set(repeatX, repeatY);
   aoMap.repeat.set(repeatX, repeatY);
 
-  const width = 100; // ui: width
-  const height = 100; // ui: height
-  const geometry = new THREE.PlaneGeometry(width, height);
+  const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
   const material = new THREE.MeshPhysicalMaterial({
     //color: 0x00ff00,
     map: albedoMap,
@@ -68,9 +73,9 @@ export async function setupScene(engine: Engine): Promise<void> {
   light.position.set(0, 0, 10);
   engine.scene.add(light); */
 
-  engine.camera.position.set(0, -40, 5);
+  engine.camera.position.set(0, -40, 1.8);
   engine.camera.lookAt(0, 0, 0);
-  engine.camera.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), -90);
-  engine.controls!.update(1);
+  //engine.camera.rotateX(-90);
+  //engine.controls!.update(1);
   //engine.camera.updateMatrix();
 }

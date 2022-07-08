@@ -15,6 +15,8 @@ const Canvas = styled.canvas`
   height: 100%;
   position: absolute;
   background-color: black;
+
+  cursor: none;
 `;
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
   }, [engine.isDomRenderTargetAttached]);
 
   return (
-    <CanvasContainer ref={canvasContainerRef}>
+    <CanvasContainer tabIndex={1} ref={canvasContainerRef}>
       <Canvas ref={canvasRef} />
     </CanvasContainer>
   );
