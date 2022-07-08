@@ -55,17 +55,18 @@ export class Engine {
     this.camera = new THREE.PerspectiveCamera(
       70,
       this.width / this.height,
-      0.001,
-      5000
+      0.01,
+      1000
     );
-    this.camera.position.set(0, 0, 1500);
 
     this.settings = {};
     this.setupResize();
     this.setupScene();
 
     this.stats = new Stats();
-    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    // 0: fps, 1: ms, 2: mb, 3+: custom
+    this.stats.showPanel(0);
+
     document.body.appendChild(this.stats.dom);
   }
   async setupScene() {
@@ -87,6 +88,8 @@ export class Engine {
     this.renderer.setClearColor(0x000000, 1);
     this.renderer.physicallyCorrectLights = true;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 0.75;
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
@@ -131,13 +134,13 @@ export class Engine {
   render() {
     if (!this.isPlaying && !this.renderer) return;
 
-    requestAnimationFrame(this.render.bind(this));
-
     this.stats.begin();
     this.delta = this.clock.getDelta();
     this.controls!.update(this.delta * this.clockSpeed);
     this.renderer!.render(this.scene, this.camera);
     this.stats.end();
     //this.composer.render();
+
+    requestAnimationFrame(this.render.bind(this));
   }
 }

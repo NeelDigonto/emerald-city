@@ -1,8 +1,16 @@
 import * as THREE from "three";
 import { Engine } from "@src/core/Engine";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
 export async function setupScene(engine: Engine): Promise<void> {
   const loader = new THREE.TextureLoader();
+  const rgbeLoader = new RGBELoader();
+
+  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_1k.hdr");
+  envMap.mapping = THREE.EquirectangularReflectionMapping;
+  engine.scene.background = envMap;
+  engine.scene.environment = envMap; // ibl
+
   const albedoMap = await loader.loadAsync(
     "/pavement_pebbles_sfiubccb/1k/sfiubccb_1K_Albedo.jpg"
   );
@@ -32,10 +40,13 @@ export async function setupScene(engine: Engine): Promise<void> {
   aoMap.wrapS = THREE.RepeatWrapping;
   aoMap.wrapT = THREE.RepeatWrapping;
 
-  albedoMap.repeat.set(10, 10);
-  normalMap.repeat.set(10, 10);
-  //roughnessMap.repeat.set(10, 10);
-  //aoMap.repeat.set(10, 10);
+  const repeatX: number = 100 / 5;
+  const repeatY: number = 100 / 5;
+
+  albedoMap.repeat.set(repeatX, repeatY);
+  normalMap.repeat.set(repeatX, repeatY);
+  roughnessMap.repeat.set(repeatX, repeatY);
+  aoMap.repeat.set(repeatX, repeatY);
 
   const width = 100; // ui: width
   const height = 100; // ui: height
@@ -45,14 +56,21 @@ export async function setupScene(engine: Engine): Promise<void> {
     map: albedoMap,
     normalMap: normalMap,
     roughnessMap: roughnessMap,
+    aoMap: aoMap,
   });
-  const light = new THREE.PointLight(0xffffff, 50);
-  light.position.set(10, 10, 10);
+
   const cube = new THREE.Mesh(geometry, material);
   cube.position.set(0, 0, 0);
+  //cube.rotateOnWorldAxis();
   engine.scene.add(cube);
-  engine.scene.add(light);
 
-  engine.camera.position.set(0, -10, 5);
-  engine.camera.updateMatrix();
+  /*   const light = new THREE.PointLight(0xffffff, 50);
+  light.position.set(0, 0, 10);
+  engine.scene.add(light); */
+
+  engine.camera.position.set(0, -40, 5);
+  engine.camera.lookAt(0, 0, 0);
+  engine.camera.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), -90);
+  engine.controls!.update(1);
+  //engine.camera.updateMatrix();
 }

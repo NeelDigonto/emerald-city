@@ -25,6 +25,7 @@
     "bcryptjs": "^2.4.3",
     "content-disposition": "^0.5.4",
     "dat.gui": "^0.7.9",
+    "file-loader": "^6.2.0",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
