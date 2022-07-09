@@ -6,7 +6,8 @@ export interface KeyState {
   left: boolean;
   backward: boolean;
   right: boolean;
-  jump: boolean;
+  flyUp: boolean;
+  flyDown: boolean;
 }
 
 export interface MouseMovement {
@@ -22,7 +23,8 @@ export class EditorControls {
   backwardMovementSpeed: number;
   leftMovementSpeed: number;
   rightMovementSpeed: number;
-  jumpMovementSpeed: number;
+  flyUpMovementSpeed: number;
+  flyDownMovementSpeed: number;
 
   horizontalRotationSpeed: number;
   verticalRotationSpeed: number;
@@ -49,7 +51,8 @@ export class EditorControls {
     this.backwardMovementSpeed = 0.25;
     this.leftMovementSpeed = 0.25;
     this.rightMovementSpeed = 0.25;
-    this.jumpMovementSpeed = 0.25;
+    this.flyUpMovementSpeed = 0.25;
+    this.flyDownMovementSpeed = 0.25;
 
     this.horizontalRotationSpeed = 0.001;
     this.verticalRotationSpeed = 0.001;
@@ -65,7 +68,8 @@ export class EditorControls {
       left: false,
       backward: false,
       right: false,
-      jump: false,
+      flyUp: false,
+      flyDown: false,
     };
     this.mouseMovement = { movementX: 0, movementY: 0 };
 
@@ -112,7 +116,11 @@ export class EditorControls {
   }
 
   moveUp(delta: number) {
-    this.camera.translateY(delta * this.jumpMovementSpeed);
+    this.camera.translateY(delta * this.flyUpMovementSpeed);
+  }
+
+  moveDown(delta: number) {
+    this.camera.translateY(delta * -this.flyDownMovementSpeed);
   }
 
   handleKeyDown(ev: KeyboardEvent) {
@@ -131,7 +139,10 @@ export class EditorControls {
           this.keyState.right = true;
           break;
         case "Space":
-          this.keyState.jump = true;
+          this.keyState.flyUp = true;
+          break;
+        case "KeyC":
+          this.keyState.flyDown = true;
           break;
         default:
           break;
@@ -153,7 +164,10 @@ export class EditorControls {
         this.keyState.right = false;
         break;
       case "Space":
-        this.keyState.jump = false;
+        this.keyState.flyUp = false;
+        break;
+      case "KeyC":
+        this.keyState.flyDown = false;
         break;
       default:
         break;
@@ -195,7 +209,8 @@ export class EditorControls {
     if (this.keyState.left) this.moveLeft(delta);
     if (this.keyState.backward) this.moveBackward(delta);
     if (this.keyState.right) this.moveRight(delta);
-    if (this.keyState.jump) this.moveUp(delta);
+    if (this.keyState.flyUp) this.moveUp(delta);
+    if (this.keyState.flyDown) this.moveDown(delta);
     //}
 
     /*     this.camera.rotateY(

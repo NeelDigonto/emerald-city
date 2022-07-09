@@ -28,6 +28,7 @@ const Sidebar = styled.nav`
 const CanvasContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: block;
   :focus {
     outline: none;
   }
@@ -35,10 +36,16 @@ const CanvasContainer = styled.div`
 `;
 
 const PerformanceMonitor = styled.div`
-  width: min-content;
-  height: min-content;
+  width: max-content;
+  height: max-content;
   position: absolute;
   z-index: 99;
+
+  top: 18vh;
+  left: 1rem;
+
+  color: lightgreen;
+  font-size: smaller;
 `;
 
 const Canvas = styled.canvas`
@@ -57,6 +64,7 @@ const Canvas = styled.canvas`
 function App() {
   const canvasContainerRef = React.useRef<HTMLDivElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const [frameTime, setFrameTime] = React.useState<number>(0);
 
   let engine = useEngineContext();
 
@@ -78,11 +86,18 @@ function App() {
     if (engine.isDomRenderTargetAttached) engine.play();
   }, [engine.isDomRenderTargetAttached]);
 
+  React.useEffect(() => {
+    const intervalID = setInterval(() => setFrameTime(engine.delta), 100);
+    return () => clearInterval(intervalID);
+  }, []);
+
   return (
     <RootContainer>
       <Toolbar />
       <CanvasContainer ref={canvasContainerRef}>
-        <PerformanceMonitor>60fps</PerformanceMonitor>
+        <PerformanceMonitor>{`${(
+          1 / frameTime
+        ).toFixed()} FPS`}</PerformanceMonitor>
         <Canvas tabIndex={1} ref={canvasRef} />
       </CanvasContainer>
       <Sidebar />

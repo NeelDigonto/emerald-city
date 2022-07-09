@@ -145,12 +145,8 @@ export class Engine {
     if (!this.isPlaying && !this.renderer) return;
 
     this.stats.begin();
-    //this.delta = this.clock.getDelta();
     this.delta = (timestamp - this.lastFrameTimeStamp) / 1000;
     this.lastFrameTimeStamp = timestamp;
-    console.log(this.delta);
-    //this.controls!.update();
-    //this.controls!.moveRight(1);
     this.controls!.update(this.delta * this.clockSpeed);
     this.renderer!.render(this.scene, this.camera);
     this.stats.end();
