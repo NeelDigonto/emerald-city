@@ -89,20 +89,13 @@ export class Engine {
       antialias: true,
     });
 
-    this.container.addEventListener("keydown", (ev: KeyboardEvent) => {
-      if (ev.code == "ControlLeft") {
-        canvas.requestPointerLock();
-        console.log("locked");
-      }
-    });
-
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
     this.renderer.setClearColor(0x87ceeb, 1);
     this.renderer.physicallyCorrectLights = true;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 0.75;
+    this.renderer.toneMappingExposure = 0.5;
 
     //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls = new EditorControls(this.camera, this.container);

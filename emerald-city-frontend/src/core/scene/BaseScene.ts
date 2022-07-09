@@ -6,10 +6,10 @@ export async function setupScene(engine: Engine): Promise<void> {
   const loader = new THREE.TextureLoader();
   const rgbeLoader = new RGBELoader();
 
-  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_1k.hdr");
+  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_4k.hdr");
   envMap.mapping = THREE.EquirectangularReflectionMapping;
 
-  //engine.scene.background = envMap;
+  engine.scene.background = envMap;
   engine.scene.environment = envMap; // ibl
 
   const albedoMap = await loader.loadAsync(
@@ -32,8 +32,8 @@ export async function setupScene(engine: Engine): Promise<void> {
   /*   const anis = engine.renderer!.capabilities.getMaxAnisotropy();
   console.log(anis); */
 
-  const planeWidth: number = 100;
-  const planeHeight: number = 100;
+  const planeWidth: number = 1000;
+  const planeHeight: number = 1000;
 
   albedoMap.wrapS = THREE.RepeatWrapping;
   albedoMap.wrapT = THREE.RepeatWrapping;
@@ -47,8 +47,8 @@ export async function setupScene(engine: Engine): Promise<void> {
   aoMap.wrapS = THREE.RepeatWrapping;
   aoMap.wrapT = THREE.RepeatWrapping;
 
-  const repeatX: number = planeWidth / 5;
-  const repeatY: number = planeHeight / 5;
+  const repeatX: number = planeWidth;
+  const repeatY: number = planeHeight;
 
   albedoMap.repeat.set(repeatX, repeatY);
   normalMap.repeat.set(repeatX, repeatY);
@@ -66,16 +66,16 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   const cube = new THREE.Mesh(geometry, material);
   cube.position.set(0, 0, 0);
-  //cube.rotateOnWorldAxis();
+  cube.rotateX(THREE.MathUtils.degToRad(-90));
   engine.scene.add(cube);
 
   /*   const light = new THREE.PointLight(0xffffff, 50);
   light.position.set(0, 0, 10);
   engine.scene.add(light); */
 
-  engine.camera.position.set(0, -40, 1.8);
+  engine.camera.position.set(0, 1.75, 2);
   engine.camera.lookAt(0, 0, 0);
-  //engine.camera.rotateX(-90);
+  engine.camera.rotateX(THREE.MathUtils.degToRad(45));
   //engine.controls!.update(1);
   //engine.camera.updateMatrix();
 }

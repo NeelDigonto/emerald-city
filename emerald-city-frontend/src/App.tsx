@@ -35,7 +35,6 @@ function App() {
         canvasRef.current
       );
     }
-    return () => engine.detachDomRenderTarget();
   }, [engine, canvasContainerRef.current, canvasRef.current]);
 
   React.useEffect(() => {

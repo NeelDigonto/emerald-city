@@ -9,6 +9,11 @@ export interface KeyState {
   jump: boolean;
 }
 
+export interface MouseMovement {
+  movementX: number;
+  movementY: number;
+}
+
 export class EditorControls {
   camera: THREE.PerspectiveCamera;
   domElement: HTMLElement;
@@ -28,6 +33,7 @@ export class EditorControls {
   toRotate: THREE.Vector2;
 
   keyState: KeyState;
+  mouseMovement: MouseMovement;
 
   movementOn: boolean;
 
@@ -37,11 +43,11 @@ export class EditorControls {
     this.camera = camera;
     this.domElement = domElement;
 
-    this.forwardMovementSpeed = 0.5;
-    this.backwardMovementSpeed = 0.5;
-    this.leftMovementSpeed = 0.5;
-    this.rightMovementSpeed = 0.5;
-    this.jumpMovementSpeed = 0.5;
+    this.forwardMovementSpeed = 0.25;
+    this.backwardMovementSpeed = 0.25;
+    this.leftMovementSpeed = 0.25;
+    this.rightMovementSpeed = 0.25;
+    this.jumpMovementSpeed = 0.25;
 
     this.horizontalRotationSpeed = 0.001;
     this.verticalRotationSpeed = 0.001;
@@ -59,6 +65,7 @@ export class EditorControls {
       right: false,
       jump: false,
     };
+    this.mouseMovement = { movementX: 0, movementY: 0 };
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.domElement.addEventListener("keyup", this.handleKeyUp.bind(this));
@@ -104,34 +111,7 @@ export class EditorControls {
     this.camera.translateY(delta * this.jumpMovementSpeed);
   }
 
-  /*   handleKeyDown(ev: KeyboardEvent) {
-    if (this.movementOn)
-      switch (ev.code) {
-        case "KeyW":
-          this.moveForward(-this.forwardMovementSpeed);
-          break;
-        case "KeyA":
-          this.moveRight(-this.leftMovementSpeed);
-          break;
-        case "KeyS":
-          this.moveForward(this.backwardMovementSpeed);
-          break;
-        case "KeyD":
-          this.moveRight(this.rightMovementSpeed);
-          break;
-        case "Space":
-          this.moveUp(this.jumpMovementSpeed);
-          break;
-        case "Tab":
-          (document.activeElement! as HTMLElement).blur();
-          break;
-        default:
-          break;
-      }
-  } */
-
   handleKeyDown(ev: KeyboardEvent) {
-    console.log("key down");
     if (this.movementOn)
       switch (ev.code) {
         case "KeyW":
@@ -149,44 +129,38 @@ export class EditorControls {
         case "Space":
           this.keyState.jump = true;
           break;
-        /* case "Tab":
-          (document.activeElement! as HTMLElement).blur();
-          break; */
         default:
           break;
       }
   }
 
   handleKeyUp(ev: KeyboardEvent) {
-    console.log("key up");
-    if (this.movementOn)
-      switch (ev.code) {
-        case "KeyW":
-          this.keyState.forward = false;
-          break;
-        case "KeyA":
-          this.keyState.left = false;
-          break;
-        case "KeyS":
-          this.keyState.backward = false;
-          break;
-        case "KeyD":
-          this.keyState.right = false;
-          break;
-        case "Space":
-          this.keyState.jump = false;
-          break;
-        default:
-          break;
-      }
+    switch (ev.code) {
+      case "KeyW":
+        this.keyState.forward = false;
+        break;
+      case "KeyA":
+        this.keyState.left = false;
+        break;
+      case "KeyS":
+        this.keyState.backward = false;
+        break;
+      case "KeyD":
+        this.keyState.right = false;
+        break;
+      case "Space":
+        this.keyState.jump = false;
+        break;
+      default:
+        break;
+    }
   }
 
   handleMouseMove(ev: MouseEvent) {
     if (this.movementOn) {
-      this.camera.rotateY(-this.horizontalRotationSpeed * ev.movementX);
-      this.camera.rotateX(-this.verticalRotationSpeed * ev.movementY);
+      this.mouseMovement.movementX += ev.movementX;
+      this.mouseMovement.movementY += ev.movementY;
     }
-    ev.preventDefault();
   }
 
   handleMouseEnter() {
@@ -212,10 +186,22 @@ export class EditorControls {
   }
 
   update(delta: number) {
+    this.camera.rotateY(
+      -this.horizontalRotationSpeed * this.mouseMovement.movementX
+    );
+    this.camera.rotateX(
+      -this.verticalRotationSpeed * this.mouseMovement.movementY
+    );
+
+    this.mouseMovement.movementX = 0;
+    this.mouseMovement.movementY = 0;
+
+    //    if (this.movementOn) {
     if (this.keyState.forward) this.moveForward(delta);
     if (this.keyState.left) this.moveLeft(delta);
     if (this.keyState.backward) this.moveBackward(delta);
     if (this.keyState.right) this.moveRight(delta);
     if (this.keyState.jump) this.moveUp(delta);
   }
+  //}
 }
