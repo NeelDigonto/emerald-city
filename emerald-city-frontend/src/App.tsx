@@ -3,9 +3,24 @@ import "./app.css";
 import styled from "@emotion/styled";
 import { useEngineContext } from "./contexts/EngineContext";
 
-const CanvasContainer = styled.div`
+const RootContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Toolbar = styled.nav`
+  width: 100%;
+  height: 2.5rem;
+`;
+
+const CanvasContainer = styled.div`
+  width: 100%;
+  height: calc(100vh - 2.5rem);
+  :focus {
+    outline: none;
+  }
 `;
 
 const Canvas = styled.canvas`
@@ -15,6 +30,10 @@ const Canvas = styled.canvas`
   height: 100%;
   position: absolute;
   background-color: black;
+
+  :focus {
+    outline: none;
+  }
 `;
 
 function App() {
@@ -42,9 +61,12 @@ function App() {
   }, [engine.isDomRenderTargetAttached]);
 
   return (
-    <CanvasContainer tabIndex={1} ref={canvasContainerRef}>
-      <Canvas ref={canvasRef} />
-    </CanvasContainer>
+    <RootContainer>
+      <Toolbar />
+      <CanvasContainer ref={canvasContainerRef}>
+        <Canvas tabIndex={1} ref={canvasRef} />
+      </CanvasContainer>
+    </RootContainer>
   );
 }
 
