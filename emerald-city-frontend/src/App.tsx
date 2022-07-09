@@ -15,8 +15,6 @@ const Canvas = styled.canvas`
   height: 100%;
   position: absolute;
   background-color: black;
-
-  cursor: none;
 `;
 
 function App() {
@@ -26,7 +24,12 @@ function App() {
   let engine = useEngineContext();
 
   React.useEffect(() => {
-    if (engine && canvasContainerRef.current && canvasRef.current) {
+    if (
+      engine &&
+      canvasContainerRef.current &&
+      canvasRef.current &&
+      !engine.isDomRenderTargetAttached
+    ) {
       engine.attachDomRenderTarget(
         canvasContainerRef.current,
         canvasRef.current

@@ -10,7 +10,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomP
 import * as dat from "dat.gui";
 import { setupScene } from "./scene/BaseScene";
 import Stats from "stats.js";
-import { Controller } from "./Controller";
+import { EditorControls } from "./EditorControls";
 
 export class Engine {
   container: HTMLDivElement | null;
@@ -28,7 +28,7 @@ export class Engine {
   //  | FirstPersonControls
   //  | FlyControls
   //  | FirstPersonControls
-  controls: Controller | null;
+  controls: EditorControls | null;
   renderScene!: RenderPass;
   bloomPass!: UnrealBloomPass;
   composer!: EffectComposer;
@@ -79,6 +79,7 @@ export class Engine {
   }
 
   attachDomRenderTarget(container: HTMLDivElement, canvas: HTMLCanvasElement) {
+    console.log("Dom Attached");
     this.container = container;
     this.canvas = canvas;
     this.isDomRenderTargetAttached = true;
@@ -104,7 +105,7 @@ export class Engine {
     this.renderer.toneMappingExposure = 0.75;
 
     //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls = new Controller(this.camera, this.container);
+    this.controls = new EditorControls(this.camera, this.container);
     //this.controls.lock();
 
     this.resize();
