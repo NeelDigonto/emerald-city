@@ -35,6 +35,8 @@ export class EditorControls {
   keyState: KeyState;
   mouseMovement: MouseMovement;
 
+  tmpQuaternion: THREE.Quaternion;
+
   movementOn: boolean;
 
   constructor(camera: THREE.PerspectiveCamera, domElement: HTMLElement) {
@@ -66,6 +68,8 @@ export class EditorControls {
       jump: false,
     };
     this.mouseMovement = { movementX: 0, movementY: 0 };
+
+    this.tmpQuaternion = new THREE.Quaternion();
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.domElement.addEventListener("keyup", this.handleKeyUp.bind(this));
@@ -186,22 +190,42 @@ export class EditorControls {
   }
 
   update(delta: number) {
-    this.camera.rotateY(
-      -this.horizontalRotationSpeed * this.mouseMovement.movementX
-    );
-    this.camera.rotateX(
-      -this.verticalRotationSpeed * this.mouseMovement.movementY
-    );
-
-    this.mouseMovement.movementX = 0;
-    this.mouseMovement.movementY = 0;
-
     //    if (this.movementOn) {
     if (this.keyState.forward) this.moveForward(delta);
     if (this.keyState.left) this.moveLeft(delta);
     if (this.keyState.backward) this.moveBackward(delta);
     if (this.keyState.right) this.moveRight(delta);
     if (this.keyState.jump) this.moveUp(delta);
+    //}
+
+    /*     this.camera.rotateY(
+      -this.horizontalRotationSpeed * this.mouseMovement.movementX
+    );
+    this.camera.rotateX(
+      -this.verticalRotationSpeed * this.mouseMovement.movementY
+    ); */
+
+    this.tmpQuaternion
+      .set(
+        -this.verticalRotationSpeed * this.mouseMovement.movementY,
+        -this.horizontalRotationSpeed * this.mouseMovement.movementX,
+        0,
+        1
+      )
+      .normalize();
+    this.camera.quaternion.multiply(this.tmpQuaternion);
+
+    /*     this.camera.rotateOnWorldAxis(
+      new THREE.Vector3(1, 0, 0),
+      -this.verticalRotationSpeed * this.mouseMovement.movementY
+    );
+
+    this.camera.rotateOnWorldAxis(
+      new THREE.Vector3(0, 1, 0),
+      -this.horizontalRotationSpeed * this.mouseMovement.movementX
+    ); */
+
+    this.mouseMovement.movementX = 0;
+    this.mouseMovement.movementY = 0;
   }
-  //}
 }

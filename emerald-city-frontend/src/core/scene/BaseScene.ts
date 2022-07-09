@@ -6,7 +6,7 @@ export async function setupScene(engine: Engine): Promise<void> {
   const loader = new THREE.TextureLoader();
   const rgbeLoader = new RGBELoader();
 
-  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_4k.hdr");
+  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_1k.hdr");
   envMap.mapping = THREE.EquirectangularReflectionMapping;
 
   engine.scene.background = envMap;
@@ -47,8 +47,8 @@ export async function setupScene(engine: Engine): Promise<void> {
   aoMap.wrapS = THREE.RepeatWrapping;
   aoMap.wrapT = THREE.RepeatWrapping;
 
-  const repeatX: number = planeWidth;
-  const repeatY: number = planeHeight;
+  const repeatX: number = planeWidth * 0.5;
+  const repeatY: number = planeHeight * 0.5;
 
   albedoMap.repeat.set(repeatX, repeatY);
   normalMap.repeat.set(repeatX, repeatY);
@@ -74,8 +74,8 @@ export async function setupScene(engine: Engine): Promise<void> {
   engine.scene.add(light); */
 
   engine.camera.position.set(0, 1.75, 2);
-  engine.camera.lookAt(0, 0, 0);
-  engine.camera.rotateX(THREE.MathUtils.degToRad(45));
+  //engine.camera.lookAt(0, 0, 0);
+  //engine.camera.rotateX(THREE.MathUtils.degToRad(45));
   //engine.controls!.update(1);
   //engine.camera.updateMatrix();
 }
