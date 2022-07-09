@@ -97,7 +97,7 @@ export class Engine {
     this.renderer.physicallyCorrectLights = true;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 0.4;
+    this.renderer.toneMappingExposure = 1.0;
 
     //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls = new EditorControls(this.camera, this.container);

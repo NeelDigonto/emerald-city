@@ -2,6 +2,33 @@ import * as THREE from "three";
 import { Engine } from "@src/core/Engine";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
+type MapTypes =
+  | "albedo"
+  | "normal"
+  | "roughness"
+  | "metalness"
+  /* | "specular" */
+  | "displacement"
+  | "opacity"
+  | "ao"
+  /* | "refraction" */
+  | "emission";
+
+interface MapMeta {
+  encoding: THREE.TextureEncoding;
+}
+
+const MapDetail: Record<MapTypes, MapMeta> = {
+  albedo: { encoding: THREE.sRGBEncoding },
+  normal: { encoding: THREE.LinearEncoding },
+  roughness: { encoding: THREE.LinearEncoding },
+  metalness: { encoding: THREE.LinearEncoding },
+  displacement: { encoding: THREE.LinearEncoding },
+  opacity: { encoding: THREE.LinearEncoding },
+  ao: { encoding: THREE.LinearEncoding },
+  emission: { encoding: THREE.LinearEncoding },
+};
+
 export async function setupScene(engine: Engine): Promise<void> {
   const loader = new THREE.TextureLoader();
   const rgbeLoader = new RGBELoader();
@@ -15,6 +42,7 @@ export async function setupScene(engine: Engine): Promise<void> {
   const albedoMap = await loader.loadAsync(
     "/pavement_pebbles_sfiubccb/1k/sfiubccb_1K_Albedo.jpg"
   );
+  albedoMap.encoding = THREE.sRGBEncoding;
   const normalMap = await loader.loadAsync(
     "/pavement_pebbles_sfiubccb/1k/sfiubccb_1K_Normal.jpg"
   );
