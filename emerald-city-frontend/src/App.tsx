@@ -6,21 +6,39 @@ import { useEngineContext } from "./contexts/EngineContext";
 const RootContainer = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+
+  grid-template-columns: 1fr 18rem;
+  grid-template-rows: 2.5rem 1fr;
+  grid-template-areas: "toolbar toolbar" "canvas sidebar";
 `;
 
 const Toolbar = styled.nav`
   width: 100%;
-  height: 2.5rem;
+  height: 100%;
+  grid-area: toolbar;
+`;
+
+const Sidebar = styled.nav`
+  width: 100%;
+  height: 100%;
+  grid-area: sidebar;
 `;
 
 const CanvasContainer = styled.div`
   width: 100%;
-  height: calc(100vh - 2.5rem);
+  height: 100%;
   :focus {
     outline: none;
   }
+  grid-area: canvas;
+`;
+
+const PerformanceMonitor = styled.div`
+  width: min-content;
+  height: min-content;
+  position: absolute;
+  z-index: 99;
 `;
 
 const Canvas = styled.canvas`
@@ -64,8 +82,10 @@ function App() {
     <RootContainer>
       <Toolbar />
       <CanvasContainer ref={canvasContainerRef}>
+        <PerformanceMonitor>60fps</PerformanceMonitor>
         <Canvas tabIndex={1} ref={canvasRef} />
       </CanvasContainer>
+      <Sidebar />
     </RootContainer>
   );
 }

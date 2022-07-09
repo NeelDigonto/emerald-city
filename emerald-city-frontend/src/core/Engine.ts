@@ -24,6 +24,7 @@ export class Engine {
   scene: THREE.Scene;
   width: number;
   height: number;
+  lastFrameTimeStamp: number;
   //controls: OrbitControls | null;
   //  | FirstPersonControls
   //  | FlyControls
@@ -56,6 +57,7 @@ export class Engine {
     this.scene = new THREE.Scene();
     this.renderer = null;
     this.controls = null;
+    this.lastFrameTimeStamp = 0;
 
     this.camera = new THREE.PerspectiveCamera(
       70,
@@ -134,16 +136,19 @@ export class Engine {
 
   play() {
     if (!this.isPlaying) {
-      this.render();
+      requestAnimationFrame(this.render.bind(this));
       this.isPlaying = true;
     }
   }
 
-  render() {
+  render(timestamp: DOMHighResTimeStamp) {
     if (!this.isPlaying && !this.renderer) return;
 
     this.stats.begin();
-    this.delta = this.clock.getDelta();
+    //this.delta = this.clock.getDelta();
+    this.delta = (timestamp - this.lastFrameTimeStamp) / 1000;
+    this.lastFrameTimeStamp = timestamp;
+    console.log(this.delta);
     //this.controls!.update();
     //this.controls!.moveRight(1);
     this.controls!.update(this.delta * this.clockSpeed);

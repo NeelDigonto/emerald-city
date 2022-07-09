@@ -205,7 +205,7 @@ export class EditorControls {
       -this.verticalRotationSpeed * this.mouseMovement.movementY
     ); */
 
-    this.tmpQuaternion
+    /*     this.tmpQuaternion
       .set(
         -this.verticalRotationSpeed * this.mouseMovement.movementY,
         -this.horizontalRotationSpeed * this.mouseMovement.movementX,
@@ -213,7 +213,15 @@ export class EditorControls {
         1
       )
       .normalize();
-    this.camera.quaternion.multiply(this.tmpQuaternion);
+    this.camera.quaternion.multiply(this.tmpQuaternion); */
+    this.camera.rotateX(
+      -this.verticalRotationSpeed * this.mouseMovement.movementY
+    );
+
+    this.camera.rotateOnWorldAxis(
+      new THREE.Vector3(0.0, 1.0, 0.0),
+      -this.horizontalRotationSpeed * this.mouseMovement.movementX
+    );
 
     /*     this.camera.rotateOnWorldAxis(
       new THREE.Vector3(1, 0, 0),
