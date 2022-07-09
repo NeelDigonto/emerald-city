@@ -2,6 +2,7 @@ import React from "react";
 import "./app.css";
 import styled from "@emotion/styled";
 import { useEngineContext } from "./contexts/EngineContext";
+import Sidebar from "./components/Sidebar";
 
 const RootContainer = styled.div`
   width: 100%;
@@ -17,12 +18,8 @@ const Toolbar = styled.nav`
   width: 100%;
   height: 100%;
   grid-area: toolbar;
-`;
 
-const Sidebar = styled.nav`
-  width: 100%;
-  height: 100%;
-  grid-area: sidebar;
+  border-bottom: green 1px solid;
 `;
 
 const CanvasContainer = styled.div`
@@ -93,7 +90,7 @@ function App() {
 
   return (
     <RootContainer>
-      <Toolbar />
+      <Toolbar></Toolbar>
       <CanvasContainer ref={canvasContainerRef}>
         <PerformanceMonitor>{`${(
           1 / frameTime

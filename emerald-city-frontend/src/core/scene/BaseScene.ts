@@ -6,7 +6,7 @@ export async function setupScene(engine: Engine): Promise<void> {
   const loader = new THREE.TextureLoader();
   const rgbeLoader = new RGBELoader();
 
-  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_1k.hdr");
+  const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_4k.hdr");
   envMap.mapping = THREE.EquirectangularReflectionMapping;
 
   engine.scene.background = envMap;

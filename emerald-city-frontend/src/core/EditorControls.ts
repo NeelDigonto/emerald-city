@@ -37,7 +37,7 @@ export class EditorControls {
   keyState: KeyState;
   mouseMovement: MouseMovement;
 
-  tmpQuaternion: THREE.Quaternion;
+  upVector: THREE.Vector3;
 
   movementOn: boolean;
 
@@ -73,7 +73,7 @@ export class EditorControls {
     };
     this.mouseMovement = { movementX: 0, movementY: 0 };
 
-    this.tmpQuaternion = new THREE.Quaternion();
+    this.upVector = new THREE.Vector3(0.0, 1.0, 0.0);
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.domElement.addEventListener("keyup", this.handleKeyUp.bind(this));
@@ -234,7 +234,7 @@ export class EditorControls {
     );
 
     this.camera.rotateOnWorldAxis(
-      new THREE.Vector3(0.0, 1.0, 0.0),
+      this.upVector,
       -this.horizontalRotationSpeed * this.mouseMovement.movementX
     );
 
