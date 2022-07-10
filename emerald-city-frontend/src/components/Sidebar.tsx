@@ -60,7 +60,7 @@ const Sidebar = () => {
       <Stack direction="column">
         <Paper elevation={0}>
           <FireNav component="nav" disablePadding>
-            <ListItemButton component="a" href="#customized-list">
+            <ListItemButton /* component="a" href="/" */>
               <ListItemIcon sx={{ fontSize: 20 }}>
                 <LocationCityRoundedIcon color="secondary" />
               </ListItemIcon>

@@ -35,7 +35,7 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_4k.hdr");
   envMap.mapping = THREE.EquirectangularReflectionMapping;
-
+  envMap.encoding = THREE.LinearEncoding;
   engine.scene.background = envMap;
   engine.scene.environment = envMap; // ibl
 
