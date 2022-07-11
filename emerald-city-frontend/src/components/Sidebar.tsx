@@ -50,6 +50,8 @@ const SidebarContainer = styled.nav`
   height: 100%;
   grid-area: sidebar;
 
+  overflow: auto;
+
   border-left: green 1px solid;
 `;
 

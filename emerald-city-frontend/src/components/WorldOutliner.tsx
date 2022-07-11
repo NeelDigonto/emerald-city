@@ -87,6 +87,7 @@ function StyledTreeItem(props: StyledTreeItemProps) {
 
   return (
     <StyledTreeItemRoot
+      sx={{ msOverflow: "auto" }}
       label={
         <Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
           <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
@@ -127,11 +128,11 @@ const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
 };
 
 const getWorldOutliner = (node: SceneObject) => {
-  console.log("FFFFFF");
   if (node.childrens.length === 0)
     return (
       <StyledTreeItem
-        nodeId="1"
+        key={node.id}
+        nodeId={node.id}
         labelText={node.name}
         labelIcon={getSceneObjectIcon(node.type)}
       ></StyledTreeItem>
@@ -139,22 +140,26 @@ const getWorldOutliner = (node: SceneObject) => {
 
   return (
     <StyledTreeItem
+      key={node.id}
       nodeId={node.id}
       labelText={node.name}
       labelIcon={getSceneObjectIcon(node.type)}
     >
-      {node.childrens.map((_node) => getWorldOutliner(_node))}
+      {node.childrens.map((_node, _index) => getWorldOutliner(_node))}
     </StyledTreeItem>
   );
 };
 
 export default function WorldOutliner() {
   let engine = useEngineContext();
-  const [needsUpdate, setNeedsUpdate] = React.useState<boolean>(false);
+  //const [needsUpdate, setNeedsUpdate] = React.useState<boolean>(false);
+  const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
 
   React.useEffect(() => {
     const callbackID = engine.sceneGraph.registerOnChangeCallback(() => {
-      setNeedsUpdate(true);
+      console.log("callback called");
+      //setNeedsUpdate(true);
+      forceUpdate();
     });
     return () => engine.sceneGraph.removeOnChangeCallback(callbackID);
   }, []);

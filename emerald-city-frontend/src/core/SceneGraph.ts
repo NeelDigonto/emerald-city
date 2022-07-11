@@ -33,24 +33,25 @@ export class SceneGraph {
   objectCache: Map<string, SceneObject>;
   root: SceneObject | null;
   engine: Engine;
-  onChangeCallbacks: Map<number, () => void>;
+  onChangeCallbacks: Map<string, () => void>;
 
   constructor(engine: Engine) {
     this.objectCache = new Map();
     this.root = null;
     this.engine = engine;
-    this.onChangeCallbacks = new Map<number, () => void>();
+    this.onChangeCallbacks = new Map<string, () => void>();
+    console.warn("Scene Graph Initialized");
   }
 
   registerOnChangeCallback(callback: () => void) {
-    console.log("registerOnChangeCallback");
-    const callbackID = this.onChangeCallbacks.size;
+    //console.log("registerOnChangeCallback() with ", callback);
+    const callbackID = uuidv4();
     this.onChangeCallbacks.set(callbackID, callback);
     return callbackID;
   }
 
-  removeOnChangeCallback(callbackID: number) {
-    console.log("removeOnChangeCallback");
+  removeOnChangeCallback(callbackID: string) {
+    //console.log("removeOnChangeCallback() with ", callbackID);
     this.onChangeCallbacks.delete(callbackID);
   }
 
@@ -63,6 +64,7 @@ export class SceneGraph {
   }
 
   add(parentObjectID: string, object: SceneObject): string {
+    //console.log("Hi: ", this.onChangeCallbacks);
     const id = object.id;
     this.objectCache.set(id, object);
     this.getSceneObjectByID(parentObjectID)?.childrens.push(object);

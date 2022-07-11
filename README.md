@@ -39,15 +39,15 @@
 - [x] UI Setup
 - [x] Add Scene Graph
 - [x] Add world Outliner.
-- [ ] Add GPU Picker
-- [ ] FPS Camera Controller.
+- [ ] Add transform controls, in Editor Scene.
+- [ ] Add Screen Picker (GPU).
 - [ ] Add Play Test Support, with a play button in toolbar.
+- [ ] FPS Camera Controller.
 - [ ] Improve Camera Controllers with spring arm.
 - [ ] Add Scalable Graphics Settings.
 - [ ] Add enitity management system.
-- [ ] Add transform controls, in Editor Scene.
-- [ ] Add Avatar creation support
 - [ ] Add Initial Physics Engine Setup.
+- [ ] Add Avatar creation support
 - [ ] Add Character aniations and other animation support.
 - [ ] Add scalable UI size.
 - [ ] Add lots of basic shapes.

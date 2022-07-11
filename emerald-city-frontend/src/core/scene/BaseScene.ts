@@ -47,6 +47,23 @@ export async function setupScene(engine: Engine): Promise<void> {
     new SceneObject("Ground", ground, SceneObjectType.MeshObject)
   );
 
+  let boxCount: number = 0;
+
+  const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
+  const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
+
+  /*   setInterval(() => {
+    const box = new THREE.Mesh(boxGeometry, boxMaterial);
+    box.position.setY(1);
+    box.position.setX(Math.floor(Math.random() * 100) - 50);
+    box.position.setZ(Math.floor(Math.random() * 100) - 50);
+    engine.scene.add(box);
+    engine.sceneGraph.add(
+      engine.sceneGraph.root!.id,
+      new SceneObject(`Box ${boxCount++}`, box, SceneObjectType.MeshObject)
+    );
+  }, 100); */
+
   /*   const boxGeometry = new THREE.BoxGeometry(5, 2, 5);
   const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
   const box = new THREE.Mesh(boxGeometry, boxMaterial);
