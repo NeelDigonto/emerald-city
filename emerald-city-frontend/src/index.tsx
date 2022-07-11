@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
+import { Provider } from "react-redux";
+import { store } from "@src/app/store";
 import "normalize.css";
 import { EngineContextProvider } from "./contexts/EngineContext";
 
@@ -13,12 +15,14 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <EngineContextProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </EngineContextProvider>
+    <Provider store={store}>
+      <EngineContextProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
+      </EngineContextProvider>
+    </Provider>
   </React.StrictMode>
 );
 

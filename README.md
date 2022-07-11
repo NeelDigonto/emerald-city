@@ -23,6 +23,7 @@
 - [x] Performance (90+ FPS).
 - [x] Ultra-Realistic Experience (Rendering + Spatial Sound).
 - [x] Scalability (Large number of users, and objects in scene).
+- [x] Complete decoupling of UI and Core Engine.
 - [x] Huge Feature Sets.
 - [x] Code Quality.
 - [x] Ecommerce Focused
@@ -36,11 +37,13 @@
 - [x] Initial Frontend Setup.
 - [x] Editor Camera Controller.
 - [x] UI Setup
+- [x] Add Scene Graph
+- [x] Add world Outliner.
+- [ ] Add GPU Picker
 - [ ] FPS Camera Controller.
 - [ ] Add Play Test Support, with a play button in toolbar.
 - [ ] Improve Camera Controllers with spring arm.
 - [ ] Add Scalable Graphics Settings.
-- [ ] Add world Outliner.
 - [ ] Add enitity management system.
 - [ ] Add transform controls, in Editor Scene.
 - [ ] Add Avatar creation support
@@ -69,7 +72,7 @@
 
 ### Backend
 
-- [ ] Initial Backend Setup.
+- [x] Initial Backend Setup.
 - [ ] Setup AWS EC2 with load balancers, ssl.
 - [ ] Implement CI/CD with docker and github actions.
 - [ ] Implement Reverse proxy for servers using nginx.

@@ -47,12 +47,12 @@ export class EditorControls {
     this.camera = camera;
     this.domElement = domElement;
 
-    this.forwardMovementSpeed = 0.25;
-    this.backwardMovementSpeed = 0.25;
-    this.leftMovementSpeed = 0.25;
-    this.rightMovementSpeed = 0.25;
-    this.flyUpMovementSpeed = 0.25;
-    this.flyDownMovementSpeed = 0.25;
+    this.forwardMovementSpeed = 0.35;
+    this.backwardMovementSpeed = 0.35;
+    this.leftMovementSpeed = 0.35;
+    this.rightMovementSpeed = 0.35;
+    this.flyUpMovementSpeed = 0.35;
+    this.flyDownMovementSpeed = 0.35;
 
     this.horizontalRotationSpeed = 0.001;
     this.verticalRotationSpeed = 0.001;

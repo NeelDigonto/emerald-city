@@ -24,6 +24,7 @@ import Public from "@mui/icons-material/Public";
 import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
+import WorldOutliner from "./WorldOutliner";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -174,6 +175,7 @@ const Sidebar = () => {
                 data.map((item, index) => (
                   <React.Fragment key={index}>
                     <ListItemButton
+                      draggable
                       key={item.label}
                       sx={{
                         py: 0,
@@ -199,6 +201,7 @@ const Sidebar = () => {
           </FireNav>
         </Paper>
       </Stack>
+      <WorldOutliner />
     </SidebarContainer>
   );
 };

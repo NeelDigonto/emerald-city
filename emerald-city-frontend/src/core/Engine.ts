@@ -11,6 +11,7 @@ import * as dat from "dat.gui";
 import { setupScene } from "./scene/BaseScene";
 import Stats from "stats.js";
 import { EditorControls } from "./EditorControls";
+import { SceneGraph, SceneObject, SceneObjectType } from "./SceneGraph";
 
 export class Engine {
   container: HTMLDivElement | null;
@@ -25,6 +26,7 @@ export class Engine {
   width: number;
   height: number;
   lastFrameTimeStamp: number;
+  sceneGraph: SceneGraph;
   //controls: OrbitControls | null;
   //  | FirstPersonControls
   //  | FlyControls
@@ -58,6 +60,10 @@ export class Engine {
     this.renderer = null;
     this.controls = null;
     this.lastFrameTimeStamp = 0;
+    this.sceneGraph = new SceneGraph(this);
+    this.sceneGraph.setRootObject(
+      new SceneObject("Level Editor", this.scene, SceneObjectType.Level)
+    );
 
     this.camera = new THREE.PerspectiveCamera(
       70,
