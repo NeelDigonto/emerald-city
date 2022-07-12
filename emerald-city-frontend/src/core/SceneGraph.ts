@@ -36,11 +36,11 @@ export class SceneGraph {
   onChangeCallbacks: Map<string, () => void>;
 
   constructor(engine: Engine) {
+    console.warn("Scene Graph Loaded");
     this.objectCache = new Map();
     this.root = null;
     this.engine = engine;
     this.onChangeCallbacks = new Map<string, () => void>();
-    console.warn("Scene Graph Initialized");
   }
 
   registerOnChangeCallback(callback: () => void) {
@@ -64,7 +64,7 @@ export class SceneGraph {
   }
 
   add(parentObjectID: string, object: SceneObject): string {
-    //console.log("Hi: ", this.onChangeCallbacks);
+    //console.log(this, parentObjectID, object, this.onChangeCallbacks);
     const id = object.id;
     this.objectCache.set(id, object);
     this.getSceneObjectByID(parentObjectID)?.childrens.push(object);

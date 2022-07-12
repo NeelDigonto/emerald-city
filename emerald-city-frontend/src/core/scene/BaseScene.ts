@@ -6,6 +6,7 @@ import { SceneObject, SceneObjectType } from "../SceneGraph";
 
 export async function setupScene(engine: Engine): Promise<void> {
   const rgbeLoader = new RGBELoader();
+  console.log("Base Setup");
 
   const envMap = await rgbeLoader.loadAsync("/hdr/alps_field_1k.hdr");
   envMap.mapping = THREE.EquirectangularReflectionMapping;
