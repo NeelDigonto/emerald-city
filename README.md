@@ -41,23 +41,25 @@
 - [x] Add world Outliner.
 - [ ] Add transform controls, in Editor Scene.
 - [ ] Add Screen Picker (GPU).
-- [ ] Add Play Test Support, with a play button in toolbar.
-- [ ] FPS Camera Controller.
-- [ ] Improve Camera Controllers with spring arm.
-- [ ] Add Scalable Graphics Settings.
-- [ ] Add enitity management system.
-- [ ] Add Initial Physics Engine Setup.
-- [ ] Add Avatar creation support
-- [ ] Add Character aniations and other animation support.
-- [ ] Add scalable UI size.
+- [ ] Addd drag and drop object support in editor.
+- [ ] Add scene backup with backend.
 - [ ] Add lots of basic shapes.
 - [ ] Add the required lights.
+- [ ] Add volumetric lighting options.
+- [ ] Add decals for better realisim.
+- [ ] Add Play Test Support, with a play button in toolbar.
+- [ ] Add Initial Physics Engine Setup.
+- [ ] Add Avatar creation support
+- [ ] Add Character animations and other animation support.
+- [ ] FPS Camera Controller.
+- [ ] Improve Camera Controllers with spring arm.
 - [ ] Add landscape generation workflow.
 - [ ] Add 3D world interaction, eg. object try-ons.
 - [ ] Shopping/Add to cart, flipkart/ecommerce style.
-- [ ] Add volumetric lighting options.
+- [ ] Add scalable UI size.
+- [ ] Add Global Texture Quality Manager.
+- [ ] Add Scalable Graphics Settings.
 - [ ] Remove IBL programitically, or only keep IBL for certain objects.
-- [ ] Add scene backup with backend.
 - [ ] Create a initial scene with gold shop and a garden.
 - [ ] Another amusement park with vibrant colors and foot stepping music.
 - [ ] Test the engine for realisim and playabilty.
@@ -68,7 +70,7 @@
 - [ ] Add Voice Chat.
 - [ ] Add VR support.
 - [ ] Add AR support.
-- [ ] Add environment varialbe support.
+- [ ] Add environment variable support, for debug-only logging.
 
 ### Backend
 
