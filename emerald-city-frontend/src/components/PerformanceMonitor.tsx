@@ -11,6 +11,8 @@ const PerformanceMonitorContainer = styled.div`
   top: 18vh;
   left: 1rem;
 
+  user-select: none;
+
   color: lightgreen;
   font-size: smaller;
 `;

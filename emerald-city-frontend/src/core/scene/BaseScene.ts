@@ -50,8 +50,8 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   let boxCount: number = 0;
 
-  const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
-  const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
+  /* const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
+  const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 }); */
 
   /*   setInterval(() => {
     const box = new THREE.Mesh(boxGeometry, boxMaterial);
@@ -65,11 +65,11 @@ export async function setupScene(engine: Engine): Promise<void> {
     );
   }, 100); */
 
-  /*   const boxGeometry = new THREE.BoxGeometry(5, 2, 5);
+  const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
   const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
   const box = new THREE.Mesh(boxGeometry, boxMaterial);
   box.position.setY(1);
-  engine.scene.add(box); */
+  engine.scene.add(box);
 
   /* const light = new THREE.PointLight(0xffffff, 50);
   light.position.set(0, 0, 10);
