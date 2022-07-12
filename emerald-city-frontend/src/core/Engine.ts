@@ -106,7 +106,7 @@ export class Engine {
     this.renderer.toneMappingExposure = 1.0;
 
     //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls = new EditorControls(this.camera, this.container);
+    this.controls = new EditorControls(this);
     //this.controls.lock();
 
     this.resize();

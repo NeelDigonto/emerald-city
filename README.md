@@ -39,18 +39,22 @@
 - [x] UI Setup
 - [x] Add Scene Graph
 - [x] Add world Outliner.
+- [ ] Unlock Full FPS.
+- [ ] Add Octree Collision Support
 - [ ] Add transform controls, in Editor Scene.
 - [ ] Add Screen Picker (GPU).
 - [ ] Addd drag and drop object support in editor.
-- [ ] Add scene backup with backend.
+- [ ] Add scene(object transforms) backup with backend.
 - [ ] Add lots of basic shapes.
 - [ ] Add the required lights.
+- [ ] Add shadow rendering support.
 - [ ] Add volumetric lighting options.
 - [ ] Add decals for better realisim.
 - [ ] Add Play Test Support, with a play button in toolbar.
 - [ ] Add Initial Physics Engine Setup.
 - [ ] Add Avatar creation support
 - [ ] Add Character animations and other animation support.
+- [ ] Add Animation Blending.
 - [ ] FPS Camera Controller.
 - [ ] Improve Camera Controllers with spring arm.
 - [ ] Add landscape generation workflow.
