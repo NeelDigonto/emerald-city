@@ -3,6 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
 import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
@@ -27,6 +29,7 @@ export class Engine {
   height: number;
   lastFrameTimeStamp: number;
   sceneGraph: SceneGraph;
+  renderPass: RenderPass | null = null;
   //controls: OrbitControls | null;
   //  | FirstPersonControls
   //  | FlyControls
@@ -34,6 +37,7 @@ export class Engine {
   controls: EditorControls | null;
   renderScene!: RenderPass;
   bloomPass!: UnrealBloomPass;
+  outlinePass: OutlinePass | null = null;
   composer!: EffectComposer;
   settings;
   gui!: dat.GUI;
@@ -111,6 +115,35 @@ export class Engine {
 
     this.resize();
     this.setupResize();
+
+    const size = this.renderer.getSize(new THREE.Vector2());
+    const _pixelRatio = this.renderer.getPixelRatio();
+    const _width = size.width;
+    const _height = size.height;
+    const renderTarget = new THREE.WebGLRenderTarget(
+      _width * _pixelRatio,
+      _height * _pixelRatio,
+      {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        /* format: THREE.RGBAFormat, */
+        encoding: THREE.sRGBEncoding,
+      }
+    );
+    renderTarget.texture.name = "EffectComposer.rt1";
+
+    this.composer = new EffectComposer(this.renderer /* , renderTarget */);
+
+    this.renderPass = new RenderPass(this.scene, this.camera);
+    this.composer.addPass(this.renderPass);
+
+    this.outlinePass = new OutlinePass(
+      new THREE.Vector2(this.canvas.width, this.canvas.height),
+      this.scene,
+      this.camera
+    );
+    //this.composer.addPass(this.outlinePass);
+    //this.composer.
   }
 
   detachDomRenderTarget() {
@@ -154,7 +187,8 @@ export class Engine {
     this.delta = (timestamp - this.lastFrameTimeStamp) / 1000;
     this.lastFrameTimeStamp = timestamp;
     this.controls!.update(this.delta * this.clockSpeed);
-    this.renderer!.render(this.scene, this.camera);
+    //this.renderer!.render(this.scene, this.camera);
+    this.composer.render();
     this.stats.end();
     //this.composer.render();
 

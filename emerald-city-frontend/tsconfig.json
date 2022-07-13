@@ -21,7 +21,8 @@
       "@src/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@core/*": ["src/core/*"],
-      "@lib/*": ["src/lib/*"]
+      "@lib/*": ["src/lib/*"],
+      "@backend/types/api/*": ["../emerald-city-backend/src/types/api/*"]
     }
   },
   "include": ["src"]

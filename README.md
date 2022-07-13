@@ -39,14 +39,20 @@
 - [x] UI Setup
 - [x] Add Scene Graph
 - [x] Add world Outliner.
-- [ ] Unlock Full FPS.
-- [ ] Add Octree Collision Support
+- [x] Unlock Full FPS.
 - [ ] Add transform controls, in Editor Scene.
+- [x] Add Screen Picker (CPU).
 - [ ] Add Screen Picker (GPU).
 - [ ] Addd drag and drop object support in editor.
 - [ ] Add scene(object transforms) backup with backend.
 - [ ] Add lots of basic shapes.
 - [ ] Add the required lights.
+- [ ] Add .gltf, .glb import support.
+- [ ] Add .fbx import support.
+- [ ] Add .obj import support.
+- [ ] Add file drag and drop import support.
+- [ ] Add texture import support.
+- [ ] Add custom material creation support.
 - [ ] Add shadow rendering support.
 - [ ] Add volumetric lighting options.
 - [ ] Add decals for better realisim.

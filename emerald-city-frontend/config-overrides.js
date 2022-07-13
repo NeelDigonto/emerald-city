@@ -6,6 +6,7 @@ module.exports = function override(config, env) {
     "@components": "src/components",
     "@core": "src/core",
     "@lib": "src/lib",
+    "@backend/types/api/": "../emerald-city-backend/src/types/api",
   })(config);
 
   /*   config.module.rules.push({

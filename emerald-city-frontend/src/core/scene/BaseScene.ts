@@ -4,6 +4,7 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { loadTextures } from "../TextureManager";
 import { SceneObject, SceneObjectType } from "../SceneGraph";
+import { User } from "@backend/types/api/Core";
 
 export async function setupScene(engine: Engine): Promise<void> {
   const rgbeLoader = new RGBELoader();
@@ -54,7 +55,7 @@ export async function setupScene(engine: Engine): Promise<void> {
   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
   const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
 
-  for (let x = 0; x < 1000; x++)
+  for (let x = 0; x < 10; x++)
     (() => {
       const box = new THREE.Mesh(boxGeometry, boxMaterial);
       box.position.setY(1);
@@ -91,7 +92,8 @@ export async function setupScene(engine: Engine): Promise<void> {
 
   engine.camera.position.set(0, 1.75, 2);
   engine.controls?.registerRaycastCallback((intersectedObject) => {
-    console.log(intersectedObject);
+    if (engine.outlinePass && intersectedObject)
+      engine.outlinePass.selectedObjects = [intersectedObject];
   });
   //engine.camera.lookAt(0, 0, 0);
   //engine.camera.rotateX(THREE.MathUtils.degToRad(45));

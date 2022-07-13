@@ -175,6 +175,22 @@ export class EditorControls {
       this.mouseMovement.movementX += ev.movementX;
       this.mouseMovement.movementY += ev.movementY;
     }
+    if (this.castRays && ev.button === 0) {
+      this.pointer.x =
+        (ev.offsetX / this.engine.renderer!.domElement.width) * 2 - 1;
+      this.pointer.y =
+        -(ev.offsetY / this.engine.renderer!.domElement.height) * 2 + 1;
+
+      this.raycaster.setFromCamera(this.pointer, this.camera);
+      const intersects = this.raycaster.intersectObjects(
+        this.engine.scene.children
+      );
+
+      const intersectedObject =
+        intersects.length === 0 ? null : intersects[0].object;
+
+      this.raycastCallbacks.forEach((callback) => callback(intersectedObject));
+    }
   }
 
   handleMouseEnter() {
@@ -190,8 +206,10 @@ export class EditorControls {
       this.movementOn = true;
       this.domElement.requestPointerLock();
     } else if (this.castRays && ev.button === 0) {
-      this.pointer.x = (ev.clientX / window.innerWidth) * 2 - 1;
-      this.pointer.y = -(ev.clientY / window.innerHeight) * 2 + 1;
+      this.pointer.x =
+        (ev.offsetX / this.engine.renderer!.domElement.width) * 2 - 1;
+      this.pointer.y =
+        -(ev.offsetY / this.engine.renderer!.domElement.height) * 2 + 1;
 
       this.raycaster.setFromCamera(this.pointer, this.camera);
       const intersects = this.raycaster.intersectObjects(
