@@ -159,13 +159,12 @@ const getWorldOutliner = (node: SceneObject) => {
   );
 };
 
-export default function WorldOutliner() {
+const WorldOutlinerMemo = React.memo(function WorldOutliner() {
   let engine = useEngineContext();
   const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
 
   React.useEffect(() => {
     const callbackID = engine.sceneGraph.registerOnChangeCallback(() => {
-      //console.log("Force Update");
       forceUpdate();
     });
     return () => engine.sceneGraph.removeOnChangeCallback(callbackID);
@@ -179,10 +178,11 @@ export default function WorldOutliner() {
         (intersectedObject) => {
           if (intersectedObject === null) return;
 
-          console.log(intersectedObject);
           engine.sceneGraph.renderObjectToSceneObjectMap.get(
             intersectedObject.uuid
           )!.isSelected = true;
+
+          forceUpdate();
         }
       );
 
@@ -280,7 +280,9 @@ export default function WorldOutliner() {
       <Divider />
     </>
   );
-}
+});
+
+export default WorldOutlinerMemo;
 
 /*           <StyledTreeItem
             nodeId="1"

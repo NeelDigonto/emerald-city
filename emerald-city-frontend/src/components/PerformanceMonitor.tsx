@@ -3,8 +3,8 @@ import { useEngineContext } from "@src/contexts/EngineContext";
 import React from "react";
 
 const PerformanceMonitorContainer = styled.div`
-  width: max-content;
-  height: max-content;
+  width: auto;
+  height: auto;
   position: absolute;
   z-index: 99;
 
@@ -19,17 +19,23 @@ const PerformanceMonitorContainer = styled.div`
 
 const PerformanceMonitor = () => {
   const [frameTime, setFrameTime] = React.useState<number>(0);
+  const [fps, setFPS] = React.useState<number>(0);
   const engine = useEngineContext();
 
   React.useEffect(() => {
-    const intervalID = setInterval(() => setFrameTime(engine.delta), 100);
+    const intervalID = setInterval(() => {
+      setFPS(1000 / engine.renderEngine!.delta);
+      setFrameTime(engine.renderEngine!.lastFrameRenderTime);
+    }, 500);
     return () => clearInterval(intervalID);
   }, []);
 
   return (
-    <PerformanceMonitorContainer>{`${(
-      1000 / frameTime
-    ).toFixed()} FPS`}</PerformanceMonitorContainer>
+    <PerformanceMonitorContainer>
+      {`${fps.toFixed()} FPS`}
+      <br />
+      {`${frameTime.toPrecision(2)} ms`}
+    </PerformanceMonitorContainer>
   );
 };
 
