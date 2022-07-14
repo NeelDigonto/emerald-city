@@ -130,11 +130,12 @@ const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
       return VideoCameraBackRoundedIcon;
     default:
       return QuestionMarkRoundedIcon;
-      break;
   }
 };
 
 const getWorldOutliner = (node: SceneObject) => {
+  //console.log("getWorldOutliner");
+  if (node.isSelected) console.log("Selected");
   if (node.childrens.length === 0)
     return (
       <StyledTreeItem
@@ -164,7 +165,7 @@ export default function WorldOutliner() {
 
   React.useEffect(() => {
     const callbackID = engine.sceneGraph.registerOnChangeCallback(() => {
-      console.log("callback called");
+      //console.log("Force Update");
       forceUpdate();
     });
     return () => engine.sceneGraph.removeOnChangeCallback(callbackID);
@@ -173,15 +174,22 @@ export default function WorldOutliner() {
   React.useEffect(() => {
     if (engine.renderEngine === null) return;
 
-    engine.renderEngine.editorControls.registerRaycastCallback(
-      (intersectedObject) => {
-        if (intersectedObject === null) return;
+    const calbackID =
+      engine.renderEngine.editorControls.registerRaycastCallback(
+        (intersectedObject) => {
+          if (intersectedObject === null) return;
 
-        engine.sceneGraph.renderObjectToSceneObjectMap.get(
-          intersectedObject.uuid
-        )!.isSelected = true;
-      }
-    );
+          console.log(intersectedObject);
+          engine.sceneGraph.renderObjectToSceneObjectMap.get(
+            intersectedObject.uuid
+          )!.isSelected = true;
+        }
+      );
+
+    return () => {
+      if (engine.renderEngine !== null)
+        engine.renderEngine.editorControls.removeRaycastCallback(calbackID);
+    };
   }, [engine.renderEngine]);
 
   /*   React.useEffect(() => {
@@ -265,7 +273,16 @@ export default function WorldOutliner() {
             overflowY: "auto",
           }}
         >
-          {/*           <StyledTreeItem
+          {engine.sceneGraph.root && getWorldOutliner(engine.sceneGraph.root)}
+        </TreeView>
+      )}
+      <Box py="2rem" />
+      <Divider />
+    </>
+  );
+}
+
+/*           <StyledTreeItem
             nodeId="1"
             labelText="All Mail"
             labelIcon={MailIcon}
@@ -305,12 +322,4 @@ export default function WorldOutliner() {
               bgColor="#e6f4ea"
             />
           </StyledTreeItem>
-          <StyledTreeItem nodeId="4" labelText="History" labelIcon={Label} /> */}
-          {engine.sceneGraph.root && getWorldOutliner(engine.sceneGraph.root)}
-        </TreeView>
-      )}
-      <Box py="2rem" />
-      <Divider />
-    </>
-  );
-}
+          <StyledTreeItem nodeId="4" labelText="History" labelIcon={Label} /> */
