@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
 import { RenderEngine } from "./RenderEngine";
+import { TransformControls } from "three/examples/jsm/controls/TransformControls";
+import { SceneGraph } from "./SceneGraph";
 //import { Key } from "ts-key-enum";
 
 export interface KeyState {
@@ -22,6 +24,8 @@ export class EditorControls {
   camera: THREE.PerspectiveCamera;
   domElement: HTMLElement;
   renderEngine: RenderEngine;
+  sceneGraph: SceneGraph;
+  transformControls: TransformControls;
 
   forwardMovementSpeed: number = 0.35;
   backwardMovementSpeed: number = 0.35;
@@ -45,7 +49,7 @@ export class EditorControls {
   > = new Map<string, (intersectedObject: THREE.Object3D | null) => void>();
 
   raycaster = new THREE.Raycaster();
-  castRays: boolean = true;
+  willCastRays: boolean = true;
   pointer = new THREE.Vector2();
 
   keyState: KeyState = {
@@ -65,12 +69,14 @@ export class EditorControls {
 
   constructor(
     renderEngine: RenderEngine,
+    sceneGraph: SceneGraph,
     domElement: HTMLElement,
     camera: THREE.PerspectiveCamera
   ) {
     console.log("Controller attached");
 
     this.renderEngine = renderEngine;
+    this.sceneGraph = sceneGraph;
     this.camera = camera;
     this.domElement = domElement;
 
@@ -94,6 +100,17 @@ export class EditorControls {
     );
     this.domElement.addEventListener("mouseup", this.handleMouseUp.bind(this));
     this.domElement.addEventListener("wheel", this.handleMouseWheel.bind(this));
+
+    this.transformControls = new TransformControls(
+      this.camera,
+      this.domElement
+    );
+    this.transformControls.setSpace("world");
+    //this.transformControls.setTranslationSnap(100);
+    //this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(15));
+    //this.transformControls.setScaleSnap(0.25);
+    this.transformControls.setMode("translate");
+    this.renderEngine.mainScene.add(this.transformControls);
   }
 
   /*     const direction = new THREE.Vector3();
@@ -189,25 +206,38 @@ export class EditorControls {
     //console.log("mouse leave");
   }
 
+  castRays(ev: MouseEvent) {
+    this.pointer.x =
+      (ev.offsetX / this.renderEngine.renderer.domElement.width) * 2 - 1;
+    this.pointer.y =
+      -(ev.offsetY / this.renderEngine.renderer.domElement.height) * 2 + 1;
+
+    this.raycaster.setFromCamera(this.pointer, this.camera);
+    const intersects = this.raycaster.intersectObjects(
+      this.renderEngine.mainScene.children
+    );
+
+    const intersectedObject = intersects.find((renderObject) => {
+      return (
+        this.sceneGraph.renderObjectToSceneObjectMap.get(
+          renderObject.object.uuid
+        ) !== undefined
+      );
+    });
+
+    if (intersectedObject === undefined) return;
+
+    this.raycastCallbacks.forEach((callback) =>
+      callback(intersectedObject.object)
+    );
+  }
+
   handleMouseDown(ev: MouseEvent) {
     if (ev.button === 2) {
       this.movementOn = true;
       this.domElement.requestPointerLock();
     } else if (this.castRays && ev.button === 0) {
-      this.pointer.x =
-        (ev.offsetX / this.renderEngine.renderer.domElement.width) * 2 - 1;
-      this.pointer.y =
-        -(ev.offsetY / this.renderEngine.renderer.domElement.height) * 2 + 1;
-
-      this.raycaster.setFromCamera(this.pointer, this.camera);
-      const intersects = this.raycaster.intersectObjects(
-        this.renderEngine.mainScene.children
-      );
-
-      const intersectedObject =
-        intersects.length === 0 ? null : intersects[0].object;
-
-      this.raycastCallbacks.forEach((callback) => callback(intersectedObject));
+      this.castRays(ev);
     }
   }
 
@@ -250,7 +280,7 @@ export class EditorControls {
   }
 
   registerRaycastCallback(
-    callback: (intersectedObject: THREE.Object3D | null) => void
+    callback: (intersectedRenderObject: THREE.Object3D | null) => void
   ): string {
     const id = uuidv4();
     this.raycastCallbacks.set(id, callback);

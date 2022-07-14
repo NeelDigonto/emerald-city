@@ -63,7 +63,8 @@ function App() {
       setupScene(
         engine.renderEngine!.mainScene,
         engine.renderEngine!.camera,
-        engine.sceneGraph
+        engine.sceneGraph,
+        engine.renderEngine!
       );
     }
   }, [engine, canvasContainerRef.current, canvasRef.current]);

@@ -134,8 +134,7 @@ const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
 };
 
 const getWorldOutliner = (node: SceneObject) => {
-  //console.log("getWorldOutliner");
-  if (node.isSelected) console.log("Selected");
+  console.log(node.isSelected);
   if (node.childrens.length === 0)
     return (
       <StyledTreeItem
@@ -144,6 +143,8 @@ const getWorldOutliner = (node: SceneObject) => {
         labelText={node.name}
         labelIcon={getSceneObjectIcon(node.type)}
         sx={{ color: node.isSelected ? "red" : "inherit" }}
+        color="#a250f5"
+        bgColor="#f3e8fd"
       ></StyledTreeItem>
     );
 
@@ -159,7 +160,7 @@ const getWorldOutliner = (node: SceneObject) => {
   );
 };
 
-const WorldOutlinerMemo = React.memo(function WorldOutliner() {
+export default React.memo(function WorldOutliner() {
   let engine = useEngineContext();
   const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
 
@@ -175,12 +176,13 @@ const WorldOutlinerMemo = React.memo(function WorldOutliner() {
 
     const calbackID =
       engine.renderEngine.editorControls.registerRaycastCallback(
-        (intersectedObject) => {
-          if (intersectedObject === null) return;
+        (intersectedRenderObject) => {
+          if (intersectedRenderObject === null) return;
+          console.log(intersectedRenderObject);
 
-          engine.sceneGraph.renderObjectToSceneObjectMap.get(
+          /*  engine.sceneGraph.renderObjectToSceneObjectMap.get(
             intersectedObject.uuid
-          )!.isSelected = true;
+          )!.isSelected = true; */
 
           forceUpdate();
         }
@@ -191,19 +193,6 @@ const WorldOutlinerMemo = React.memo(function WorldOutliner() {
         engine.renderEngine.editorControls.removeRaycastCallback(calbackID);
     };
   }, [engine.renderEngine]);
-
-  /*   React.useEffect(() => {
-        if(engine.renderEngine ===null)  throw new Error("Render Engine");
-    
-    engine.renderEngine.editorControls?.registerRaycastCallback((intersectedObject) => {
-    if (intersectedObject) {
-     if(intersectedObject instanceof THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>)
-    //  (intersectedObject as THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>).material.color.set(0xffffff);
-    // console.log((intersectedObject as THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>).material.color); 
-     engine.sceneGraph.renderObjectToSceneObjectMap.get(intersectedObject.uuid)!.isSelected=true;
-    }
-  });
-  }, []); */
 
   return (
     <>
@@ -281,8 +270,6 @@ const WorldOutlinerMemo = React.memo(function WorldOutliner() {
     </>
   );
 });
-
-export default WorldOutlinerMemo;
 
 /*           <StyledTreeItem
             nodeId="1"

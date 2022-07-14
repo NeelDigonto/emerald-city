@@ -67,7 +67,12 @@ export class RenderEngine {
 
     this.container.addEventListener("resize", this.resize.bind(this)); // on window?
 
-    this.editorControls = new EditorControls(this, this.container, this.camera);
+    this.editorControls = new EditorControls(
+      this,
+      engine.sceneGraph,
+      this.container,
+      this.camera
+    );
   }
 
   resize() {

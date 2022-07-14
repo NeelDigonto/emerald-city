@@ -5,11 +5,13 @@ import { TransformControls } from "three/examples/jsm/controls/TransformControls
 import { loadTextures } from "../TextureManager";
 import { SceneGraph, SceneObject, SceneObjectType } from "../SceneGraph";
 import { User } from "@backend/types/api/Core";
+import { RenderEngine } from "../RenderEngine";
 
 export async function setupScene(
   scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
-  sceneGraph: SceneGraph
+  sceneGraph: SceneGraph,
+  renderEngine: RenderEngine
 ): Promise<void> {
   const rgbeLoader = new RGBELoader();
   console.log("Base Setup");
@@ -71,17 +73,8 @@ export async function setupScene(
         new SceneObject(`Box ${boxCount++}`, box, SceneObjectType.MeshObject)
       );
 
-      /*       const transformControls = new TransformControls(
-        engine.camera,
-        engine.renderer!.domElement
-      );
-      transformControls.addEventListener("change", () =>
-        engine.renderer!.render(engine.scene, engine.camera)
-      );
-      transformControls.setSpace("local");
-      engine.scene.add(transformControls);
-      transformControls.attach(box);
-      transformControls.setMode("rotate"); */
+      renderEngine.editorControls.transformControls.attach(box);
+      //transformControls.setMode("rotate");
     })();
 
   /*   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
