@@ -41,7 +41,7 @@
 - [x] Add Scene Graph
 - [x] Add world Outliner.
 - [x] Unlock Full FPS.
-- [ ] Add transform controls, in Editor Scene.
+- [x] Add transform controls, in Editor Scene.
 - [x] Add Screen Picker (CPU).
 - [ ] Add Screen Picker (GPU).
 - [ ] Addd drag and drop object support in editor.

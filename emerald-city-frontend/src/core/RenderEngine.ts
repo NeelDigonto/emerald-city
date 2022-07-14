@@ -65,7 +65,7 @@ export class RenderEngine {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.0;
 
-    this.container.addEventListener("resize", this.resize.bind(this)); // on window?
+    window.addEventListener("resize", this.resize.bind(this)); // on window?
 
     this.editorControls = new EditorControls(
       this,
