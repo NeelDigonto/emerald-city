@@ -177,10 +177,12 @@ export default React.memo(function WorldOutliner() {
     const calbackID =
       engine.renderEngine.editorControls.registerRaycastCallback(
         (intersectedRenderObject) => {
+          // maintain priority to be the last one
+          /*
           if (intersectedRenderObject === null) return;
           console.log(intersectedRenderObject);
 
-          /*  engine.sceneGraph.renderObjectToSceneObjectMap.get(
+           engine.sceneGraph.renderObjectToSceneObjectMap.get(
             intersectedObject.uuid
           )!.isSelected = true; */
 

@@ -74,7 +74,6 @@ export async function setupScene(
       );
 
       renderEngine.editorControls.transformControls.attach(box);
-      //transformControls.setMode("rotate");
     })();
 
   /*   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);

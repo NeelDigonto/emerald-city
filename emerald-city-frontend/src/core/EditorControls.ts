@@ -80,6 +80,17 @@ export class EditorControls {
     this.camera = camera;
     this.domElement = domElement;
 
+    this.registerRaycastCallback((intersectedRenderObject) => {
+      if (intersectedRenderObject === null) return;
+      console.log(intersectedRenderObject);
+
+      sceneGraph.renderObjectToSceneObjectMap.get(
+        intersectedRenderObject.uuid
+      )!.isSelected = true;
+
+      this.transformControls.attach(intersectedRenderObject);
+    });
+
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.domElement.addEventListener("keyup", this.handleKeyUp.bind(this));
     this.domElement.addEventListener(
@@ -106,16 +117,11 @@ export class EditorControls {
       this.domElement
     );
     this.transformControls.setSpace("world");
-    //this.transformControls.setTranslationSnap(100);
-    //this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(15));
-    //this.transformControls.setScaleSnap(0.25);
+
     this.transformControls.setMode("translate");
     this.renderEngine.mainScene.add(this.transformControls);
   }
 
-  /*     const direction = new THREE.Vector3();
-    this.camera.getWorldDirection(direction);
-    this.camera.position.addScaledVector(direction, multiplier); */
   moveForward(delta: number) {
     this.camera.translateZ(delta * -this.forwardMovementSpeed);
   }
