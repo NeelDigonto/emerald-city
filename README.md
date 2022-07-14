@@ -29,6 +29,7 @@
 - [x] Ecommerce Focused
 - [x] Some Flipkart/
 - [x] Walmart Specific Ideas/Features
+- [x] No reliance on HTML DOM in play mode.
 
 ## Todo
 
@@ -72,6 +73,8 @@
 - [ ] Remove IBL programitically, or only keep IBL for certain objects.
 - [ ] Create a initial scene with gold shop and a garden.
 - [ ] Another amusement park with vibrant colors and foot stepping music.
+- [ ] A cinema hall with video playing on wall and spatial sound.
+- [ ] Emojis/guesture of characters
 - [ ] Test the engine for realisim and playabilty.
 - [ ] Add Sound(Spatial Audio) Engine Setup.
 - [ ] Add chat support with Websockets.

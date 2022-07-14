@@ -12,6 +12,7 @@ export enum SceneObjectType {
 export class SceneObject {
   id: string;
   name: string;
+  isSelected: boolean = false;
   type: SceneObjectType;
   renderObject: THREE.Object3D;
   childrens: SceneObject[];
@@ -31,6 +32,10 @@ export class SceneObject {
 
 export class SceneGraph {
   objectCache: Map<string, SceneObject>;
+  renderObjectToSceneObjectMap: Map<string, SceneObject> = new Map<
+    string,
+    SceneObject
+  >();
   root: SceneObject | null;
   engine: Engine;
   onChangeCallbacks: Map<string, () => void>;
@@ -67,6 +72,7 @@ export class SceneGraph {
     //console.log(this, parentObjectID, object, this.onChangeCallbacks);
     const id = object.id;
     this.objectCache.set(id, object);
+    this.renderObjectToSceneObjectMap.set(object.renderObject.uuid, object);
     this.getSceneObjectByID(parentObjectID)?.childrens.push(object);
     this.onChangeCallbacks.forEach((callback) => callback());
     return id;
@@ -74,6 +80,10 @@ export class SceneGraph {
 
   getSceneObjectByID(objectID: string) {
     return this.objectCache.get(objectID);
+  }
+
+  getSceneObjectFromRenderObjectID(renderObjectID: string) {
+    return this.renderObjectToSceneObjectMap.get(renderObjectID);
   }
 
   /*   remove(objectID: number) {

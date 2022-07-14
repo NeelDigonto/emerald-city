@@ -1,122 +1,68 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
-import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 
-import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
-import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
-import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomPass.js";
-import * as dat from "dat.gui";
 import { setupScene } from "./scene/BaseScene";
-import Stats from "stats.js";
 import { EditorControls } from "./EditorControls";
 import { SceneGraph, SceneObject, SceneObjectType } from "./SceneGraph";
+import { RenderEngine } from "./RenderEngine";
+
+export enum Role {
+  Editor,
+  Simulate,
+}
 
 export class Engine {
-  container: HTMLDivElement | null;
-  canvas: HTMLCanvasElement | null;
-  isDomRenderTargetAttached: boolean;
-  camera: THREE.PerspectiveCamera;
-  clock: THREE.Clock;
-  clockSpeed: number;
-  delta: number;
-  isPlaying: boolean;
-  scene: THREE.Scene;
-  width: number;
-  height: number;
-  lastFrameTimeStamp: number;
+  //renderEngine
+  //scenegrpah
+  //audioengine
+  //physics engine
+  //networkhandler
+
+  delta: number = 0;
+  lastLoopStartTimeStamp: number = 0;
+  lastLoopTime: number = 0;
+
   sceneGraph: SceneGraph;
-  renderPass: RenderPass | null = null;
-  //controls: OrbitControls | null;
-  //  | FirstPersonControls
-  //  | FlyControls
-  //  | FirstPersonControls
-  controls: EditorControls | null;
-  renderScene!: RenderPass;
-  bloomPass!: UnrealBloomPass;
-  outlinePass: OutlinePass | null = null;
-  composer!: EffectComposer;
-  settings;
-  gui!: dat.GUI;
-  material!: THREE.ShaderMaterial;
-  geometry!: THREE.PlaneBufferGeometry | THREE.BufferGeometry;
-  mesh!: THREE.Mesh | THREE.Points;
-  renderer: THREE.WebGLRenderer | null;
-  stats: Stats;
+  renderEngine: RenderEngine | null = null;
+  currentRole: Role;
 
   constructor() {
-    console.warn("Engine Loaded");
-
-    this.container = null;
-    this.canvas = null;
-    this.isDomRenderTargetAttached = false;
-    this.clock = new THREE.Clock();
-    this.clockSpeed = 25;
-    this.delta = 0;
-    this.isPlaying = false;
-    this.height = 0;
-    this.width = 0;
-    this.renderer = null;
-    this.scene = new THREE.Scene();
-    this.renderer = null;
-    this.controls = null;
-    this.lastFrameTimeStamp = 0;
+    console.log("Engine Loaded");
+    this.currentRole = Role.Editor;
     this.sceneGraph = new SceneGraph(this);
+  }
+
+  initializeRenderEngine(container: HTMLDivElement, canvas: HTMLCanvasElement) {
+    this.renderEngine = new RenderEngine(this, container, canvas);
     this.sceneGraph.setRootObject(
-      new SceneObject("Level Editor", this.scene, SceneObjectType.Level)
+      new SceneObject(
+        "Level Editor",
+        this.renderEngine.mainScene,
+        SceneObjectType.Level
+      )
     );
-
-    this.camera = new THREE.PerspectiveCamera(
-      70,
-      this.width / this.height,
-      0.01,
-      1000
-    );
-
-    this.settings = {};
-    this.setupResize();
-    this.setupScene();
-
-    this.stats = new Stats();
-    // 0: fps, 1: ms, 2: mb, 3+: custom
-    this.stats.showPanel(0);
-
-    //document.body.appendChild(this.stats.dom);
-  }
-  async setupScene() {
-    return setupScene(this);
   }
 
-  attachDomRenderTarget(container: HTMLDivElement, canvas: HTMLCanvasElement) {
-    console.log("Dom Attached");
-    this.container = container;
-    this.canvas = canvas;
-    this.isDomRenderTargetAttached = true;
+  play() {
+    requestAnimationFrame(this.update.bind(this));
+  }
 
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: canvas!,
-      antialias: true,
-    });
+  update() {
+    if (this.renderEngine === null)
+      throw new Error("Render Engine uninitialized");
 
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(this.width, this.height);
-    this.renderer.setClearColor(0x87ceeb, 1);
-    this.renderer.physicallyCorrectLights = true;
-    this.renderer.outputEncoding = THREE.sRGBEncoding;
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.0;
+    const timestamp = performance.now();
+    this.delta = timestamp - this.lastLoopStartTimeStamp;
 
-    //this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls = new EditorControls(this);
-    //this.controls.lock();
+    this.renderEngine.render();
 
-    this.resize();
-    this.setupResize();
+    this.lastLoopTime = performance.now() - timestamp;
+    this.lastLoopStartTimeStamp = timestamp;
 
-    const size = this.renderer.getSize(new THREE.Vector2());
+    requestAnimationFrame(this.update.bind(this));
+  }
+}
+
+/*     const size = this.renderer.getSize(new THREE.Vector2());
     const _pixelRatio = this.renderer.getPixelRatio();
     const _width = size.width;
     const _height = size.height;
@@ -126,72 +72,22 @@ export class Engine {
       {
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
-        /* format: THREE.RGBAFormat, */
+        format: THREE.RGBAFormat,
         encoding: THREE.sRGBEncoding,
       }
     );
-    renderTarget.texture.name = "EffectComposer.rt1";
+    renderTarget.texture.name = "EffectComposer.rt1"; 
 
-    this.composer = new EffectComposer(this.renderer /* , renderTarget */);
+//this.composer = new EffectComposer(this.renderer, renderTarget);
 
-    this.renderPass = new RenderPass(this.scene, this.camera);
-    this.composer.addPass(this.renderPass);
+//this.renderPass = new RenderPass(this.scene, this.camera);
+//this.composer.addPass(this.renderPass);
 
-    this.outlinePass = new OutlinePass(
+ this.outlinePass = new OutlinePass(
       new THREE.Vector2(this.canvas.width, this.canvas.height),
       this.scene,
       this.camera
-    );
-    //this.composer.addPass(this.outlinePass);
-    //this.composer.
-  }
-
-  detachDomRenderTarget() {
-    this.container = null;
-    this.canvas = null;
-    this.isDomRenderTargetAttached = false;
-
-    this.renderer = null;
-  }
-
-  setupResize() {
-    window.addEventListener("resize", this.resize.bind(this));
-  }
-
-  resize() {
-    if (this.container && this.renderer) {
-      this.width = this.container.offsetWidth;
-      this.height = this.container.offsetHeight;
-      this.renderer.setSize(this.width, this.height);
-      this.camera.aspect = this.width / this.height;
-
-      this.camera.updateProjectionMatrix();
-    }
-  }
-
-  stop() {
-    this.isPlaying = false;
-  }
-
-  play() {
-    if (!this.isPlaying) {
-      requestAnimationFrame(this.render.bind(this));
-      this.isPlaying = true;
-    }
-  }
-
-  render(timestamp: DOMHighResTimeStamp) {
-    if (!this.isPlaying && !this.renderer) return;
-
-    this.stats.begin();
-    this.delta = (timestamp - this.lastFrameTimeStamp) / 1000;
-    this.lastFrameTimeStamp = timestamp;
-    this.controls!.update(this.delta * this.clockSpeed);
-    //this.renderer!.render(this.scene, this.camera);
-    this.composer.render();
-    this.stats.end();
-    //this.composer.render();
-
-    requestAnimationFrame(this.render.bind(this));
-  }
-}
+    ); 
+//this.composer.addPass(this.outlinePass);
+//this.composer.
+*/

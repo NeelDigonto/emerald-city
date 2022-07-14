@@ -34,6 +34,7 @@ import {
 import ArrowRight from "@mui/icons-material/ArrowRight";
 import Home from "@mui/icons-material/Home";
 import Settings from "@mui/icons-material/Settings";
+import * as THREE from "three";
 
 declare module "react" {
   interface CSSProperties {
@@ -141,6 +142,7 @@ const getWorldOutliner = (node: SceneObject) => {
         nodeId={node.id}
         labelText={node.name}
         labelIcon={getSceneObjectIcon(node.type)}
+        sx={{ color: node.isSelected ? "red" : "inherit" }}
       ></StyledTreeItem>
     );
 
@@ -158,17 +160,42 @@ const getWorldOutliner = (node: SceneObject) => {
 
 export default function WorldOutliner() {
   let engine = useEngineContext();
-  //const [needsUpdate, setNeedsUpdate] = React.useState<boolean>(false);
   const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
 
   React.useEffect(() => {
     const callbackID = engine.sceneGraph.registerOnChangeCallback(() => {
       console.log("callback called");
-      //setNeedsUpdate(true);
       forceUpdate();
     });
     return () => engine.sceneGraph.removeOnChangeCallback(callbackID);
   }, []);
+
+  React.useEffect(() => {
+    if (engine.renderEngine === null) return;
+
+    engine.renderEngine.editorControls.registerRaycastCallback(
+      (intersectedObject) => {
+        if (intersectedObject === null) return;
+
+        engine.sceneGraph.renderObjectToSceneObjectMap.get(
+          intersectedObject.uuid
+        )!.isSelected = true;
+      }
+    );
+  }, [engine.renderEngine]);
+
+  /*   React.useEffect(() => {
+        if(engine.renderEngine ===null)  throw new Error("Render Engine");
+    
+    engine.renderEngine.editorControls?.registerRaycastCallback((intersectedObject) => {
+    if (intersectedObject) {
+     if(intersectedObject instanceof THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>)
+    //  (intersectedObject as THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>).material.color.set(0xffffff);
+    // console.log((intersectedObject as THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>).material.color); 
+     engine.sceneGraph.renderObjectToSceneObjectMap.get(intersectedObject.uuid)!.isSelected=true;
+    }
+  });
+  }, []); */
 
   return (
     <>

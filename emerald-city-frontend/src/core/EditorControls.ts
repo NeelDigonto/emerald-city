@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
+import { RenderEngine } from "./RenderEngine";
 //import { Key } from "ts-key-enum";
 
 export interface KeyState {
@@ -20,7 +21,7 @@ export interface MouseMovement {
 export class EditorControls {
   camera: THREE.PerspectiveCamera;
   domElement: HTMLElement;
-  engine: Engine;
+  renderEngine: RenderEngine;
 
   forwardMovementSpeed: number = 0.35;
   backwardMovementSpeed: number = 0.35;
@@ -62,13 +63,16 @@ export class EditorControls {
 
   movementOn: boolean = false;
 
-  constructor(engine: Engine) {
+  constructor(
+    renderEngine: RenderEngine,
+    domElement: HTMLElement,
+    camera: THREE.PerspectiveCamera
+  ) {
     console.log("Controller attached");
 
-    this.camera = engine.camera;
-    if (!engine.renderer) throw new Error("Renderer not present in Engine");
-    this.engine = engine;
-    this.domElement = engine.renderer.domElement;
+    this.renderEngine = renderEngine;
+    this.camera = camera;
+    this.domElement = domElement;
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.domElement.addEventListener("keyup", this.handleKeyUp.bind(this));
@@ -175,22 +179,6 @@ export class EditorControls {
       this.mouseMovement.movementX += ev.movementX;
       this.mouseMovement.movementY += ev.movementY;
     }
-    if (this.castRays && ev.button === 0) {
-      this.pointer.x =
-        (ev.offsetX / this.engine.renderer!.domElement.width) * 2 - 1;
-      this.pointer.y =
-        -(ev.offsetY / this.engine.renderer!.domElement.height) * 2 + 1;
-
-      this.raycaster.setFromCamera(this.pointer, this.camera);
-      const intersects = this.raycaster.intersectObjects(
-        this.engine.scene.children
-      );
-
-      const intersectedObject =
-        intersects.length === 0 ? null : intersects[0].object;
-
-      this.raycastCallbacks.forEach((callback) => callback(intersectedObject));
-    }
   }
 
   handleMouseEnter() {
@@ -207,13 +195,13 @@ export class EditorControls {
       this.domElement.requestPointerLock();
     } else if (this.castRays && ev.button === 0) {
       this.pointer.x =
-        (ev.offsetX / this.engine.renderer!.domElement.width) * 2 - 1;
+        (ev.offsetX / this.renderEngine.renderer.domElement.width) * 2 - 1;
       this.pointer.y =
-        -(ev.offsetY / this.engine.renderer!.domElement.height) * 2 + 1;
+        -(ev.offsetY / this.renderEngine.renderer.domElement.height) * 2 + 1;
 
       this.raycaster.setFromCamera(this.pointer, this.camera);
       const intersects = this.raycaster.intersectObjects(
-        this.engine.scene.children
+        this.renderEngine.mainScene.children
       );
 
       const intersectedObject =
@@ -235,6 +223,7 @@ export class EditorControls {
   }
 
   update(delta: number) {
+    delta /= 32;
     if (this.keyState.forward) this.moveForward(delta);
     if (this.keyState.left) this.moveLeft(delta);
     if (this.keyState.backward) this.moveBackward(delta);

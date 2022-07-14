@@ -5,6 +5,7 @@ import { useEngineContext } from "./contexts/EngineContext";
 import Sidebar from "@src/components/Sidebar";
 import Toolbar from "@src/components/Toolbar";
 import PerformanceMonitor from "./components/PerformanceMonitor";
+import { setupScene } from "./core/scene/BaseScene";
 
 const RootContainer = styled.div`
   width: 100%;
@@ -50,18 +51,22 @@ function App() {
       engine &&
       canvasContainerRef.current &&
       canvasRef.current &&
-      !engine.isDomRenderTargetAttached
+      engine.renderEngine === null
     ) {
-      engine.attachDomRenderTarget(
+      engine.initializeRenderEngine(
         canvasContainerRef.current,
         canvasRef.current
       );
+
+      engine.play();
+
+      setupScene(
+        engine.renderEngine!.mainScene,
+        engine.renderEngine!.camera,
+        engine.sceneGraph
+      );
     }
   }, [engine, canvasContainerRef.current, canvasRef.current]);
-
-  React.useEffect(() => {
-    if (engine.isDomRenderTargetAttached) engine.play();
-  }, [engine.isDomRenderTargetAttached]);
 
   return (
     <RootContainer>

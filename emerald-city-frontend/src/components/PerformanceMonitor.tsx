@@ -28,7 +28,7 @@ const PerformanceMonitor = () => {
 
   return (
     <PerformanceMonitorContainer>{`${(
-      1 / frameTime
+      1000 / frameTime
     ).toFixed()} FPS`}</PerformanceMonitorContainer>
   );
 };
