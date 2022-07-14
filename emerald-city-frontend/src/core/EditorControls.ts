@@ -164,6 +164,32 @@ export class EditorControls {
         default:
           break;
       }
+
+    switch (ev.code) {
+      case "KeyW":
+        this.transformControls.setMode("translate");
+        break;
+      case "KeyE":
+        this.transformControls.setMode("rotate");
+        break;
+      case "KeyR":
+        this.transformControls.setMode("scale");
+        break;
+      case "NumpadAdd":
+        this.transformControls.setSize(this.transformControls.size * 1.01);
+        break;
+      case "NumpadSubtract":
+        this.transformControls.setSize(this.transformControls.size * 0.99);
+        break;
+      case "ShiftLeft":
+      case "ShiftRight":
+        this.transformControls.setTranslationSnap(1);
+        this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(15));
+        this.transformControls.setScaleSnap(0.25);
+        break;
+      default:
+        break;
+    }
   }
 
   handleKeyUp(ev: KeyboardEvent) {
@@ -185,6 +211,12 @@ export class EditorControls {
         break;
       case "KeyC":
         this.keyState.flyDown = false;
+        break;
+      case "ShiftLeft":
+      case "ShiftRight":
+        this.transformControls.setTranslationSnap(null);
+        this.transformControls.setRotationSnap(null);
+        this.transformControls.setScaleSnap(null);
         break;
       default:
         break;
