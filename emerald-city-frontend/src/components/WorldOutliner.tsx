@@ -134,7 +134,10 @@ const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
 };
 
 const getWorldOutliner = (node: SceneObject) => {
-  console.log(node.isSelected);
+  //console.log(node.isSelected);
+
+  // deselect last selected
+
   if (node.childrens.length === 0)
     return (
       <StyledTreeItem
@@ -177,7 +180,6 @@ export default React.memo(function WorldOutliner() {
     const calbackID =
       engine.renderEngine.editorControls.registerRaycastCallback(
         (intersectedRenderObject) => {
-          // maintain priority to be the last one
           /*
           if (intersectedRenderObject === null) return;
           console.log(intersectedRenderObject);
@@ -185,6 +187,10 @@ export default React.memo(function WorldOutliner() {
            engine.sceneGraph.renderObjectToSceneObjectMap.get(
             intersectedObject.uuid
           )!.isSelected = true; */
+
+          // maintain priority to be the last one
+
+          // maybe optimize this
 
           forceUpdate();
         }

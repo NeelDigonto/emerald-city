@@ -2,7 +2,10 @@ import * as THREE from "three";
 import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
 import { RenderEngine } from "./RenderEngine";
-import { TransformControls } from "three/examples/jsm/controls/TransformControls";
+import {
+  TransformControls,
+  TransformControlsPlane,
+} from "three/examples/jsm/controls/TransformControls";
 import { SceneGraph } from "./SceneGraph";
 //import { Key } from "ts-key-enum";
 
@@ -20,12 +23,17 @@ export interface MouseMovement {
   movementY: number;
 }
 
+export type RaycastCallback = (
+  intersects: THREE.Intersection<THREE.Object3D<THREE.Event>>[]
+) => void;
+
 export class EditorControls {
   camera: THREE.PerspectiveCamera;
   domElement: HTMLElement;
   renderEngine: RenderEngine;
   sceneGraph: SceneGraph;
   transformControls: TransformControls;
+  lastSelectedObject: THREE.Object3D<THREE.Event> | null = null;
 
   forwardMovementSpeed: number = 0.35;
   backwardMovementSpeed: number = 0.35;
@@ -43,10 +51,10 @@ export class EditorControls {
   toMoveJump: number = 0;
   toRotate: THREE.Vector2 = new THREE.Vector2(0, 0);
 
-  raycastCallbacks: Map<
+  raycastCallbacks: Map<string, RaycastCallback> = new Map<
     string,
-    (intersectedObject: THREE.Object3D | null) => void
-  > = new Map<string, (intersectedObject: THREE.Object3D | null) => void>();
+    RaycastCallback
+  >();
 
   raycaster = new THREE.Raycaster();
   willCastRays: boolean = true;
@@ -80,15 +88,51 @@ export class EditorControls {
     this.camera = camera;
     this.domElement = domElement;
 
-    this.registerRaycastCallback((intersectedRenderObject) => {
-      if (intersectedRenderObject === null) return;
-      console.log(intersectedRenderObject);
+    this.registerRaycastCallback((intersects) => {
+      // too complicated fix it.
+
+      let hadTransformControlPlaneInFront: boolean = false;
+      let hadLineInFront: boolean = false;
+
+      const intersectedObject = intersects.find((intersection) => {
+        if (intersection.object instanceof TransformControlsPlane) {
+          hadTransformControlPlaneInFront = true;
+          return false;
+        }
+        if (intersection.object instanceof THREE.Line) {
+          hadLineInFront = true;
+          return false;
+        }
+
+        return true;
+      });
+
+      if (this.lastSelectedObject === null && intersectedObject !== undefined) {
+        sceneGraph.renderObjectToSceneObjectMap.get(
+          intersectedObject.object.uuid
+        )!.isSelected = true;
+
+        this.transformControls.attach(intersectedObject.object);
+
+        this.lastSelectedObject = intersectedObject.object;
+
+        return;
+      }
+
+      if (
+        intersectedObject === undefined ||
+        hadTransformControlPlaneInFront ||
+        hadLineInFront
+      )
+        return;
 
       sceneGraph.renderObjectToSceneObjectMap.get(
-        intersectedRenderObject.uuid
+        intersectedObject.object.uuid
       )!.isSelected = true;
 
-      this.transformControls.attach(intersectedRenderObject);
+      this.transformControls.attach(intersectedObject.object);
+
+      this.lastSelectedObject = intersectedObject.object;
     });
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
@@ -255,7 +299,9 @@ export class EditorControls {
       this.renderEngine.mainScene.children
     );
 
-    const intersectedObject = intersects.find((renderObject) => {
+    if (intersects.length === 0) return;
+
+    /*     const intersectedObjectIndex = intersects.findIndex((renderObject) => {
       return (
         this.sceneGraph.renderObjectToSceneObjectMap.get(
           renderObject.object.uuid
@@ -263,11 +309,11 @@ export class EditorControls {
       );
     });
 
-    if (intersectedObject === undefined) return;
+    if (intersectedObjectIndex === -1) return;
 
-    this.raycastCallbacks.forEach((callback) =>
-      callback(intersectedObject.object)
-    );
+    console.log(intersects); */
+
+    this.raycastCallbacks.forEach((callback) => callback(intersects));
   }
 
   handleMouseDown(ev: MouseEvent) {
@@ -317,9 +363,7 @@ export class EditorControls {
     this.mouseMovement.movementY = 0;
   }
 
-  registerRaycastCallback(
-    callback: (intersectedRenderObject: THREE.Object3D | null) => void
-  ): string {
+  registerRaycastCallback(callback: RaycastCallback): string {
     const id = uuidv4();
     this.raycastCallbacks.set(id, callback);
     return id;

@@ -73,7 +73,7 @@ export async function setupScene(
         new SceneObject(`Box ${boxCount++}`, box, SceneObjectType.MeshObject)
       );
 
-      renderEngine.editorControls.transformControls.attach(box);
+      //renderEngine.editorControls.transformControls.attach(box);
     })();
 
   /*   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
