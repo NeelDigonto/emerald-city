@@ -148,6 +148,7 @@ const getWorldOutliner = (node: SceneObject) => {
         sx={{ color: node.isSelected ? "red" : "inherit" }}
         color="#a250f5"
         bgColor="#f3e8fd"
+        onSelect={() => {}}
       ></StyledTreeItem>
     );
 
@@ -178,9 +179,8 @@ export default React.memo(function WorldOutliner() {
     if (engine.renderEngine === null) return;
 
     const calbackID =
-      engine.renderEngine.editorControls.registerRaycastCallback(
-        (intersectedRenderObject) => {
-          /*
+      engine.renderEngine.editorControls.registerRaycastCallback((_) => {
+        /*
           if (intersectedRenderObject === null) return;
           console.log(intersectedRenderObject);
 
@@ -188,13 +188,12 @@ export default React.memo(function WorldOutliner() {
             intersectedObject.uuid
           )!.isSelected = true; */
 
-          // maintain priority to be the last one
+        // maintain priority to be the last one
 
-          // maybe optimize this
+        // maybe optimize this
 
-          forceUpdate();
-        }
-      );
+        forceUpdate();
+      });
 
     return () => {
       if (engine.renderEngine !== null)

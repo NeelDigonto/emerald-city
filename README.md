@@ -44,6 +44,7 @@
 - [x] Add transform controls, in Editor Scene.
 - [x] Add Screen Picker (CPU).
 - [ ] Add Screen Picker (GPU).
+- [ ] Add undo, redo features in editor.
 - [ ] Addd drag and drop object support in editor.
 - [ ] Add scene(object transforms) backup with backend.
 - [ ] Add lots of basic shapes.

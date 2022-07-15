@@ -7,6 +7,7 @@ import {
   TransformControlsPlane,
 } from "three/examples/jsm/controls/TransformControls";
 import { SceneGraph } from "./SceneGraph";
+import { MeshBasicMaterial } from "three";
 //import { Key } from "ts-key-enum";
 
 export interface KeyState {
@@ -89,50 +90,38 @@ export class EditorControls {
     this.domElement = domElement;
 
     this.registerRaycastCallback((intersects) => {
-      // too complicated fix it.
-
-      let hadTransformControlPlaneInFront: boolean = false;
-      let hadLineInFront: boolean = false;
-
-      const intersectedObject = intersects.find((intersection) => {
-        if (intersection.object instanceof TransformControlsPlane) {
-          hadTransformControlPlaneInFront = true;
+      console.log(intersects);
+      const intersection = intersects.find((intersection) => {
+        if (
+          intersection.object instanceof TransformControlsPlane ||
+          intersection.object instanceof THREE.Line
+        )
           return false;
-        }
-        if (intersection.object instanceof THREE.Line) {
-          hadLineInFront = true;
+
+        if (
+          intersection.object instanceof THREE.Mesh &&
+          intersection.object.material.opacity &&
+          intersection.object.material.opacity < 0.49
+        )
           return false;
-        }
 
         return true;
       });
 
-      if (this.lastSelectedObject === null && intersectedObject !== undefined) {
-        sceneGraph.renderObjectToSceneObjectMap.get(
-          intersectedObject.object.uuid
-        )!.isSelected = true;
-
-        this.transformControls.attach(intersectedObject.object);
-
-        this.lastSelectedObject = intersectedObject.object;
-
-        return;
-      }
+      if (intersection === undefined) return;
 
       if (
-        intersectedObject === undefined ||
-        hadTransformControlPlaneInFront ||
-        hadLineInFront
+        !this.sceneGraph.renderObjectToSceneObjectMap.has(
+          intersection.object.uuid
+        )
       )
         return;
 
-      sceneGraph.renderObjectToSceneObjectMap.get(
-        intersectedObject.object.uuid
-      )!.isSelected = true;
+      //console.log(intersection.object);
 
-      this.transformControls.attach(intersectedObject.object);
+      this.transformControls.attach(intersection.object);
 
-      this.lastSelectedObject = intersectedObject.object;
+      this.lastSelectedObject = intersection.object;
     });
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
@@ -163,6 +152,7 @@ export class EditorControls {
     this.transformControls.setSpace("world");
 
     this.transformControls.setMode("translate");
+    console.log(this.transformControls);
     this.renderEngine.mainScene.add(this.transformControls);
   }
 
