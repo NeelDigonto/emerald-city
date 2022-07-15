@@ -53,7 +53,7 @@ export async function setupScene(
 
   sceneGraph.add(
     sceneGraph.root.id,
-    new SceneObject("Ground", ground, SceneObjectType.MeshObject)
+    new SceneObject("Ground", ground, SceneObjectType.MeshObject, false)
   );
 
   let boxCount: number = 0;
@@ -70,7 +70,12 @@ export async function setupScene(
       scene.add(box);
       sceneGraph.add(
         sceneGraph.root!.id,
-        new SceneObject(`Box ${boxCount++}`, box, SceneObjectType.MeshObject)
+        new SceneObject(
+          `Box ${boxCount++}`,
+          box,
+          SceneObjectType.MeshObject,
+          true
+        )
       );
 
       //renderEngine.editorControls.transformControls.attach(box);

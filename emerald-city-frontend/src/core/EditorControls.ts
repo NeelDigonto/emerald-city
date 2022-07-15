@@ -90,7 +90,7 @@ export class EditorControls {
     this.domElement = domElement;
 
     this.registerRaycastCallback((intersects) => {
-      console.log(intersects);
+      //console.log(intersects);
       const intersection = intersects.find((intersection) => {
         if (
           intersection.object instanceof TransformControlsPlane ||
@@ -119,9 +119,24 @@ export class EditorControls {
 
       //console.log(intersection.object);
 
-      this.transformControls.attach(intersection.object);
+      const selectedSceneObject =
+        this.sceneGraph.getSceneObjectFromRenderObjectID(
+          intersection.object.uuid
+        );
 
-      this.lastSelectedObject = intersection.object;
+      if (selectedSceneObject!.isSelectable) {
+        this.transformControls.attach(intersection.object);
+
+        if (this.lastSelectedObject) {
+          this.sceneGraph.getSceneObjectFromRenderObjectID(
+            this.lastSelectedObject.uuid
+          )!.isSelected = false;
+
+          selectedSceneObject!.isSelected = true;
+
+          this.lastSelectedObject = intersection.object;
+        }
+      }
     });
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
@@ -150,9 +165,7 @@ export class EditorControls {
       this.domElement
     );
     this.transformControls.setSpace("world");
-
     this.transformControls.setMode("translate");
-    console.log(this.transformControls);
     this.renderEngine.mainScene.add(this.transformControls);
   }
 

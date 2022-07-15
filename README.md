@@ -45,6 +45,7 @@
 - [x] Add Screen Picker (CPU).
 - [ ] Add Screen Picker (GPU).
 - [ ] Add undo, redo features in editor.
+- [ ] Bidirection selection from both world outliner and canvas.
 - [ ] Addd drag and drop object support in editor.
 - [ ] Add scene(object transforms) backup with backend.
 - [ ] Add lots of basic shapes.

@@ -37,7 +37,8 @@ export class Engine {
       new SceneObject(
         "Level Editor",
         this.renderEngine.mainScene,
-        SceneObjectType.Level
+        SceneObjectType.Level,
+        false
       )
     );
   }

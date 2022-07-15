@@ -13,6 +13,7 @@ export class SceneObject {
   id: string;
   name: string;
   isSelected: boolean = false;
+  isSelectable: boolean = true;
   type: SceneObjectType;
   renderObject: THREE.Object3D;
   childrens: SceneObject[];
@@ -20,11 +21,13 @@ export class SceneObject {
   constructor(
     name: string,
     renderObject: THREE.Object3D,
-    type: SceneObjectType
+    type: SceneObjectType,
+    isSelectable: boolean
   ) {
     this.id = uuidv4();
     this.name = name;
     this.type = type;
+    this.isSelectable = isSelectable;
     this.renderObject = renderObject;
     this.childrens = [];
   }
