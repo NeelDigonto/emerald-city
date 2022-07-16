@@ -4,11 +4,14 @@ import { setupScene } from "./scene/BaseScene";
 import { EditorControls } from "./EditorControls";
 import { SceneGraph, SceneObject, SceneObjectType } from "./SceneGraph";
 import { RenderEngine } from "./RenderEngine";
+import { v4 as uuidv4 } from "uuid";
 
 export enum Role {
   Editor,
   Simulate,
 }
+
+type BeforeRenerCallback = (delta: DOMHighResTimeStamp) => void;
 
 export class Engine {
   //renderEngine
@@ -21,6 +24,8 @@ export class Engine {
   lastLoopStartTimeStamp: number = 0;
   lastLoopTime: number = 0;
 
+  beforeRenderCallbacks: Map<string, BeforeRenerCallback>;
+
   sceneGraph: SceneGraph;
   renderEngine: RenderEngine | null = null;
   currentRole: Role;
@@ -29,6 +34,7 @@ export class Engine {
     console.log("Engine Loaded");
     this.currentRole = Role.Editor;
     this.sceneGraph = new SceneGraph(this);
+    this.beforeRenderCallbacks = new Map<string, BeforeRenerCallback>();
   }
 
   initializeRenderEngine(container: HTMLDivElement, canvas: HTMLCanvasElement) {
@@ -47,12 +53,20 @@ export class Engine {
     requestAnimationFrame(this.update.bind(this));
   }
 
+  registerBeforeRenderCallback(callbackfn: BeforeRenerCallback) {
+    const id = uuidv4();
+    this.beforeRenderCallbacks.set(id, callbackfn);
+    return id;
+  }
+
   update() {
     if (this.renderEngine === null)
       throw new Error("Render Engine uninitialized");
 
     const timestamp = performance.now();
     this.delta = timestamp - this.lastLoopStartTimeStamp;
+
+    this.beforeRenderCallbacks.forEach((callbackfn) => callbackfn(this.delta));
 
     this.renderEngine.render();
 

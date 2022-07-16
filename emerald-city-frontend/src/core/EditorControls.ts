@@ -90,7 +90,7 @@ export class EditorControls {
     this.domElement = domElement;
 
     this.registerRaycastCallback((intersects) => {
-      //console.log(intersects);
+      console.log(intersects);
       const intersection = intersects.find((intersection) => {
         if (
           intersection.object instanceof TransformControlsPlane ||

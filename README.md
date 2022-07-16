@@ -46,6 +46,7 @@
 - [ ] Add Screen Picker (GPU).
 - [ ] Add undo, redo features in editor.
 - [ ] Bidirection selection from both world outliner and canvas.
+- [ ] Add realtime ml based avatar guestures.
 - [ ] Addd drag and drop object support in editor.
 - [ ] Add scene(object transforms) backup with backend.
 - [ ] Add lots of basic shapes.

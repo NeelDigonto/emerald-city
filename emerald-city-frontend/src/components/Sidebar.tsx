@@ -25,6 +25,7 @@ import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import WorldOutliner from "./WorldOutliner";
+import MaterialExplorer from "./MaterialExplorer";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -203,6 +204,7 @@ const Sidebar = () => {
           </FireNav>
         </Paper>
       </Stack>
+      {/* <MaterialExplorer name="sayantan" /> */}
       <WorldOutliner />
     </SidebarContainer>
   );

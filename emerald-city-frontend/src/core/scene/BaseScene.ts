@@ -6,6 +6,7 @@ import { loadTextures } from "../TextureManager";
 import { SceneGraph, SceneObject, SceneObjectType } from "../SceneGraph";
 import { User } from "@backend/types/api/Core";
 import { RenderEngine } from "../RenderEngine";
+import { loadFBX } from "./FBXLoad";
 
 export async function setupScene(
   scene: THREE.Scene,
@@ -61,7 +62,7 @@ export async function setupScene(
   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
   const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
 
-  for (let x = 0; x < 100; x++)
+  /*   for (let x = 0; x < 100; x++)
     (() => {
       const box = new THREE.Mesh(boxGeometry, boxMaterial);
       box.position.setY(1);
@@ -77,33 +78,14 @@ export async function setupScene(
           true
         )
       );
+    })(); */
 
-      //renderEngine.editorControls.transformControls.attach(box);
-    })();
+  camera.position.set(0, 1.75, 5);
 
-  /*   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
-  const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
-  const box = new THREE.Mesh(boxGeometry, boxMaterial);
-  box.position.setY(1);
-  engine.scene.add(box); */
+  scene.add(new THREE.AmbientLight(0xffffff));
+  const plight = new THREE.PointLight(0xffffff, 100);
+  plight.position.set(0, 100, 100);
+  scene.add(plight);
 
-  /* const light = new THREE.PointLight(0xffffff, 50);
-  light.position.set(0, 0, 10);
-  engine.scene.add(light); */
-
-  camera.position.set(0, 1.75, 2);
-
-  /*   engine.controls?.registerRaycastCallback((intersectedObject) => {
-    // if (engine.outlinePass && intersectedObject)
-    //  engine.outlinePass.selectedObjects = [intersectedObject]; 
-    if (intersectedObject) {
-     if(intersectedObject instanceof THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>)
-     (intersectedObject as THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>).material.color.set(0xffffff);
-     console.log((intersectedObject as THREE.Mesh<THREE.BoxGeometry,THREE.MeshPhysicalMaterial>).material.color);
-    }
-  }); */
-  //engine.camera.lookAt(0, 0, 0);
-  //engine.camera.rotateX(THREE.MathUtils.degToRad(45));
-  //engine.controls!.update(1);
-  //engine.camera.updateMatrix();
+  loadFBX(scene, sceneGraph, renderEngine);
 }

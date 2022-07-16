@@ -63,7 +63,8 @@ export class RenderEngine {
     this.renderer.physicallyCorrectLights = true;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.0;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.toneMappingExposure = 0.8;
 
     window.addEventListener("resize", this.resize.bind(this)); // on window?
 
