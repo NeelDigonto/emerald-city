@@ -22,6 +22,7 @@ export async function loadFBX(
     sceneGraph.root!.id,
     new SceneObject("Base T Pose 1", model, SceneObjectType.MeshObject, true)
   );
+  //renderEngine.editorControls.transformControls.attach(model);
 
   fbxLoader.load(
     "models/Breakdance 1990.fbx",

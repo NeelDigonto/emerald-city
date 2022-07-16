@@ -125,7 +125,8 @@ export class EditorControls {
         );
 
       if (selectedSceneObject!.isSelectable) {
-        this.transformControls.attach(intersection.object);
+        //this.transformControls.attach(intersection.object);
+        this.transformControls.attach(selectedSceneObject!.renderObject);
 
         if (this.lastSelectedObject) {
           this.sceneGraph.getSceneObjectFromRenderObjectID(
@@ -134,7 +135,8 @@ export class EditorControls {
 
           selectedSceneObject!.isSelected = true;
 
-          this.lastSelectedObject = intersection.object;
+          //this.lastSelectedObject = intersection.object;
+          this.lastSelectedObject = selectedSceneObject!.renderObject;
         }
       }
     });
