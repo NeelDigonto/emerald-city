@@ -1,9 +1,21 @@
 import * as THREE from "three";
+import { SceneGraph } from "./SceneGraph";
 
 export function requestUnThrottledAnimationFrame(
   callback: (timestamp: DOMHighResTimeStamp) => void
 ) {
   callback(window.performance.now());
+}
+
+export function addDeepObjectToSceneGraph(
+  sceneGraph: SceneGraph,
+  parent: THREE.Object3D,
+  object: THREE.Object3D
+) {
+  /*   sceneGraph.add(
+    parent,
+    new SceneObject("Base T Pose 3", model2, SceneObjectType.MeshObject, true)
+  ); */
 }
 
 /* export function removeObject3D(object3D: any) {

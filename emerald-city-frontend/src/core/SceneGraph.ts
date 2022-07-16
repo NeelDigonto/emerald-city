@@ -75,7 +75,10 @@ export class SceneGraph {
     //console.log(this, parentObjectID, object, this.onChangeCallbacks);
     const id = object.id;
     this.objectCache.set(id, object);
-    this.renderObjectToSceneObjectMap.set(object.renderObject.uuid, object);
+    //this.renderObjectToSceneObjectMap.set(object.renderObject.uuid, object);
+    object.renderObject.traverse((child) => {
+      this.renderObjectToSceneObjectMap.set(child.uuid, object);
+    });
     this.getSceneObjectByID(parentObjectID)?.childrens.push(object);
     this.onChangeCallbacks.forEach((callback) => callback());
     return id;
