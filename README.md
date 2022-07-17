@@ -121,6 +121,12 @@
 - [ ] Android (React Native) [Todo]
 - [ ] iOS (React Native) [Todo]
 
+## Ref:
+
+- AOMap --> Red Channel
+- RoughnessMap --> Green Channel
+- MetalnessMap --> Blue Channel
+
 ## LICENCE
 
 GNU Affero General Public License 3.0 (AGPL-3.0-only)

@@ -1,0 +1,68 @@
+[
+  {
+    "type": "albedo",
+    "format": "jpg",
+    "colorSpace": "sRGB",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "ao",
+    "format": "jpg",
+    "colorSpace": "sRGB",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "bump",
+    "format": "jpg",
+    "colorSpace": "Linear",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "cavity",
+    "format": "jpg",
+    "colorSpace": "sRGB",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "displacement",
+    "format": "exr",
+    "colorSpace": "Linear",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "gloss",
+    "format": "jpg",
+    "colorSpace": "Linear",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "normal",
+    "format": "jpg",
+    "colorSpace": "Linear",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "opacity",
+    "format": "jpg",
+    "colorSpace": "Linear",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "roughness",
+    "format": "jpg",
+    "colorSpace": "Linear",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "specular",
+    "format": "jpg",
+    "colorSpace": "sRGB",
+    "physicalSize": "1x1"
+  },
+  {
+    "type": "translucency",
+    "format": "jpg",
+    "colorSpace": "sRGB",
+    "physicalSize": "1x1"
+  }
+]

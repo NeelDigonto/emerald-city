@@ -10,7 +10,7 @@ type MapTypes =
   | "roughness"
   | "metalness"
   /* | "specular" */
-  | "displacement"
+  /* | "displacement" */
   /*   | "opacity" */
   | "ao";
 /* | "refraction" */
@@ -25,7 +25,7 @@ const MapDetail: Record<MapTypes, MapMeta> = {
   normal: { encoding: THREE.LinearEncoding },
   roughness: { encoding: THREE.LinearEncoding },
   metalness: { encoding: THREE.LinearEncoding },
-  displacement: { encoding: THREE.LinearEncoding },
+  /* displacement: { encoding: THREE.LinearEncoding }, */
   /*   opacity: { encoding: THREE.LinearEncoding }, */
   ao: { encoding: THREE.LinearEncoding },
   /* emission: { encoding: THREE.LinearEncoding }, */
@@ -68,13 +68,6 @@ export async function loadTextures(
     "metalness"
   )
     ? await loader.loadAsync(textureSource.metalness!)
-    : null;
-
-  const displacementMap: THREE.Texture | null = hasProperty(
-    textureSource,
-    "displacement"
-  )
-    ? await loader.loadAsync(textureSource.displacement!)
     : null;
 
   const aoMap: THREE.Texture | null = hasProperty(textureSource, "ao")
@@ -125,17 +118,6 @@ export async function loadTextures(
       metalnessMap.repeat.set(repeatX!, repeatY!);
   }
 
-  if (displacementMap) {
-    displacementMap.encoding = THREE.LinearEncoding;
-    displacementMap.wrapS = THREE.RepeatWrapping;
-    displacementMap.wrapT = THREE.RepeatWrapping;
-    if (
-      wrappingMode === THREE.RepeatWrapping ||
-      wrappingMode === THREE.MirroredRepeatWrapping
-    )
-      displacementMap.repeat.set(repeatX!, repeatY!);
-  }
-
   if (aoMap) {
     aoMap.encoding = THREE.LinearEncoding;
     aoMap.wrapS = THREE.RepeatWrapping;
@@ -151,6 +133,5 @@ export async function loadTextures(
   material.normalMap = normalMap;
   material.roughnessMap = roughnessMap;
   material.metalnessMap = metalnessMap;
-  material.displacementMap = displacementMap;
   material.aoMap = aoMap;
 }
