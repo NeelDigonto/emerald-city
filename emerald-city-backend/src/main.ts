@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { getMongoConnection } from './util/db.js';
 import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { func1 } from './util/image-proc.js';
+/* dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -17,3 +17,5 @@ app.post('/get-presigned-post-urls', (req, res) => {
 app.listen(5000, () => {
   console.log('Listening on port 5000');
 });
+ */
+func1();

@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 
-async function func1() {
-  const img = sharp('assets/normal.jpg');
+export async function func1() {
+  const img = sharp('assets/albedo.jpg');
   const metadata = await img.metadata();
   console.log(metadata);
   const processedImg = img
@@ -9,7 +9,7 @@ async function func1() {
     .resize(1024)
     .jpeg({ quality: 100 });
   console.log(await processedImg.toBuffer().then((buffer) => buffer));
-  processedImg.toFile('assets/__normal.jpg');
+  processedImg.toFile('assets/__albedo.jpg');
 }
 
 async function func2() {
