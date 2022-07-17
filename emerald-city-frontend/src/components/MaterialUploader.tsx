@@ -16,32 +16,102 @@ import {
   Typography,
   Container,
   Grid,
+  Stack,
+  IconButton,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
+import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import React from "react";
+
+import { FormikProps, useFormik } from "formik";
+import Home from "@mui/icons-material/Home";
+import styled from "@emotion/styled";
+import { textureMaps } from "@src/types/Core";
 
 // ability to choose between
 // rgb ao_rough_metal map
 // albedo * ao map pre multiply
 
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  object-fit: cover;
+`;
+
 const UploadArea = ({ mapName }: { mapName: string }) => {
+  const inputFileRef = React.useRef<HTMLInputElement>(null);
+  const imgRef = React.useRef<HTMLImageElement>(null);
+  //const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
+
   return (
-    <Grid item md={4} component={Paper}>
-      <Paper elevation={12} sx={{ mx: "1rem" }}>
-        <Box sx={{ height: "10rem", width: "10rem" }}></Box>
-      </Paper>
-      <Typography
-        sx={{ mt: "0.5rem", mx: "1rem" }}
-        color="primary"
-        gutterBottom
+    <Paper sx={{ mr: "1rem", my: "1rem" }}>
+      {/* <Container maxWidth="xl" sx={{ p: 0, m: 0 }}> */}
+      <Paper
+        elevation={12}
+        sx={{ mx: "1rem", width: "12rem", height: "12rem" }}
       >
-        {mapName}
-      </Typography>
-    </Grid>
+        <Box sx={{ width: "100%", height: "100%", padding: "auto" }}>
+          <Image
+            ref={imgRef}
+            src=""
+            //onError={(ev) => (ev.currentTarget.style.display = "none")}
+            //onChange={(ev) => (ev.currentTarget.style.display = "inline")}
+            onClick={() => {
+              inputFileRef.current!.click();
+            }}
+          />
+        </Box>
+      </Paper>
+      <Button
+        variant="text"
+        fullWidth
+        endIcon={<AddPhotoAlternateRoundedIcon />}
+        onClick={() => {
+          inputFileRef.current!.click();
+        }}
+      >
+        <input
+          type="file"
+          ref={inputFileRef}
+          name="myImage"
+          hidden
+          accept="image/jpeg"
+          onChange={(event) => {
+            if (event.currentTarget.files) {
+              imgRef.current!.src = URL.createObjectURL(
+                event.currentTarget.files[0]
+              );
+            }
+          }}
+        />
+        <Typography sx={{ mt: "0.5rem", mx: "1rem" }} color="primary">
+          {mapName}
+        </Typography>
+      </Button>
+      {/* </Container> */}
+    </Paper>
   );
 };
 
+export interface MaterialUploadParams {
+  albedo: boolean;
+  normal: boolean;
+  ao: boolean;
+  metalness: boolean;
+  roughness: boolean;
+}
+
 const MaterialUploader = () => {
   const [open, setOpen] = React.useState(true);
+
+  const formik: FormikProps<MaterialUploadParams> = useFormik({
+    initialValues: {} as MaterialUploadParams,
+    validateOnChange: false,
+    onSubmit: (values_) => {},
+  });
 
   return (
     <Dialog
@@ -51,22 +121,33 @@ const MaterialUploader = () => {
       onClose={() => setOpen(false)}
     >
       <Paper>
-        <Container>
-          <DialogTitle>Upload Texture</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Select your Texture Files.</DialogContentText>
-            <Grid container maxWidth="xl" rowGap={5} mt="1rem">
-              <UploadArea mapName="Albedo Map" />
-              <UploadArea mapName="Normal Map" />
-              <UploadArea mapName="Roughness Map" />
-              <UploadArea mapName="Metalness Map" />
-              <UploadArea mapName="Ambient Occlusion Map" />
-            </Grid>
-          </DialogContent>
-        </Container>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Close</Button>
-        </DialogActions>
+        <form onSubmit={formik.handleSubmit}>
+          <Container>
+            <DialogTitle color="secondary">Upload Textures</DialogTitle>
+            <DialogContent>
+              <DialogContentText>Select your Texture Files.</DialogContentText>
+              <Container>
+                <Stack direction="row" maxWidth="xl" mt="1rem" flexWrap="wrap">
+                  {Object.entries(textureMaps).map((textureMap, index) => (
+                    <UploadArea key={index} mapName={textureMap[1].shortName} />
+                  ))}
+                  {/* <UploadArea mapName="Albedo Map" />
+                  <UploadArea mapName="Normal Map" />
+                  <UploadArea mapName="Roughness Map" />
+                  <UploadArea mapName="Metalness Map" />
+                  <UploadArea mapName="Ambient Occlusion Map" />
+                  <UploadArea mapName="OMR Map" /> */}
+                </Stack>
+              </Container>
+            </DialogContent>
+          </Container>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)}>Close</Button>
+            <Button type="submit" onClick={formik.submitForm}>
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
       </Paper>
     </Dialog>
   );

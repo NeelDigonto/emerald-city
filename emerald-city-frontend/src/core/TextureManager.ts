@@ -1,37 +1,10 @@
+import { TextureSource, MapTypes } from "@src/types/Core";
 import * as THREE from "three";
 import {
   MeshBasicMaterial,
   MeshPhysicalMaterial,
   MeshStandardMaterial,
 } from "three";
-type MapTypes =
-  | "albedo"
-  | "normal"
-  | "roughness"
-  | "metalness"
-  /* | "specular" */
-  /* | "displacement" */
-  /*   | "opacity" */
-  | "ao";
-/* | "refraction" */
-/*   | "emission"; */
-
-interface MapMeta {
-  encoding: THREE.TextureEncoding;
-}
-
-const MapDetail: Record<MapTypes, MapMeta> = {
-  albedo: { encoding: THREE.sRGBEncoding },
-  normal: { encoding: THREE.LinearEncoding },
-  roughness: { encoding: THREE.LinearEncoding },
-  metalness: { encoding: THREE.LinearEncoding },
-  /* displacement: { encoding: THREE.LinearEncoding }, */
-  /*   opacity: { encoding: THREE.LinearEncoding }, */
-  ao: { encoding: THREE.LinearEncoding },
-  /* emission: { encoding: THREE.LinearEncoding }, */
-};
-
-type TextureSource = Partial<Record<MapTypes, string>>;
 
 function hasProperty(
   textureSource: TextureSource,
