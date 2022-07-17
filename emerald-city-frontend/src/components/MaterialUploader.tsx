@@ -110,7 +110,18 @@ const MaterialUploader = () => {
   const formik: FormikProps<MaterialUploadParams> = useFormik({
     initialValues: {} as MaterialUploadParams,
     validateOnChange: false,
-    onSubmit: (values_) => {},
+    onSubmit: (values_, { setSubmitting }) => {
+      fetch("http://localhost:5000/get-presigned-post-urls", {
+        method: "POST",
+        body: JSON.stringify({ laura: "sayantoni" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => console.log(result))
+        .then((_) => setSubmitting(false));
+    },
   });
 
   return (
@@ -131,19 +142,17 @@ const MaterialUploader = () => {
                   {Object.entries(textureMaps).map((textureMap, index) => (
                     <UploadArea key={index} mapName={textureMap[1].shortName} />
                   ))}
-                  {/* <UploadArea mapName="Albedo Map" />
-                  <UploadArea mapName="Normal Map" />
-                  <UploadArea mapName="Roughness Map" />
-                  <UploadArea mapName="Metalness Map" />
-                  <UploadArea mapName="Ambient Occlusion Map" />
-                  <UploadArea mapName="OMR Map" /> */}
                 </Stack>
               </Container>
             </DialogContent>
           </Container>
           <DialogActions>
             <Button onClick={() => setOpen(false)}>Close</Button>
-            <Button type="submit" onClick={formik.submitForm}>
+            <Button
+              type="submit"
+              onClick={formik.submitForm}
+              disabled={formik.isSubmitting}
+            >
               Submit
             </Button>
           </DialogActions>
