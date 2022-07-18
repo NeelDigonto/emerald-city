@@ -44,3 +44,51 @@ export const textureMaps: Record<MapTypes, MapMeta> = {
 };
 
 export type TextureSource = Partial<Record<MapTypes, string>>;
+
+export interface Animation {
+  uuid: string;
+  blendMode: number;
+  duration: number;
+  name: string;
+  tracks: number;
+}
+
+export interface LOD {
+  uuid: string;
+  level: number;
+  geometry: FileRef;
+}
+
+export interface Model {
+  name: string;
+  lods: LOD[];
+  animation?: Animation[];
+}
+
+export interface FileRef {
+  fname: string;
+  fuuid: string;
+  flink: string;
+  ftlik: string;
+}
+
+export enum MaterialType {
+  Basic,
+  Standard,
+  Physical,
+}
+
+export type TexturePack = Partial<Record<MapTypes, FileRef>>;
+
+export interface Material {
+  uuid: string;
+  name: string;
+  materialType: MaterialType;
+  baseColor: number;
+  texturePackID: string;
+}
+
+export interface Mesh {
+  model: Model;
+  material: Material;
+}
