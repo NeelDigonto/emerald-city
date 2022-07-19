@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@core/*": ["src/core/*"],
+      "@lib/*": ["src/lib/*"],
+      "@backend/types/api/*": ["../emerald-city-backend/src/types/api/*"]
+    }
+  }
+}

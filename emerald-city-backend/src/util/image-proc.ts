@@ -1,15 +1,19 @@
 import sharp from 'sharp';
 
 export async function func1() {
-  const img = sharp('assets/albedo.jpg');
-  const metadata = await img.metadata();
-  console.log(metadata);
+  const img = sharp('assets/normal.jpg');
+
   const processedImg = img
     //.toColourspace('srgb')
     .resize(1024)
-    .jpeg({ quality: 100 });
+    .pipelineColorspace('linear')
+    .toColorspace('linear')
+    .jpeg({ quality: 10 });
   console.log(await processedImg.toBuffer().then((buffer) => buffer));
-  processedImg.toFile('assets/__albedo.jpg');
+  await processedImg.toFile('assets/__normal.jpg');
+
+  const metadata = await sharp('assets/__normal.jpg').metadata();
+  console.log(metadata);
 }
 
 async function func2() {

@@ -4,23 +4,14 @@ import {
   DialogContent,
   DialogContentText,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControlLabel,
-  Switch,
   DialogActions,
   Button,
   Paper,
   Typography,
   Container,
-  Grid,
   Stack,
-  IconButton,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
+  TextField,
+  Divider,
 } from "@mui/material";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import React from "react";
@@ -28,11 +19,8 @@ import React from "react";
 import { FormikProps, useFormik } from "formik";
 import Home from "@mui/icons-material/Home";
 import styled from "@emotion/styled";
-import { textureMaps } from "@src/types/Core";
-
-// ability to choose between
-// rgb ao_rough_metal map
-// albedo * ao map pre multiply
+import { MapTypes, textureMaps } from "@src/types/Core";
+import { TextureUploadParams } from "@backend/types/api/Core";
 
 const Image = styled.img`
   width: 100%;
@@ -41,14 +29,22 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const UploadArea = ({ mapName }: { mapName: string }) => {
-  const inputFileRef = React.useRef<HTMLInputElement>(null);
+const UploadArea = ({
+  formik,
+  mapName,
+  mapTag,
+  fileRef,
+}: {
+  formik: FormikProps<TextureUploadParams>;
+  mapName: string;
+  mapTag: MapTypes;
+  fileRef: React.RefObject<HTMLInputElement>;
+}) => {
   const imgRef = React.useRef<HTMLImageElement>(null);
   //const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
 
   return (
     <Paper sx={{ mr: "1rem", my: "1rem" }}>
-      {/* <Container maxWidth="xl" sx={{ p: 0, m: 0 }}> */}
       <Paper
         elevation={12}
         sx={{ mx: "1rem", width: "12rem", height: "12rem" }}
@@ -60,7 +56,7 @@ const UploadArea = ({ mapName }: { mapName: string }) => {
             //onError={(ev) => (ev.currentTarget.style.display = "none")}
             //onChange={(ev) => (ev.currentTarget.style.display = "inline")}
             onClick={() => {
-              inputFileRef.current!.click();
+              fileRef.current!.click();
             }}
           />
         </Box>
@@ -70,12 +66,12 @@ const UploadArea = ({ mapName }: { mapName: string }) => {
         fullWidth
         endIcon={<AddPhotoAlternateRoundedIcon />}
         onClick={() => {
-          inputFileRef.current!.click();
+          fileRef.current!.click();
         }}
       >
         <input
           type="file"
-          ref={inputFileRef}
+          ref={fileRef}
           name="myImage"
           hidden
           accept="image/jpeg"
@@ -84,6 +80,8 @@ const UploadArea = ({ mapName }: { mapName: string }) => {
               imgRef.current!.src = URL.createObjectURL(
                 event.currentTarget.files[0]
               );
+
+              formik.setFieldValue(mapTag, true);
             }
           }}
         />
@@ -91,36 +89,101 @@ const UploadArea = ({ mapName }: { mapName: string }) => {
           {mapName}
         </Typography>
       </Button>
-      {/* </Container> */}
     </Paper>
   );
 };
 
-export interface MaterialUploadParams {
-  albedo: boolean;
-  normal: boolean;
-  ao: boolean;
-  metalness: boolean;
-  roughness: boolean;
-}
+const uploadFile = async (url: string, fields: any, file: File) => {
+  const formData = new FormData();
+
+  console.log(fields);
+
+  Object.entries(fields).forEach(([key, value]) => {
+    formData.append(key, value as any);
+  });
+
+  formData.append("file", file);
+
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.send(formData);
+    xhr.onload = function (e) {
+      if (xhr.readyState === 4) resolve();
+    };
+
+    //resolve();
+  });
+};
 
 const MaterialUploader = () => {
   const [open, setOpen] = React.useState(true);
 
-  const formik: FormikProps<MaterialUploadParams> = useFormik({
-    initialValues: {} as MaterialUploadParams,
+  const albedoFileRef = React.useRef<HTMLInputElement>(null);
+  const normalFileRef = React.useRef<HTMLInputElement>(null);
+  const roughnessFileRef = React.useRef<HTMLInputElement>(null);
+  const metalnessFileRef = React.useRef<HTMLInputElement>(null);
+  const aoFileRef = React.useRef<HTMLInputElement>(null);
+
+  const initialState: TextureUploadParams = {
+    texturePackName: "",
+    albedo: false,
+    ao: false,
+    metalness: false,
+    normal: false,
+    roughness: false,
+  };
+
+  const formik: FormikProps<TextureUploadParams> = useFormik({
+    initialValues: initialState,
     validateOnChange: false,
-    onSubmit: (values_, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
+      setSubmitting(true);
+      console.log(values);
       fetch("http://localhost:5000/get-presigned-post-urls", {
         method: "POST",
-        body: JSON.stringify({ laura: "sayantoni" }),
+        body: JSON.stringify(values),
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then((response) => response.json())
-        .then((result) => console.log(result))
-        .then((_) => setSubmitting(false));
+        .then(async (result) => {
+          if (values.albedo)
+            await uploadFile(
+              result["albedo"].url,
+              result["albedo"].fields,
+              albedoFileRef.current!.files![0]
+            );
+          if (values.normal)
+            await uploadFile(
+              result["normal"].url,
+              result["normal"].fields,
+              normalFileRef.current!.files![0]
+            );
+          if (values.roughness)
+            await uploadFile(
+              result["roughness"].url,
+              result["roughness"].fields,
+              roughnessFileRef.current!.files![0]
+            );
+          if (values.metalness)
+            await uploadFile(
+              result["metalness"].url,
+              result["metalness"].fields,
+              metalnessFileRef.current!.files![0]
+            );
+          if (values.ao)
+            await uploadFile(
+              result["ao"].url,
+              result["ao"].fields,
+              aoFileRef.current!.files![0]
+            );
+        })
+        .then(() => {})
+        .then((_) => {
+          setSubmitting(false);
+        });
     },
   });
 
@@ -139,20 +202,51 @@ const MaterialUploader = () => {
               <DialogContentText>Select your Texture Files.</DialogContentText>
               <Container>
                 <Stack direction="row" maxWidth="xl" mt="1rem" flexWrap="wrap">
-                  {Object.entries(textureMaps).map((textureMap, index) => (
-                    <UploadArea key={index} mapName={textureMap[1].shortName} />
-                  ))}
+                  <UploadArea
+                    formik={formik}
+                    mapName={"Albdedo"}
+                    mapTag={textureMaps["albedo"].tag}
+                    fileRef={albedoFileRef}
+                  />
+                  <UploadArea
+                    formik={formik}
+                    mapName={"Normal"}
+                    mapTag={textureMaps["normal"].tag}
+                    fileRef={normalFileRef}
+                  />
+                  <UploadArea
+                    formik={formik}
+                    mapName={"Roughness"}
+                    mapTag={textureMaps["roughness"].tag}
+                    fileRef={roughnessFileRef}
+                  />
+                  <UploadArea
+                    formik={formik}
+                    mapName={"Metalness"}
+                    mapTag={textureMaps["metalness"].tag}
+                    fileRef={metalnessFileRef}
+                  />
+                  <UploadArea
+                    formik={formik}
+                    mapName={"Ambient occlusion"}
+                    mapTag={textureMaps["ao"].tag}
+                    fileRef={aoFileRef}
+                  />
                 </Stack>
+                <Divider />
+                <TextField
+                  sx={{ mt: "1rem" }}
+                  label="Texture Pack Name"
+                  name="texturePackName"
+                  onChange={formik.handleChange}
+                  value={formik.values.texturePackName}
+                />
               </Container>
             </DialogContent>
           </Container>
           <DialogActions>
             <Button onClick={() => setOpen(false)}>Close</Button>
-            <Button
-              type="submit"
-              onClick={formik.submitForm}
-              disabled={formik.isSubmitting}
-            >
+            <Button type="submit" disabled={formik.isSubmitting}>
               Submit
             </Button>
           </DialogActions>

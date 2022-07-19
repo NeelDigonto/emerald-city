@@ -1,21 +1,32 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import { getMongoConnection } from './util/db.js';
-import * as dotenv from 'dotenv';
 import { func1 } from './util/image-proc.js';
-/* dotenv.config();
+import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
+import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+
+import fs from 'fs';
+import {
+  TextureUploadedParams,
+  TextureUploadParams,
+} from './types/api/Core.js';
+import { GetPresignedPostUrls } from './texture-pack/get-presigned-post-urls.js';
+import { RequestImageProc } from './texture-pack/request-img-proc.js';
 
 const app = express();
 app.use(cors());
 
-console.log(process.env.S3_BUCKET);
+app.post(
+  '/texture-pack/get-presigned-post-urls',
+  express.json(),
+  GetPresignedPostUrls,
+);
 
-app.post('/get-presigned-post-urls', (req, res) => {
-  res.send({ wow: 'meow' });
-});
+app.post('/texture-pack/request-img-proc', express.json(), RequestImageProc);
 
 app.listen(5000, () => {
   console.log('Listening on port 5000');
 });
- */
-func1();

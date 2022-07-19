@@ -14,26 +14,45 @@ export type MapTypes =
 
 export interface MapMeta {
   space: "sRGB" | "linear";
+  tag: MapTypes;
   name: string;
   shortName: string;
 }
 
 export const textureMaps: Record<MapTypes, MapMeta> = {
-  albedo: { space: "sRGB", name: "Albedo", shortName: "Albedo" },
-  normal: { space: "linear", name: "Normal", shortName: "Normal" },
-  roughness: { space: "linear", name: "Roughness", shortName: "Roughness" },
-  metalness: { space: "linear", name: "Metalness", shortName: "Metalness" },
+  albedo: { tag: "albedo", space: "sRGB", name: "Albedo", shortName: "Albedo" },
+  normal: {
+    tag: "normal",
+    space: "linear",
+    name: "Normal",
+    shortName: "Normal",
+  },
+  roughness: {
+    tag: "roughness",
+    space: "linear",
+    name: "Roughness",
+    shortName: "Roughness",
+  },
+  metalness: {
+    tag: "metalness",
+    space: "linear",
+    name: "Metalness",
+    shortName: "Metalness",
+  },
   ao: {
+    tag: "ao",
     space: "linear",
     name: "Ambient Occlusion",
     shortName: "Ambient Occlusion",
   },
   orm: {
+    tag: "orm",
     space: "linear",
     name: "Occlusion-Roughness-Metalness",
     shortName: "ORM",
   },
   pmaaao: {
+    tag: "pmaaao",
     space: "linear",
     name: "Pre-multiplied Albedo and Ambient Occlusion",
     shortName: "PMAAAO",
