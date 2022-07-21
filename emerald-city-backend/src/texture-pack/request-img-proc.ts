@@ -47,9 +47,6 @@ export async function RequestImageProc(req, res) {
     textureUploadedParams.metalness === '';
 
   if (hasAlbedo) {
-    const command = new GetObjectCommand({});
-    const albedoBuffer = await client.send(command);
-    const albedoBuffer ;
     compressTexture(albedoFile, albedoCompressedFile, 70);
   }
   if (hasNormal) compressTexture(normalFile, normalCompressedFile, 90);
