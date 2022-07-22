@@ -53,21 +53,6 @@ const BasicShapes = () => {
     <Stack direction="column">
       <Paper elevation={0}>
         <FireNav component="nav" disablePadding>
-          <ListItemButton /* component="a" href="/" */>
-            <ListItemIcon sx={{ fontSize: 20 }}>
-              <LocationCityRoundedIcon color="secondary" />
-            </ListItemIcon>
-            <ListItemText
-              sx={{ my: 0 }}
-              primary="Emerald City"
-              primaryTypographyProps={{
-                fontSize: 20,
-                fontWeight: "medium",
-                letterSpacing: 0,
-              }}
-            />
-          </ListItemButton>
-          <Divider />
           <ListItem component="div" disablePadding>
             <ListItemButton sx={{ height: 56 }}>
               <ListItemIcon>

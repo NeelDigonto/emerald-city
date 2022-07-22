@@ -63,10 +63,25 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
+      <ListItemButton /* component="a" href="/" */>
+        <ListItemIcon sx={{ fontSize: 20 }}>
+          <LocationCityRoundedIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText
+          sx={{ my: 0 }}
+          primary="Emerald City"
+          primaryTypographyProps={{
+            fontSize: 20,
+            fontWeight: "medium",
+            letterSpacing: 0,
+          }}
+        />
+      </ListItemButton>
+      <Divider />
+      <WorldOutliner />
       <BasicShapes />
       {/* <MaterialExplorer name="sayantan" /> */}
       <MaterialUploader />
-      <WorldOutliner />
     </SidebarContainer>
   );
 };

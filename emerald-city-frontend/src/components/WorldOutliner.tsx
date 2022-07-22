@@ -202,7 +202,7 @@ export default React.memo(function WorldOutliner() {
   }, [engine.renderEngine]);
 
   return (
-    <>
+    <Box maxHeight="20rem" overflow="auto">
       <Divider />
       <ListItem component="div" disablePadding>
         <ListItemButton sx={{ height: 56 }}>
@@ -274,7 +274,7 @@ export default React.memo(function WorldOutliner() {
       )}
       <Box py="2rem" />
       <Divider />
-    </>
+    </Box>
   );
 });
 
