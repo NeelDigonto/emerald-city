@@ -49,13 +49,13 @@ const FireNav = styled(List)<{ component?: React.ElementType }>({
 });
 
 const SidebarContainer = styled.nav`
-  width: 100%;
+  width: 22rem;
   height: 100%;
   grid-area: sidebar;
 
   overflow: auto;
 
-  border-left: green 1px solid;
+  //border-left: green 1px solid;
 `;
 
 const Sidebar = () => {

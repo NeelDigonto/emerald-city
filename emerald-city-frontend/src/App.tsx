@@ -12,9 +12,23 @@ const RootContainer = styled.div`
   height: 100%;
   display: grid;
 
-  grid-template-columns: 1fr 18rem;
+  grid-template-columns: 1fr max-content max-content;
   grid-template-rows: 2.5rem 1fr;
-  grid-template-areas: "toolbar toolbar" "canvas sidebar";
+  grid-template-areas: "toolbar toolbar toolbar" "canvas dragger sidebar";
+`;
+
+const DragArea = styled.div`
+  grid-area: dragger;
+  background-color: darkgreen;
+  height: 100%;
+  min-width: 1px;
+
+  :hover & {
+    cursor: col-resize;
+    width: 2rem;
+    color: red;
+    overflow: auto;
+  }
 `;
 
 const CanvasContainer = styled.div`
@@ -76,6 +90,7 @@ function App() {
         <PerformanceMonitor />
         <Canvas tabIndex={1} ref={canvasRef} />
       </CanvasContainer>
+      <DragArea />
       <Sidebar />
     </RootContainer>
   );

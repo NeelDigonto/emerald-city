@@ -117,7 +117,7 @@ const uploadFile = async (url: string, fields: any, file: File) => {
 };
 
 const MaterialUploader = () => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const albedoFileRef = React.useRef<HTMLInputElement>(null);
   const normalFileRef = React.useRef<HTMLInputElement>(null);
