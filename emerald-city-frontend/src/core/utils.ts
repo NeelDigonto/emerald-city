@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { Object3D } from "three";
 import { SceneGraph } from "./SceneGraph";
 
 export function requestUnThrottledAnimationFrame(
@@ -37,3 +38,12 @@ export function addDeepObjectToSceneGraph(
   return true;
 }
  */
+
+export function deepTraverse(
+  object: Object3D<THREE.Event>,
+  callback: (object: Object3D) => void
+) {
+  if (object.children.length === 0) callback(object);
+
+  object.children.forEach((_object) => deepTraverse(_object, callback));
+}
