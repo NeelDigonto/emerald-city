@@ -1,16 +1,10 @@
+import { Readable } from 'form-data';
 import sharp from 'sharp';
+import { s3 } from '../util/aws-wrapper.js';
+import { stream2buffer } from './core.js';
 
-export const compressTexture = async (
-  ifile: string,
-  ofile: string,
-  quality: number,
-) => {
-  return sharp(
-    await sharp(ifile)
-      .pipelineColourspace('srgb')
-      .toColourspace('srgb')
-      .toBuffer(),
-  )
+export const compressTexture = async (ifile: Buffer, quality: number) => {
+  return sharp(ifile)
     .pipelineColourspace('srgb')
     .toColourspace('srgb')
     .resize(1024)
@@ -25,14 +19,10 @@ export const compressTexture = async (
       optimiseScans: true,
       force: true,
     })
-    .toFile(ofile);
+    .toBuffer();
 };
 
-export const multiplyTexture = async (
-  albedo: string,
-  ao: string,
-  pmaaao: string,
-) => {
+export const multiplyTexture = async (albedo: Buffer, ao: Buffer) => {
   return sharp(albedo)
     .pipelineColorspace('linear')
     .composite([
@@ -55,5 +45,5 @@ export const multiplyTexture = async (
       overshootDeringing: true,
       optimiseScans: true,
     })
-    .toFile(pmaaao);
+    .toBuffer();
 };

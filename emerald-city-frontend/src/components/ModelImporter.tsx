@@ -4,7 +4,7 @@ import FireNav from "./layout/FireNav";
 import SidebarListTitle from "./layout/SidebarListTitle";
 
 const ModelImporter = () => {
-  console.log("F");return (
+  return (
     <Box maxHeight="20rem" overflow="auto">
       <Divider />
       <SidebarListTitle label="Model Importer" />

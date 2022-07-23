@@ -1,61 +1,88 @@
-import { S3ClientConfig, S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
+import { Readable } from 'stream';
+import { compressorUtil, stream2buffer } from '../lib/core.js';
 import { compressTexture, multiplyTexture } from '../lib/img-proc.js';
-import {
-  TextureUploadedParams,
-  TextureUploadParams,
-} from '../types/api/Core.js';
+import { api } from '../types/api/Core.js';
+import { s3 } from '../util/aws-wrapper.js';
 
 export async function RequestImageProc(req, res) {
-  const textureUploadedParams: TextureUploadedParams =
-    req.body as TextureUploadedParams;
+  const requestImageProc: api.RequestImageProc =
+    req.body as api.RequestImageProc;
 
-  const bucketName: string = 'emerald-city';
-  const s3ClientConfig: S3ClientConfig = { region: 'ap-south-1' };
-  const s3Client = new S3Client(s3ClientConfig);
-  const Fields = {
-    acl: 'public-read',
-  };
+  const bucket: string = 'emerald-city';
+  const region: string = 'ap-south-1';
 
-  const albedoFile: string = 'assets/albedo.jpg';
-  const aoFile: string = 'assets/ao.jpg';
-  const normalFile: string = 'assets/normal.jpg';
-  const roughnessFile: string = 'assets/roughness.jpg';
-  const metalnessFile: string = 'assets/metalness.jpg';
-  const pmaaaoFile: string = 'assets/pmaaao.jpg';
+  const hasAlbedo: boolean = requestImageProc.albedo;
+  const hasAO: boolean = requestImageProc.ao;
+  const hasNormal: boolean = requestImageProc.normal;
+  const hasRoughness: boolean = requestImageProc.roughness;
+  const hasMetalness: boolean = requestImageProc.metalness;
 
-  const albedoCompressedFile: string = 'assets/albedo_compressed.jpg';
-  const aoCompressedFile: string = 'assets/ao_compressed.jpg';
-  const normalCompressedFile: string = 'assets/normal_compressed.jpg';
-  const roughnessCompressedFile: string = 'assets/roughness_compressed.jpg';
-  const metalnessCompressedFile: string = 'assets/metalness_compressed.jpg';
-  const pmaaoCompressedFile: string = 'assets/pmaaao_compressed.jpg';
+  let albedoFile: Buffer | null = null;
+  let aoFile: Buffer | null = null;
 
-  const hasAlbedo: boolean =
-    textureUploadedParams.albedo !== undefined ||
-    textureUploadedParams.albedo === '';
-  const hasAO: boolean =
-    textureUploadedParams.ao !== undefined || textureUploadedParams.ao === '';
-  const hasNormal: boolean =
-    textureUploadedParams.normal !== undefined ||
-    textureUploadedParams.normal === '';
-  const hasRoughness: boolean =
-    textureUploadedParams.roughness !== undefined ||
-    textureUploadedParams.roughness === '';
-  const hasMetalness: boolean =
-    textureUploadedParams.metalness !== undefined ||
-    textureUploadedParams.metalness === '';
-
-  if (hasAlbedo) {
-    compressTexture(albedoFile, albedoCompressedFile, 70);
-  }
-  if (hasNormal) compressTexture(normalFile, normalCompressedFile, 90);
-  if (hasRoughness) compressTexture(roughnessFile, roughnessCompressedFile, 60);
-  if (hasMetalness) compressTexture(metalnessFile, metalnessCompressedFile, 60);
-  if (hasAO) compressTexture(aoFile, aoCompressedFile, 60);
-  if (hasAlbedo && hasAO) {
-    multiplyTexture(albedoFile, aoFile, pmaaaoFile).then(() =>
-      compressTexture(pmaaaoFile, pmaaoCompressedFile, 70),
+  if (hasAlbedo)
+    albedoFile = await compressorUtil(
+      requestImageProc.texturePackName,
+      'albedo',
+      70,
+      bucket,
+      region,
     );
+
+  if (hasAO)
+    aoFile = await compressorUtil(
+      requestImageProc.texturePackName,
+      'ao',
+      60,
+      bucket,
+      region,
+    );
+
+  if (hasNormal)
+    await compressorUtil(
+      requestImageProc.texturePackName,
+      'normal',
+      90,
+      bucket,
+      region,
+    );
+  if (hasRoughness)
+    await compressorUtil(
+      requestImageProc.texturePackName,
+      'roughness',
+      60,
+      bucket,
+      region,
+    );
+  if (hasMetalness)
+    await compressorUtil(
+      requestImageProc.texturePackName,
+      'metalness',
+      60,
+      bucket,
+      region,
+    );
+
+  if (hasAlbedo && hasAO) {
+    console.log(albedoFile, aoFile);
+    await multiplyTexture(albedoFile, aoFile).then(async (pmaaaoFile) => {
+      s3.putObject(
+        bucket,
+        region,
+        `textures/${requestImageProc.texturePackName}/pmaaao.jpg`,
+        pmaaaoFile,
+      );
+
+      const fileCompressed = await compressTexture(pmaaaoFile, 70);
+
+      await s3.putObject(
+        bucket,
+        region,
+        `textures/${requestImageProc.texturePackName}/pmaaao_compressed.jpg`,
+        fileCompressed,
+      );
+    });
   }
+
+  res.end();
 }

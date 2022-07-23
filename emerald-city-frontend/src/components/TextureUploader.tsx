@@ -20,7 +20,7 @@ import { FormikProps, useFormik } from "formik";
 import Home from "@mui/icons-material/Home";
 import styled from "@emotion/styled";
 import { MapTypes, textureMaps } from "@src/types/Core";
-import { TextureUploadParams } from "@backend/types/api/Core";
+import { api } from "@backend/types/api/Core";
 
 const Image = styled.img`
   width: 100%;
@@ -35,7 +35,7 @@ const UploadArea = ({
   mapTag,
   fileRef,
 }: {
-  formik: FormikProps<TextureUploadParams>;
+  formik: FormikProps<api.RequestImageProc>;
   mapName: string;
   mapTag: MapTypes;
   fileRef: React.RefObject<HTMLInputElement>;
@@ -125,7 +125,7 @@ const TextureUploader = () => {
   const metalnessFileRef = React.useRef<HTMLInputElement>(null);
   const aoFileRef = React.useRef<HTMLInputElement>(null);
 
-  const initialState: TextureUploadParams = {
+  const initialState: api.RequestImageProc = {
     texturePackName: "",
     albedo: false,
     ao: false,
@@ -134,7 +134,7 @@ const TextureUploader = () => {
     roughness: false,
   };
 
-  const formik: FormikProps<TextureUploadParams> = useFormik({
+  const formik: FormikProps<api.RequestImageProc> = useFormik({
     initialValues: initialState,
     validateOnChange: false,
     onSubmit: async (values, { setSubmitting }) => {
@@ -226,6 +226,14 @@ const TextureUploader = () => {
             uploadFile(url, fields, metalnessFileRef.current!.files![0])
           );
       }
+
+      await fetch("http://localhost:5000/texture-pack/request-img-proc", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       setSubmitting(false);
     },

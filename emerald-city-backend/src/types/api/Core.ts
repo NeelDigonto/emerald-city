@@ -1,31 +1,42 @@
-export interface User {
-  name: string;
+export namespace api {
+  export interface FileRef {
+    key: string;
+    byteLength: number;
+  }
+
+  export interface RequestImageProc {
+    texturePackName: string;
+    albedo: boolean;
+    normal: boolean;
+    ao: boolean;
+    metalness: boolean;
+    roughness: boolean;
+  }
+
+  export interface GetPresignedPostUrls {
+    bucket: string;
+    key: string;
+  }
+
+  export type TexturePack = db.TexturePack;
 }
 
-export interface TextureUploadDetail {
-  fname: string;
-  flength: number;
-}
+export namespace db {
+  export interface TexturePack {
+    id: string;
+    texturePackName: api.FileRef;
+    albedo?: api.FileRef;
+    normal?: api.FileRef;
+    ao?: api.FileRef;
+    metalness?: api.FileRef;
+    roughness?: api.FileRef;
+    pmmao?: api.FileRef;
 
-export interface TextureUploadParams {
-  texturePackName: string;
-  albedo: boolean;
-  normal: boolean;
-  ao: boolean;
-  metalness: boolean;
-  roughness: boolean;
-}
-
-export interface TextureUploadedParams {
-  texturePackName: string;
-  albedo?: string;
-  normal?: string;
-  ao?: string;
-  metalness?: string;
-  roughness?: string;
-}
-
-export interface GetPresignedPostUrls {
-  bucket: string;
-  key: string;
+    albedoCompressed?: api.FileRef;
+    normalCompressed?: api.FileRef;
+    aoCompressed?: api.FileRef;
+    metalnessCompressed?: api.FileRef;
+    roughnessCompressed?: api.FileRef;
+    pmmaoCompressed?: api.FileRef;
+  }
 }

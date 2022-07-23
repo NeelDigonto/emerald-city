@@ -1,10 +1,10 @@
-import { TextureUploadParams } from "@backend/types/api/Core";
 import styled from "@emotion/styled";
 import { Paper, Box, Button, Typography } from "@mui/material";
 import { MapTypes } from "@src/types/Core";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import { FormikProps } from "formik";
 import React from "react";
+import { api } from "@backend/types/api/Core";
 
 const Image = styled.img`
   width: 100%;
@@ -19,7 +19,7 @@ const UploadArea = ({
   mapTag,
   fileRef,
 }: {
-  formik: FormikProps<TextureUploadParams>;
+  formik: FormikProps<api.RequestImageProc>;
   mapName: string;
   mapTag: MapTypes;
   fileRef: React.RefObject<HTMLInputElement>;

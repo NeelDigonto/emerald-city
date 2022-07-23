@@ -1,9 +1,9 @@
 import { MongoClient } from 'mongodb';
 
-const uri = `mongodb+srv://notfathomless:TheViper46@cluster0.bavoa.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_USER_PASSWORD}@cluster0.bavoa.mongodb.net/?retryWrites=true&w=majority`;
 
 export async function getMongoClient() {
-  const client = new MongoClient(uri, { authMechanismProperties: {} });
+  const client = new MongoClient(uri, {});
 
   return client;
 }

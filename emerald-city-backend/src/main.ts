@@ -9,10 +9,7 @@ import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 
 import fs from 'fs';
-import {
-  TextureUploadedParams,
-  TextureUploadParams,
-} from './types/api/Core.js';
+
 import { GetPresignedPostUrls } from './texture-pack/get-presigned-post-urls.js';
 import { RequestImageProc } from './texture-pack/request-img-proc.js';
 

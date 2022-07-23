@@ -4,7 +4,7 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { loadTextures } from "../TextureManager";
 import { SceneGraph, SceneObject, SceneObjectType } from "../SceneGraph";
-import { User } from "@backend/types/api/Core";
+
 import { RenderEngine } from "../RenderEngine";
 import { loadFBX } from "./FBXLoad";
 
