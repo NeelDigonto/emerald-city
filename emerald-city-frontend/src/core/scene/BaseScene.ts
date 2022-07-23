@@ -27,7 +27,7 @@ export async function setupScene(
   const planeHeight: number = 1000;
 
   const groundGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
-  const groundMaterial = new THREE.MeshPhysicalMaterial({
+  const groundMaterial = new THREE.MeshStandardMaterial({
     //color: 0x00ff00,
     side: THREE.DoubleSide,
   });
@@ -60,7 +60,7 @@ export async function setupScene(
   let boxCount: number = 0;
 
   const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
-  const boxMaterial = new THREE.MeshPhysicalMaterial({ color: 0xfffdd0 });
+  const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xfffdd0 });
 
   /*   for (let x = 0; x < 100; x++)
     (() => {
