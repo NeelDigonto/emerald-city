@@ -10,6 +10,7 @@ import fs, { write } from 'fs';
 import { Readable } from 'stream';
 
 export namespace s3 {
+
   export async function getObject(bucket: string, region: string, key: string) {
     const client = new S3Client({ region: region, apiVersion: '2006-03-01' });
     const command = new GetObjectCommand({ Bucket: bucket, Key: key });

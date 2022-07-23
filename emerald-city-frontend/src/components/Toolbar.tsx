@@ -14,6 +14,9 @@ import React from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
+import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanel";
+import { SidebarPanel } from "@src/types/Core";
+import { useDispatch } from "react-redux";
 
 const ToolbarContainer = styled.nav`
   width: 100%;
@@ -24,6 +27,7 @@ const ToolbarContainer = styled.nav`
 `;
 
 const Toolbar = () => {
+  const dispatch = useDispatch();
   return (
     <ToolbarContainer>
       {/* <Stack component="li" direction="row">
@@ -47,17 +51,32 @@ const Toolbar = () => {
           <Typography sx={{ color: "white", opacity: 0.6 }}>Play</Typography>
         </Button>
         <Divider />
-        <Button startIcon={<DownloadRoundedIcon fontSize="large" />}>
+        <Button
+          startIcon={<DownloadRoundedIcon fontSize="large" />}
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.TexturePackImporter))
+          }
+        >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
             Import Material
           </Typography>
         </Button>
-        <Button startIcon={<DownloadRoundedIcon fontSize="large" />}>
+        <Button
+          startIcon={<DownloadRoundedIcon fontSize="large" />}
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.ModelImporter))
+          }
+        >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Import Geometry
+            Import Model
           </Typography>
         </Button>
-        <Button startIcon={<DownloadRoundedIcon fontSize="large" />}>
+        <Button
+          startIcon={<DownloadRoundedIcon fontSize="large" />}
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.AnimationImporter))
+          }
+        >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
             Import Animation
           </Typography>

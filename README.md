@@ -131,7 +131,7 @@
 
 GNU Affero General Public License 3.0 (AGPL-3.0-only)
 
-**For licensing contact the code owners.**
+**For licensing contact the Team Lead at the time.**
 
 ## Code Owners
 

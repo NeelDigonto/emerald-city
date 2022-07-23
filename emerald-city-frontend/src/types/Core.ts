@@ -111,3 +111,14 @@ export interface Mesh {
   model: Model;
   material: Material;
 }
+
+export enum SidebarPanel {
+  None,
+  BasicShapes,
+  Lights,
+  TexturePackImporter,
+  ModelImporter,
+  AnimationImporter,
+  MaterialCreator,
+  MeshCreator,
+}

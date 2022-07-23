@@ -27,7 +27,12 @@ import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import WorldOutliner from "./WorldOutliner";
 import MaterialExplorer from "./MaterialExplorer";
 import BasicShapes from "./BaicsShapes";
-import MaterialUploader from "./MaterialUploader";
+import TextureUploader from "./TextureUploader";
+import { useSelector } from "react-redux";
+import { RootState } from "@src/app/store";
+import { SidebarPanel } from "@src/types/Core";
+import { getActiveElement } from "formik";
+import ModelImporter from "./ModelImporter";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -55,11 +60,14 @@ const SidebarContainer = styled.nav`
 
   overflow: auto;
 
-  //border-left: green 1px solid;
+  /* border-left: green 1px solid; */
 `;
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
+  const activeSidebarPanel = useSelector(
+    (state: RootState) => state.activeSidebarPanel
+  );
 
   return (
     <SidebarContainer>
@@ -79,9 +87,12 @@ const Sidebar = () => {
       </ListItemButton>
       <Divider />
       <WorldOutliner />
-      <BasicShapes />
+      {activeSidebarPanel === SidebarPanel.BasicShapes && <BasicShapes />}
+      {activeSidebarPanel === SidebarPanel.TexturePackImporter && (
+        <TextureUploader />
+      )}
+      {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelImporter />}
       {/* <MaterialExplorer name="sayantan" /> */}
-      <MaterialUploader />
     </SidebarContainer>
   );
 };

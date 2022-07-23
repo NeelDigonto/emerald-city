@@ -116,8 +116,8 @@ const uploadFile = async (url: string, fields: any, file: File) => {
   });
 };
 
-const MaterialUploader = () => {
-  const [open, setOpen] = React.useState(false);
+const TextureUploader = () => {
+  const [open, setOpen] = React.useState(true);
 
   const albedoFileRef = React.useRef<HTMLInputElement>(null);
   const normalFileRef = React.useRef<HTMLInputElement>(null);
@@ -139,51 +139,95 @@ const MaterialUploader = () => {
     validateOnChange: false,
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
-      console.log(values);
-      fetch("http://localhost:5000/get-presigned-post-urls", {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then(async (result) => {
-          if (values.albedo)
-            await uploadFile(
-              result["albedo"].url,
-              result["albedo"].fields,
-              albedoFileRef.current!.files![0]
-            );
-          if (values.normal)
-            await uploadFile(
-              result["normal"].url,
-              result["normal"].fields,
-              normalFileRef.current!.files![0]
-            );
-          if (values.roughness)
-            await uploadFile(
-              result["roughness"].url,
-              result["roughness"].fields,
-              roughnessFileRef.current!.files![0]
-            );
-          if (values.metalness)
-            await uploadFile(
-              result["metalness"].url,
-              result["metalness"].fields,
-              metalnessFileRef.current!.files![0]
-            );
-          if (values.ao)
-            await uploadFile(
-              result["ao"].url,
-              result["ao"].fields,
-              aoFileRef.current!.files![0]
-            );
+
+      const bucket: string = "emerald-city";
+
+      if (values.albedo) {
+        await fetch("http://localhost:5000/get-presigned-post-url", {
+          method: "POST",
+          body: JSON.stringify({
+            bucket,
+            key: `textures/${values.texturePackName}/albedo.jpg`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .then(() => {})
-        .then((_) => {
-          setSubmitting(false);
-        });
+          .then((response) => response.json())
+          .then(({ url, fields }) =>
+            uploadFile(url, fields, albedoFileRef.current!.files![0])
+          );
+      }
+
+      if (values.ao) {
+        await fetch("http://localhost:5000/get-presigned-post-url", {
+          method: "POST",
+          body: JSON.stringify({
+            bucket,
+            key: `textures/${values.texturePackName}/ao.jpg`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then(({ url, fields }) =>
+            uploadFile(url, fields, aoFileRef.current!.files![0])
+          );
+      }
+
+      if (values.normal) {
+        await fetch("http://localhost:5000/get-presigned-post-url", {
+          method: "POST",
+          body: JSON.stringify({
+            bucket,
+            key: `textures/${values.texturePackName}/normal.jpg`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then(({ url, fields }) =>
+            uploadFile(url, fields, normalFileRef.current!.files![0])
+          );
+      }
+
+      if (values.roughness) {
+        await fetch("http://localhost:5000/get-presigned-post-url", {
+          method: "POST",
+          body: JSON.stringify({
+            bucket,
+            key: `textures/${values.texturePackName}/roughness.jpg`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then(({ url, fields }) =>
+            uploadFile(url, fields, roughnessFileRef.current!.files![0])
+          );
+      }
+
+      if (values.metalness) {
+        await fetch("http://localhost:5000/get-presigned-post-url", {
+          method: "POST",
+          body: JSON.stringify({
+            bucket,
+            key: `textures/${values.texturePackName}/metalness.jpg`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then(({ url, fields }) =>
+            uploadFile(url, fields, metalnessFileRef.current!.files![0])
+          );
+      }
+
+      setSubmitting(false);
     },
   });
 
@@ -256,4 +300,4 @@ const MaterialUploader = () => {
   );
 };
 
-export default MaterialUploader;
+export default TextureUploader;

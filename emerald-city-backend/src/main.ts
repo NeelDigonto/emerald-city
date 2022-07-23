@@ -19,11 +19,7 @@ import { RequestImageProc } from './texture-pack/request-img-proc.js';
 const app = express();
 app.use(cors());
 
-app.post(
-  '/texture-pack/get-presigned-post-urls',
-  express.json(),
-  GetPresignedPostUrls,
-);
+app.post('/get-presigned-post-url', express.json(), GetPresignedPostUrls);
 
 app.post('/texture-pack/request-img-proc', express.json(), RequestImageProc);
 

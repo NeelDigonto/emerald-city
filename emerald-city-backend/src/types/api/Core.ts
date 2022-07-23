@@ -24,3 +24,8 @@ export interface TextureUploadedParams {
   metalness?: string;
   roughness?: string;
 }
+
+export interface GetPresignedPostUrls {
+  bucket: string;
+  key: string;
+}

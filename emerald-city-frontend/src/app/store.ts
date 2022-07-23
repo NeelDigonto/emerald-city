@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import grnSlice from "@src/feature/grnSlice";
+import activeSidebarPanelSlice from "@src/feature/activeSidebarPanel";
 
 export const store = configureStore({
   reducer: {
-    grn: grnSlice,
+    activeSidebarPanel: activeSidebarPanelSlice,
   },
 });
 

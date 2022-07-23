@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import {
   Box,
   Divider,
@@ -26,25 +25,13 @@ import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import WorldOutliner from "./WorldOutliner";
 import MaterialExplorer from "./MaterialExplorer";
+import SidebarListTitle from "./layout/SidebarListTitle";
+import FireNav from "./layout/FireNav";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
   { icon: <SquareRoundedIcon />, label: "Cylinder" },
 ];
-
-const FireNav = styled(List)<{ component?: React.ElementType }>({
-  "& .MuiListItemButton-root": {
-    paddingLeft: 24,
-    paddingRight: 24,
-  },
-  "& .MuiListItemIcon-root": {
-    minWidth: 0,
-    marginRight: 16,
-  },
-  "& .MuiSvgIcon-root": {
-    fontSize: 20,
-  },
-});
 
 const BasicShapes = () => {
   const [open, setOpen] = React.useState(true);
@@ -52,58 +39,8 @@ const BasicShapes = () => {
   return (
     <Stack direction="column">
       <Paper elevation={0}>
-        <FireNav component="nav" disablePadding>
-          <ListItem component="div" disablePadding>
-            <ListItemButton sx={{ height: 56 }}>
-              <ListItemIcon>
-                <Home color="primary" />
-              </ListItemIcon>
-              <ListItemText
-                primary="Components"
-                primaryTypographyProps={{
-                  color: "primary",
-                  fontWeight: "medium",
-                  variant: "body2",
-                }}
-              />
-            </ListItemButton>
-            <Tooltip title="Project Settings">
-              <IconButton
-                size="large"
-                sx={{
-                  "& svg": {
-                    color: "rgba(255,255,255,0.8)",
-                    transition: "0.2s",
-                    transform: "translateX(0) rotate(0)",
-                  },
-                  "&:hover, &:focus": {
-                    bgcolor: "unset",
-                    "& svg:first-of-type": {
-                      transform: "translateX(-4px) rotate(-20deg)",
-                    },
-                    "& svg:last-of-type": {
-                      right: 0,
-                      opacity: 1,
-                    },
-                  },
-                  "&:after": {
-                    content: '""',
-                    position: "absolute",
-                    height: "80%",
-                    display: "block",
-                    left: 0,
-                    width: "1px",
-                    bgcolor: "divider",
-                  },
-                }}
-              >
-                <Settings />
-                <ArrowRight
-                  sx={{ position: "absolute", right: 4, opacity: 0 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </ListItem>
+        <FireNav>
+          <SidebarListTitle label="Basic Items" />
           <Divider />
           <Box
             sx={{
@@ -122,7 +59,7 @@ const BasicShapes = () => {
               }}
             >
               <ListItemText
-                primary="Basic Shapes"
+                primary="Standard 3D"
                 primaryTypographyProps={{
                   fontSize: 15,
                   fontWeight: "medium",
