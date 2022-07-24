@@ -81,6 +81,26 @@ const Toolbar = () => {
             Import Animation
           </Typography>
         </Button>
+        <Button
+          startIcon={<DownloadRoundedIcon fontSize="large" />}
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.MaterialCreator))
+          }
+        >
+          <Typography sx={{ color: "white", opacity: 0.6 }}>
+            Create Material
+          </Typography>
+        </Button>
+        {/* <Button
+          startIcon={<DownloadRoundedIcon fontSize="large" />}
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.AnimationImporter))
+          }
+        >
+          <Typography sx={{ color: "white", opacity: 0.6 }}>
+            Create Mesh
+          </Typography>
+        </Button> */}
       </Stack>
     </ToolbarContainer>
   );

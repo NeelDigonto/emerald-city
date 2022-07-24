@@ -14,6 +14,7 @@ import { GetPresignedPostUrls } from './routes/GetPresignedPostUrls.js';
 import { RequestImageProc } from './routes/texture-pack/RequestImageProc.js';
 import { db } from './types/api/Core.js';
 import { GetResourceTable } from './routes/resource/get.js';
+import { CreateMaterial } from './routes/material/create.js';
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,8 @@ app.post('/get-presigned-post-url', express.json(), GetPresignedPostUrls);
 app.post('/texture-pack/request-img-proc', express.json(), RequestImageProc);
 
 app.get('/resource/get/:rname', express.json(), GetResourceTable);
+
+app.post('/material/create', express.json(), CreateMaterial);
 
 app.listen(5000, () => {
   console.log('Listening on port 5000');

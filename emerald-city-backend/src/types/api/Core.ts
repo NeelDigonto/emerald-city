@@ -19,7 +19,20 @@ export namespace api {
     key: string;
   }
 
+  export enum WrapMode {
+    RepeatWrapping = 'RepeatWrapping',
+    ClampToEdgeWrapping = 'ClampToEdgeWrapping',
+    MirroredRepeatWrapping = 'MirroredRepeatWrapping',
+  }
+
+  export enum MaterialType {
+    Basic = 'Basic',
+    Standard = 'Standard',
+    Physical = 'Physical',
+  }
+
   export type TexturePack = db.TexturePack;
+  export type Material = db.Material;
 }
 
 export namespace db {
@@ -42,7 +55,24 @@ export namespace db {
     pmaaaoCompressed?: api.FileRef;
   }
 
+  export interface Material {
+    id: string;
+    texturePackID: string;
+    materialName: string;
+    type: 'Basic' | 'Standard' | 'Physical';
+
+    baseColor: string;
+    metalness: number;
+    roughness: number;
+
+    wrapS: api.WrapMode;
+    wrapT: api.WrapMode;
+    repeatX: number;
+    repeatY: number;
+  }
+
   export enum Table {
     TexturePack = 'TexturePack',
+    Material = 'Material',
   }
 }

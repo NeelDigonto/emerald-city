@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { api } from "@backend/types/api/Core";
 import { addTexturePack } from "@src/feature/texturePackSlice";
+import { addMaterial } from "@src/feature/materialSlice";
 
 const DataLoader = ({
   children,
@@ -22,6 +23,14 @@ const DataLoader = ({
         .then((resources: api.TexturePack[]) => {
           resources.forEach((resource_unit) => {
             dispatch(addTexturePack(resource_unit));
+          });
+        });
+
+      fetch(`http://localhost:5000/resource/get/Material`)
+        .then((response) => response.json())
+        .then((resources: api.Material[]) => {
+          resources.forEach((resource_unit) => {
+            dispatch(addMaterial(resource_unit));
           });
         });
     }

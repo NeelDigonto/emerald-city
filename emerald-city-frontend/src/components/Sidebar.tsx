@@ -33,6 +33,7 @@ import { RootState } from "@src/app/store";
 import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
 import ModelImporter from "./ModelImporter";
+import CreateMaterial from "./CreateMaterial";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -90,6 +91,9 @@ const Sidebar = () => {
       {activeSidebarPanel === SidebarPanel.BasicShapes && <BasicShapes />}
       {activeSidebarPanel === SidebarPanel.TexturePackImporter && (
         <TextureUploader />
+      )}
+      {activeSidebarPanel === SidebarPanel.MaterialCreator && (
+        <CreateMaterial />
       )}
       {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelImporter />}
       {/* <MaterialExplorer name="sayantan" /> */}
