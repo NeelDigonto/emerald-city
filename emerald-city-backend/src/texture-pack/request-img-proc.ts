@@ -1,8 +1,9 @@
 import { Readable } from 'stream';
 import { compressorUtil, stream2buffer } from '../lib/core.js';
 import { compressTexture, multiplyTexture } from '../lib/img-proc.js';
-import { api } from '../types/api/Core.js';
+import { api, db } from '../types/api/Core.js';
 import { s3 } from '../util/aws-wrapper.js';
+import { getMongoClient, getMongoConnection } from '../util/db.js';
 
 export async function RequestImageProc(req, res) {
   const requestImageProc: api.RequestImageProc =
@@ -20,6 +21,10 @@ export async function RequestImageProc(req, res) {
   let albedoFile: Buffer | null = null;
   let aoFile: Buffer | null = null;
 
+  const texturePackDB: Omit<db.TexturePack, 'id'> = {
+    texturePackName: requestImageProc.texturePackName,
+  };
+
   if (hasAlbedo)
     albedoFile = await compressorUtil(
       requestImageProc.texturePackName,
@@ -27,6 +32,7 @@ export async function RequestImageProc(req, res) {
       70,
       bucket,
       region,
+      texturePackDB,
     );
 
   if (hasAO)
@@ -36,6 +42,7 @@ export async function RequestImageProc(req, res) {
       60,
       bucket,
       region,
+      texturePackDB,
     );
 
   if (hasNormal)
@@ -45,7 +52,9 @@ export async function RequestImageProc(req, res) {
       90,
       bucket,
       region,
+      texturePackDB,
     );
+
   if (hasRoughness)
     await compressorUtil(
       requestImageProc.texturePackName,
@@ -53,7 +62,9 @@ export async function RequestImageProc(req, res) {
       60,
       bucket,
       region,
+      texturePackDB,
     );
+
   if (hasMetalness)
     await compressorUtil(
       requestImageProc.texturePackName,
@@ -61,10 +72,10 @@ export async function RequestImageProc(req, res) {
       60,
       bucket,
       region,
+      texturePackDB,
     );
-
+  //put db uploads here too
   if (hasAlbedo && hasAO) {
-    console.log(albedoFile, aoFile);
     await multiplyTexture(albedoFile, aoFile).then(async (pmaaaoFile) => {
       s3.putObject(
         bucket,
@@ -81,8 +92,26 @@ export async function RequestImageProc(req, res) {
         `textures/${requestImageProc.texturePackName}/pmaaao_compressed.jpg`,
         fileCompressed,
       );
+
+      texturePackDB.pmaaao = {
+        bucket: 'emerald-city',
+        key: `textures/${requestImageProc.texturePackName}/pmaaao.jpg`,
+        byteLength: pmaaaoFile.byteLength,
+      };
+
+      texturePackDB.pmaaaoCompressed = {
+        bucket: 'emerald-city',
+        key: `textures/${requestImageProc.texturePackName}/pmaaao_compressed.jpg`,
+        byteLength: fileCompressed.byteLength,
+      };
     });
   }
 
+  const connection = await getMongoConnection();
+  const collection = connection
+    .db(process.env.DB_NAME)
+    .collection(db.Table.TexturePack);
+
+  collection.insertOne(texturePackDB);
   res.end();
 }

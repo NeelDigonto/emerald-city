@@ -1,5 +1,6 @@
 export namespace api {
   export interface FileRef {
+    bucket: string;
     key: string;
     byteLength: number;
   }
@@ -24,19 +25,24 @@ export namespace api {
 export namespace db {
   export interface TexturePack {
     id: string;
-    texturePackName: api.FileRef;
+    texturePackName: string;
+
     albedo?: api.FileRef;
     normal?: api.FileRef;
     ao?: api.FileRef;
     metalness?: api.FileRef;
     roughness?: api.FileRef;
-    pmmao?: api.FileRef;
+    pmaaao?: api.FileRef;
 
     albedoCompressed?: api.FileRef;
     normalCompressed?: api.FileRef;
     aoCompressed?: api.FileRef;
     metalnessCompressed?: api.FileRef;
     roughnessCompressed?: api.FileRef;
-    pmmaoCompressed?: api.FileRef;
+    pmaaaoCompressed?: api.FileRef;
+  }
+
+  export enum Table {
+    TexturePack = 'TexturePack',
   }
 }

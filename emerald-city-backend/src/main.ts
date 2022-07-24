@@ -12,6 +12,7 @@ import fs from 'fs';
 
 import { GetPresignedPostUrls } from './texture-pack/get-presigned-post-urls.js';
 import { RequestImageProc } from './texture-pack/request-img-proc.js';
+import { db } from './types/api/Core.js';
 
 const app = express();
 app.use(cors());
