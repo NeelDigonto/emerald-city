@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import activeSidebarPanelSlice from "@src/feature/activeSidebarPanel";
+import activeSidebarPanelSlice from "@src/feature/activeSidebarPanelSlice";
+import texturePackSlice from "@src/feature/texturePackSlice";
 
 export const store = configureStore({
   reducer: {
     activeSidebarPanel: activeSidebarPanelSlice,
+    texturePack: texturePackSlice,
   },
 });
 

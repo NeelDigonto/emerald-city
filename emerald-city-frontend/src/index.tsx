@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { store } from "@src/app/store";
 import "normalize.css";
 import { EngineContextProvider } from "./contexts/EngineContext";
+import DataLoader from "./components/DataLoader";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,7 +20,9 @@ root.render(
       <EngineContextProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <App />
+          <DataLoader>
+            <App />
+          </DataLoader>
         </ThemeProvider>
       </EngineContextProvider>
     </Provider>

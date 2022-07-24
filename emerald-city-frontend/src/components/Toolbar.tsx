@@ -14,7 +14,7 @@ import React from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
-import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanel";
+import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { SidebarPanel } from "@src/types/Core";
 import { useDispatch } from "react-redux";
 
