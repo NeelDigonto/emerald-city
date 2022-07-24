@@ -35,7 +35,7 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 import Home from "@mui/icons-material/Home";
 import Settings from "@mui/icons-material/Settings";
 import * as THREE from "three";
-import SidebarListTitle from "./layout/SidebarListTitle";
+import SidebarListTitle from "../SidebarListTitle";
 
 declare module "react" {
   interface CSSProperties {

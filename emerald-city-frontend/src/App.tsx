@@ -2,9 +2,9 @@ import React from "react";
 import "./app.css";
 import styled from "@emotion/styled";
 import { useEngineContext } from "./contexts/EngineContext";
-import Sidebar from "@src/components/Sidebar";
-import Toolbar from "@src/components/Toolbar";
-import PerformanceMonitor from "./components/PerformanceMonitor";
+import Sidebar from "@src/components/ui/layout/Sidebar";
+import Toolbar from "@src/components/ui/layout/Toolbar";
+import PerformanceMonitor from "./components/ui/layout/PerformanceMonitor";
 import { setupScene } from "./core/scene/BaseScene";
 
 const RootContainer = styled.div`

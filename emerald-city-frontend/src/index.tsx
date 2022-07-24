@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { store } from "@src/app/store";
 import "normalize.css";
 import { EngineContextProvider } from "./contexts/EngineContext";
-import DataLoader from "./components/DataLoader";
+import DataLoader from "./components/loader/DataLoader";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

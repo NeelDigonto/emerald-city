@@ -23,10 +23,9 @@ import Public from "@mui/icons-material/Public";
 import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
-import WorldOutliner from "./WorldOutliner";
-import MaterialExplorer from "./MaterialExplorer";
-import SidebarListTitle from "./layout/SidebarListTitle";
-import FireNav from "./layout/FireNav";
+import WorldOutliner from "../ui/layout/WorldOutliner";
+import SidebarListTitle from "../ui/SidebarListTitle";
+import FireNav from "../ui/FireNav";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },

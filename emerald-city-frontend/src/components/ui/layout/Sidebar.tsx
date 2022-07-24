@@ -25,15 +25,14 @@ import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import WorldOutliner from "./WorldOutliner";
-import MaterialExplorer from "./MaterialExplorer";
-import BasicShapes from "./BaicsShapes";
-import TextureUploader from "./TextureUploader";
+import BasicShapes from "../../content/BaicsShapes";
+import TextureUploader from "../../content/TextureUploader";
 import { useSelector } from "react-redux";
 import { RootState } from "@src/app/store";
 import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
-import ModelImporter from "./ModelImporter";
-import CreateMaterial from "./CreateMaterial";
+import ModelImporter from "../../content/ModelImporter";
+import CreateMaterial from "../../content/CreateMaterial";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
