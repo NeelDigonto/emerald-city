@@ -21,6 +21,7 @@ import Home from "@mui/icons-material/Home";
 import styled from "@emotion/styled";
 import { MapTypes, textureMaps } from "@src/types/Core";
 import { api } from "@backend/types/api/Core";
+import { uploadFile } from "@src/utils";
 
 const Image = styled.img`
   width: 100%;
@@ -91,29 +92,6 @@ const UploadArea = ({
       </Button>
     </Paper>
   );
-};
-
-const uploadFile = async (url: string, fields: any, file: File) => {
-  const formData = new FormData();
-
-  console.log(fields);
-
-  Object.entries(fields).forEach(([key, value]) => {
-    formData.append(key, value as any);
-  });
-
-  formData.append("file", file);
-
-  return new Promise<void>((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.send(formData);
-    xhr.onload = function (e) {
-      if (xhr.readyState === 4) resolve();
-    };
-
-    //resolve();
-  });
 };
 
 const TextureUploader = () => {

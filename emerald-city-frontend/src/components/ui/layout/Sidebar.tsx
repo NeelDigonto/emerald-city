@@ -31,8 +31,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@src/app/store";
 import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
-import ModelImporter from "../../content/ModelImporter";
 import CreateMaterial from "../../content/CreateMaterial";
+import ModelUploader from "@src/components/content/ModelUploader";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -94,8 +94,7 @@ const Sidebar = () => {
       {activeSidebarPanel === SidebarPanel.MaterialCreator && (
         <CreateMaterial />
       )}
-      {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelImporter />}
-      {/* <MaterialExplorer name="sayantan" /> */}
+      {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelUploader />}
     </SidebarContainer>
   );
 };

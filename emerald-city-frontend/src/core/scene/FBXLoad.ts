@@ -79,6 +79,12 @@ export async function loadFBX(
     (xhr) => {},
     (error) => {}
   );
+
+  const apples = await fbxLoader.loadAsync("apples/t1.fbx");
+
+  console.log(apples);
+
+  scene.add(apples);
 }
 
 /* const animationAction = mixer.clipAction(

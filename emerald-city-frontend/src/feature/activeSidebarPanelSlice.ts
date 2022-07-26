@@ -3,7 +3,7 @@ import { SidebarPanel } from "@src/types/Core";
 
 export const activeSidebarPanelSlice = createSlice({
   name: "Acitve Sidebar",
-  initialState: SidebarPanel.ModelImporter,
+  initialState: SidebarPanel.None,
   reducers: {
     setActiveSidebarPanel: (state, action: PayloadAction<SidebarPanel>) => {
       state = action.payload;

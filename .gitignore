@@ -130,6 +130,10 @@ yarn-error.log*
 
 
 **/*.fbx
+**/*.glb
+**/*.gltf
+**/*.obj
+**/*.mtl
 **/*.jpg
 **/*.hdr
 **/*.exr

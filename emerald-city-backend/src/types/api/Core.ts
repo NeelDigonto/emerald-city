@@ -14,6 +14,10 @@ export namespace api {
     roughness: boolean;
   }
 
+  export interface RequestModelProc {
+    modelName: string;
+  }
+
   export interface GetPresignedPostUrls {
     bucket: string;
     key: string;
@@ -31,8 +35,14 @@ export namespace api {
     Physical = 'Physical',
   }
 
+  export enum ModelType {
+    FBX = 'FBX',
+  }
+  // add gtlf, glb and obj import
+
   export type TexturePack = db.TexturePack;
   export type Material = db.Material;
+  export type Model = db.Model;
 }
 
 export namespace db {
@@ -71,8 +81,14 @@ export namespace db {
     repeatY: number;
   }
 
+  export interface Model {
+    type: api.ModelType;
+    file: api.FileRef;
+  }
+
   export enum Table {
     TexturePack = 'TexturePack',
     Material = 'Material',
+    Model = 'Model',
   }
 }
