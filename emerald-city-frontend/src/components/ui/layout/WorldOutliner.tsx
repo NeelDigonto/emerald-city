@@ -137,6 +137,9 @@ const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
 export default React.memo(function WorldOutliner() {
   let engine = useEngineContext();
   const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
+  const [selectedSceneObjectIDs, setSelectedSceneObjectIDs] = React.useState<
+    string[]
+  >([]);
 
   const getWorldOutliner = (node: SceneObject) => {
     if (node.childrens.length === 0)
@@ -149,9 +152,9 @@ export default React.memo(function WorldOutliner() {
           sx={{ color: node.isSelected ? "red" : "inherit" }}
           color="#a250f5"
           bgColor="#f3e8fd"
-          onClick={() =>
-            engine.renderEngine?.editorControls.selectSceneObject(node)
-          }
+          onClick={() => {
+            engine.renderEngine?.editorControls.selectSceneObject(node);
+          }}
         ></StyledTreeItem>
       );
 
@@ -178,27 +181,30 @@ export default React.memo(function WorldOutliner() {
     if (engine.renderEngine === null) return;
 
     const calbackID =
-      engine.renderEngine.editorControls.registerRaycastCallback((_) => {
-        /*
-          if (intersectedRenderObject === null) return;
-          console.log(intersectedRenderObject);
+      engine.renderEngine.editorControls.registerRaycastCallback(
+        (sceneObjects) => {
+          //console.log(sceneObjects);
+          // maintain priority to be the last one
+          // maybe optimize this
 
-           engine.sceneGraph.renderObjectToSceneObjectMap.get(
-            intersectedObject.uuid
-          )!.isSelected = true; */
-
-        // maintain priority to be the last one
-
-        // maybe optimize this
-
-        forceUpdate();
-      });
+          if (sceneObjects && sceneObjects.length !== 0) {
+            setSelectedSceneObjectIDs(() =>
+              sceneObjects.map((sceneObject) => sceneObject.id)
+            );
+            /* forceUpdate(); */
+          }
+        }
+      );
 
     return () => {
       if (engine.renderEngine !== null)
         engine.renderEngine.editorControls.removeRaycastCallback(calbackID);
     };
   }, [engine.renderEngine]);
+
+  /*   React.useEffect(() => {
+    console.log(selectedSceneObjectIDs);
+  }, [selectedSceneObjectIDs]); */
 
   return (
     <Box maxHeight="20rem" overflow="auto">
@@ -212,6 +218,8 @@ export default React.memo(function WorldOutliner() {
           defaultCollapseIcon={<ArrowDropDownIcon />}
           defaultExpandIcon={<ArrowRightIcon />}
           defaultEndIcon={<div style={{ width: 24 }} />}
+          multiSelect
+          selected={selectedSceneObjectIDs}
           sx={{
             //  height: 264,
             flexGrow: 1,

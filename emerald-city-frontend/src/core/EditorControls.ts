@@ -24,9 +24,7 @@ export interface MouseMovement {
   movementY: number;
 }
 
-export type RaycastCallback = (
-  intersects: THREE.Intersection<THREE.Object3D<THREE.Event>>[]
-) => void;
+export type RaycastCallback = (intersects: SceneObject[]) => void;
 
 export class EditorControls {
   camera: THREE.PerspectiveCamera;
@@ -89,44 +87,6 @@ export class EditorControls {
     this.camera = camera;
     this.domElement = domElement;
 
-    this.registerRaycastCallback((intersects) => {
-      //console.log(intersects);
-      const intersection = intersects.find((intersection) => {
-        if (
-          intersection.object instanceof TransformControlsPlane ||
-          intersection.object instanceof THREE.Line
-        )
-          return false;
-
-        if (
-          intersection.object instanceof THREE.Mesh &&
-          intersection.object.material.opacity &&
-          intersection.object.material.opacity < 0.49
-        )
-          return false;
-
-        return true;
-      });
-
-      if (intersection === undefined) return;
-
-      if (
-        !this.sceneGraph.renderObjectToSceneObjectMap.has(
-          intersection.object.uuid
-        )
-      )
-        return;
-
-      //console.log(intersection.object);
-
-      const selectedSceneObject =
-        this.sceneGraph.getSceneObjectFromRenderObjectID(
-          intersection.object.uuid
-        );
-
-      this.selectSceneObject(selectedSceneObject);
-    });
-
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.domElement.addEventListener("keyup", this.handleKeyUp.bind(this));
     this.domElement.addEventListener(
@@ -173,6 +133,10 @@ export class EditorControls {
         this.lastSelectedObject = selectedSceneObject!.renderObject;
       }
     }
+
+    this.raycastCallbacks.forEach((callback) =>
+      callback([selectedSceneObject as SceneObject])
+    );
   }
 
   moveForward(delta: number) {
@@ -310,6 +274,42 @@ export class EditorControls {
 
     if (intersects.length === 0) return;
 
+    //console.log(intersects);
+    const intersection = intersects.find((intersection) => {
+      if (
+        intersection.object instanceof TransformControlsPlane ||
+        intersection.object instanceof THREE.Line
+      )
+        return false;
+
+      if (
+        intersection.object instanceof THREE.Mesh &&
+        intersection.object.material.opacity &&
+        intersection.object.material.opacity < 0.49
+      )
+        return false;
+
+      return true;
+    });
+
+    if (intersection === undefined) return;
+
+    if (
+      !this.sceneGraph.renderObjectToSceneObjectMap.has(
+        intersection.object.uuid
+      )
+    )
+      return;
+
+    //console.log(intersection.object);
+
+    const selectedSceneObject =
+      this.sceneGraph.getSceneObjectFromRenderObjectID(
+        intersection.object.uuid
+      );
+
+    this.selectSceneObject(selectedSceneObject as SceneObject);
+
     /*     const intersectedObjectIndex = intersects.findIndex((renderObject) => {
       return (
         this.sceneGraph.renderObjectToSceneObjectMap.get(
@@ -321,8 +321,6 @@ export class EditorControls {
     if (intersectedObjectIndex === -1) return;
 
     console.log(intersects); */
-
-    this.raycastCallbacks.forEach((callback) => callback(intersects));
   }
 
   handleMouseDown(ev: MouseEvent) {
