@@ -134,40 +134,38 @@ const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
   }
 };
 
-const getWorldOutliner = (node: SceneObject) => {
-  //console.log(node.isSelected);
+export default React.memo(function WorldOutliner() {
+  let engine = useEngineContext();
+  const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
 
-  // deselect last selected
+  const getWorldOutliner = (node: SceneObject) => {
+    if (node.childrens.length === 0)
+      return (
+        <StyledTreeItem
+          key={node.id}
+          nodeId={node.id}
+          labelText={node.name}
+          labelIcon={getSceneObjectIcon(node.type)}
+          sx={{ color: node.isSelected ? "red" : "inherit" }}
+          color="#a250f5"
+          bgColor="#f3e8fd"
+          onClick={() =>
+            engine.renderEngine?.editorControls.selectSceneObject(node)
+          }
+        ></StyledTreeItem>
+      );
 
-  if (node.childrens.length === 0)
     return (
       <StyledTreeItem
         key={node.id}
         nodeId={node.id}
         labelText={node.name}
         labelIcon={getSceneObjectIcon(node.type)}
-        sx={{ color: node.isSelected ? "red" : "inherit" }}
-        color="#a250f5"
-        bgColor="#f3e8fd"
-        onSelect={() => {}}
-      ></StyledTreeItem>
+      >
+        {node.childrens.map((_node, _index) => getWorldOutliner(_node))}
+      </StyledTreeItem>
     );
-
-  return (
-    <StyledTreeItem
-      key={node.id}
-      nodeId={node.id}
-      labelText={node.name}
-      labelIcon={getSceneObjectIcon(node.type)}
-    >
-      {node.childrens.map((_node, _index) => getWorldOutliner(_node))}
-    </StyledTreeItem>
-  );
-};
-
-export default React.memo(function WorldOutliner() {
-  let engine = useEngineContext();
-  const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
+  };
 
   React.useEffect(() => {
     const callbackID = engine.sceneGraph.registerOnChangeCallback(() => {

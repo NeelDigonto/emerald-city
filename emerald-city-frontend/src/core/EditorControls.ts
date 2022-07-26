@@ -6,7 +6,7 @@ import {
   TransformControls,
   TransformControlsPlane,
 } from "three/examples/jsm/controls/TransformControls";
-import { SceneGraph } from "./SceneGraph";
+import { SceneGraph, SceneObject } from "./SceneGraph";
 import { MeshBasicMaterial } from "three";
 //import { Key } from "ts-key-enum";
 
@@ -90,7 +90,7 @@ export class EditorControls {
     this.domElement = domElement;
 
     this.registerRaycastCallback((intersects) => {
-      console.log(intersects);
+      //console.log(intersects);
       const intersection = intersects.find((intersection) => {
         if (
           intersection.object instanceof TransformControlsPlane ||
@@ -124,21 +124,7 @@ export class EditorControls {
           intersection.object.uuid
         );
 
-      if (selectedSceneObject!.isSelectable) {
-        //this.transformControls.attach(intersection.object);
-        this.transformControls.attach(selectedSceneObject!.renderObject);
-
-        if (this.lastSelectedObject) {
-          this.sceneGraph.getSceneObjectFromRenderObjectID(
-            this.lastSelectedObject.uuid
-          )!.isSelected = false;
-
-          selectedSceneObject!.isSelected = true;
-
-          //this.lastSelectedObject = intersection.object;
-          this.lastSelectedObject = selectedSceneObject!.renderObject;
-        }
-      }
+      this.selectSceneObject(selectedSceneObject);
     });
 
     this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
@@ -169,6 +155,24 @@ export class EditorControls {
     this.transformControls.setSpace("world");
     this.transformControls.setMode("translate");
     this.renderEngine.mainScene.add(this.transformControls);
+  }
+
+  selectSceneObject(selectedSceneObject: SceneObject | undefined) {
+    if (selectedSceneObject!.isSelectable) {
+      //this.transformControls.attach(intersection.object);
+      this.transformControls.attach(selectedSceneObject!.renderObject);
+
+      if (this.lastSelectedObject) {
+        this.sceneGraph.getSceneObjectFromRenderObjectID(
+          this.lastSelectedObject.uuid
+        )!.isSelected = false;
+
+        selectedSceneObject!.isSelected = true;
+
+        //this.lastSelectedObject = intersection.object;
+        this.lastSelectedObject = selectedSceneObject!.renderObject;
+      }
+    }
   }
 
   moveForward(delta: number) {

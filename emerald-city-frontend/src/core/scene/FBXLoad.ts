@@ -29,12 +29,12 @@ export async function loadFBX(
     (object) => {
       const mixer = new THREE.AnimationMixer(object);
 
-      mixer.clipAction(object.animations[1]).play();
+      /* mixer.clipAction(object.animations[1]).play();
 
       renderEngine.engine.registerBeforeRenderCallback((delta) => {
         mixer.update(delta / 1000);
       });
-
+ */
       object.scale.set(0.02, 0.02, 0.02);
       object.position.set(0, 0, 0);
       scene.add(object);
@@ -57,11 +57,11 @@ export async function loadFBX(
     (object) => {
       const mixer = new THREE.AnimationMixer(model2);
 
-      mixer.clipAction(object.animations[0]).play();
+      /*  mixer.clipAction(object.animations[0]).play();
 
       renderEngine.engine.registerBeforeRenderCallback((delta) => {
         mixer.update(delta / 1000);
-      });
+      }); */
 
       model2.scale.set(0.02, 0.02, 0.02);
       model2.position.set(3.5, 0, 0);
@@ -82,9 +82,7 @@ export async function loadFBX(
 
   const apples = await fbxLoader.loadAsync("apples/t1.fbx");
 
-  console.log(apples);
-
-  scene.add(apples);
+  //scene.add(apples);
 }
 
 /* const animationAction = mixer.clipAction(
