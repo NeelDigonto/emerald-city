@@ -35,14 +35,21 @@ export namespace api {
     Physical = 'Physical',
   }
 
-  export enum ModelType {
+  export enum ImportedModelType {
     FBX = 'FBX',
+    // add gtlf, glb and obj import
   }
-  // add gtlf, glb and obj import
+
+  export enum ModelType {
+    Imported,
+    Custom,
+  }
 
   export type TexturePack = db.TexturePack;
   export type Material = db.Material;
+  export type ImportedModel = db.ImportedModel;
   export type Model = db.Model;
+  export type Geometry = db.Geometry;
 }
 
 export namespace db {
@@ -87,27 +94,29 @@ export namespace db {
     repeatY: number;
   }
 
-  export interface Model {
-    type: api.ModelType;
+  export interface ImportedModel {
+    id: string;
+    type: api.ImportedModelType;
     file: api.FileRef;
   }
 
-  export enum MeshType {
-    Imported,
-    Custom,
-  }
-
-  export interface Mesh {
-    //model: Model;
-    type: MeshType;
+  export interface Model {
+    id: string;
+    type: api.ModelType;
     modelID?: string;
     materialID?: string;
     geometryID?: string;
   }
 
+  export interface Geometry {
+    id: string;
+  }
+
   export enum Table {
     TexturePack = 'TexturePack',
     Material = 'Material',
+    ImportedModel = 'ImportedModel',
+    Geometry = 'Geometry',
     Model = 'Model',
   }
 }

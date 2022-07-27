@@ -15,10 +15,10 @@ export async function RequestModelProc(req, res) {
   const connection = await getMongoConnection();
   const collection = connection
     .db(process.env.DB_NAME)
-    .collection(db.Table.Model);
+    .collection(db.Table.ImportedModel);
 
-  const modelDB: api.Model = {
-    type: api.ModelType.FBX,
+  const modelDB: Omit<api.ImportedModel, 'id'> = {
+    type: api.ImportedModelType.FBX,
     file: {
       bucket,
       key: `models/${requestModelProc.modelName}/model.fbx`,
