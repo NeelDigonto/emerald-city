@@ -38,7 +38,7 @@ const CreateMaterial = () => {
     materialName: "",
     metalness: 0,
     roughness: 1,
-    type: "Standard",
+    type: api.MaterialType.Standard,
     wrapS: api.WrapMode.ClampToEdgeWrapping,
     wrapT: api.WrapMode.ClampToEdgeWrapping,
     repeatX: 1,

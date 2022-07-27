@@ -65,11 +65,17 @@ export namespace db {
     pmaaaoCompressed?: api.FileRef;
   }
 
+  export enum MaterialType {
+    Basic = 'Basic',
+    Standard = 'Standard',
+    Physical = 'Physical',
+  }
+
   export interface Material {
     id: string;
     texturePackID: string;
     materialName: string;
-    type: 'Basic' | 'Standard' | 'Physical';
+    type: MaterialType;
 
     baseColor: string;
     metalness: number;
@@ -86,9 +92,35 @@ export namespace db {
     file: api.FileRef;
   }
 
+  export enum MeshType {
+    Imported,
+    Custom,
+  }
+
+  export interface Mesh {
+    //model: Model;
+    type: MeshType;
+    modelID?: string;
+    materialID?: string;
+    geometryID?: string;
+  }
+
   export enum Table {
     TexturePack = 'TexturePack',
     Material = 'Material',
     Model = 'Model',
   }
 }
+
+/* export interface LOD {
+  uuid: string;
+  level: number;
+  geometry: FileRef;
+}
+
+export interface Model {
+  name: string;
+  lods: LOD[];
+  animation?: Animation[];
+}
+ */
