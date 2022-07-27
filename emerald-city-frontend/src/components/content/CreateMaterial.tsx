@@ -51,7 +51,7 @@ const CreateMaterial = () => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
 
-      console.log(values);
+      //console.log(values);
 
       await fetch("http://localhost:5000/material/create", {
         method: "POST",

@@ -14,7 +14,7 @@ export const store = configureStore({
     material: materialSlice,
     importedModel: importedModelSlice,
     model: modelSlice,
-    geometrySlice: geometrySlice,
+    geometry: geometrySlice,
   },
 });
 

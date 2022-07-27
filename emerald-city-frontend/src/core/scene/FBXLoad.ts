@@ -23,7 +23,7 @@ export async function loadFBX(
     new SceneObject("Base T Pose 1", model, SceneObjectType.MeshObject, true)
   );
 
-  console.log(model);
+  //console.log(model);
   //renderEngine.editorControls.transformControls.attach(model);
 
   fbxLoader.load(

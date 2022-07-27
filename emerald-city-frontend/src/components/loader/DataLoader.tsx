@@ -1,9 +1,12 @@
 import { StatusCodes } from "http-status-codes";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { api } from "@backend/types/api/Core";
+import { api, db } from "@backend/types/api/Core";
 import { addTexturePack } from "@src/feature/texturePackSlice";
 import { addMaterial } from "@src/feature/materialSlice";
+import { addImportedModel } from "@src/feature/importedModelSlice";
+import { addModel } from "@src/feature/modelSlice";
+import { addGeometry } from "@src/feature/geometrySlice";
 
 const DataLoader = ({
   children,
@@ -18,7 +21,7 @@ const DataLoader = ({
       isLoaded.current = true;
       console.log("Data Fetched");
 
-      fetch(`http://localhost:5000/resource/get/TexturePack`)
+      fetch(`http://localhost:5000/resource/get/${db.Table.TexturePack}`)
         .then((response) => response.json())
         .then((resources: api.TexturePack[]) => {
           resources.forEach((resource_unit) => {
@@ -26,11 +29,35 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/Material`)
+      fetch(`http://localhost:5000/resource/get/${db.Table.Material}`)
         .then((response) => response.json())
         .then((resources: api.Material[]) => {
           resources.forEach((resource_unit) => {
             dispatch(addMaterial(resource_unit));
+          });
+        });
+
+      fetch(`http://localhost:5000/resource/get/${db.Table.ImportedModel}`)
+        .then((response) => response.json())
+        .then((resources: api.ImportedModel[]) => {
+          resources.forEach((resource_unit) => {
+            dispatch(addImportedModel(resource_unit));
+          });
+        });
+
+      fetch(`http://localhost:5000/resource/get/${db.Table.Model}`)
+        .then((response) => response.json())
+        .then((resources: api.Model[]) => {
+          resources.forEach((resource_unit) => {
+            dispatch(addModel(resource_unit));
+          });
+        });
+
+      fetch(`http://localhost:5000/resource/get/${db.Table.Geometry}`)
+        .then((response) => response.json())
+        .then((resources: api.Geometry[]) => {
+          resources.forEach((resource_unit) => {
+            dispatch(addGeometry(resource_unit));
           });
         });
     }

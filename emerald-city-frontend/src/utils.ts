@@ -1,7 +1,7 @@
 export const uploadFile = async (url: string, fields: any, file: File) => {
   const formData = new FormData();
 
-  console.log(fields);
+  //console.log(fields);
 
   Object.entries(fields).forEach(([key, value]) => {
     formData.append(key, value as any);
