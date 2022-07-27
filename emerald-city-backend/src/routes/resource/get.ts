@@ -8,6 +8,7 @@ export async function GetResourceTable(req, res) {
   const collection = connection.db(process.env.DB_NAME).collection(rname);
 
   const findResult: any[] = await collection.find({}).toArray();
+  connection.close();
 
   const falttenedResult = findResult.map((document) => {
     const ret = { ...document, id: document._id.toString() };

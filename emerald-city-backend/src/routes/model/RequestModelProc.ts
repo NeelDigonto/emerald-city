@@ -28,6 +28,7 @@ export async function RequestModelProc(req, res) {
   };
 
   collection.insertOne(modelDB);
+  connection.close();
 
   res.end();
 }

@@ -137,6 +137,8 @@ export class EditorControls {
     this.raycastCallbacks.forEach((callback) =>
       callback([selectedSceneObject as SceneObject])
     );
+
+    return selectedSceneObject;
   }
 
   moveForward(delta: number) {
@@ -261,11 +263,11 @@ export class EditorControls {
     //console.log("mouse leave");
   }
 
-  castRays(ev: MouseEvent) {
+  castRays(canvasX: number, canvasY: number) {
     this.pointer.x =
-      (ev.offsetX / this.renderEngine.renderer.domElement.width) * 2 - 1;
+      (canvasX / this.renderEngine.renderer.domElement.width) * 2 - 1;
     this.pointer.y =
-      -(ev.offsetY / this.renderEngine.renderer.domElement.height) * 2 + 1;
+      -(canvasY / this.renderEngine.renderer.domElement.height) * 2 + 1;
 
     this.raycaster.setFromCamera(this.pointer, this.camera);
     const intersects = this.raycaster.intersectObjects(
@@ -308,19 +310,7 @@ export class EditorControls {
         intersection.object.uuid
       );
 
-    this.selectSceneObject(selectedSceneObject as SceneObject);
-
-    /*     const intersectedObjectIndex = intersects.findIndex((renderObject) => {
-      return (
-        this.sceneGraph.renderObjectToSceneObjectMap.get(
-          renderObject.object.uuid
-        ) !== undefined
-      );
-    });
-
-    if (intersectedObjectIndex === -1) return;
-
-    console.log(intersects); */
+    return this.selectSceneObject(selectedSceneObject as SceneObject); //maybe specify a solo event
   }
 
   handleMouseDown(ev: MouseEvent) {
@@ -328,7 +318,7 @@ export class EditorControls {
       this.movementOn = true;
       this.domElement.requestPointerLock();
     } else if (this.castRays && ev.button === 0) {
-      this.castRays(ev);
+      this.castRays(ev.offsetX, ev.offsetY);
     }
   }
 

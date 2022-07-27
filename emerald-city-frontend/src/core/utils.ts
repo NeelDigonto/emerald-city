@@ -47,3 +47,5 @@ export function deepTraverse(
 
   object.children.forEach((_object) => deepTraverse(_object, callback));
 }
+
+export function createMesh(model: string) {}

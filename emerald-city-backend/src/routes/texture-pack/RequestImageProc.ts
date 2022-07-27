@@ -113,5 +113,6 @@ export async function RequestImageProc(req, res) {
     .collection(db.Table.TexturePack);
 
   collection.insertOne(texturePackDB);
+  connection.close();
   res.end();
 }

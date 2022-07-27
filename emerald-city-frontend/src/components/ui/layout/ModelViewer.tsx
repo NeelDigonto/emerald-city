@@ -19,11 +19,19 @@ import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import { RootState } from "@src/app/store";
 import { useSelector } from "react-redux";
 import ViewInArRounded from "@mui/icons-material/ViewInArRounded";
+import { useEngineContext } from "@src/contexts/EngineContext";
 
 const ModelViewer = () => {
   const [open, setOpen] = React.useState(true);
   const [filterModelName, setFilterModelName] = React.useState<string>("");
   const models = useSelector((state: RootState) => state.model);
+  const engine = useEngineContext();
+
+  React.useEffect(() => {
+    engine.renderEngine?.container.addEventListener("drop", (e) => {
+      console.log(e.dataTransfer!.getData("text/plain"));
+    });
+  }, []);
 
   return (
     <Stack direction="column">
@@ -87,11 +95,14 @@ const ModelViewer = () => {
                   (model) =>
                     filterModelName === "" || model.name === filterModelName
                 )
-                .map((item, index) => (
+                .map((model, index) => (
                   <React.Fragment key={index}>
                     <ListItemButton
                       draggable
-                      key={item.id}
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData("text/plain", model.id);
+                      }}
+                      key={model.id}
                       sx={{
                         py: 0,
                         minHeight: 32,
@@ -102,7 +113,7 @@ const ModelViewer = () => {
                         {<ViewInArRounded />}
                       </ListItemIcon>
                       <ListItemText
-                        primary={item.name}
+                        primary={model.name}
                         primaryTypographyProps={{
                           fontSize: 14,
                           fontWeight: "medium",

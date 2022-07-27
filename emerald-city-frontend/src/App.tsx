@@ -86,7 +86,15 @@ function App() {
   return (
     <RootContainer>
       <Toolbar></Toolbar>
-      <CanvasContainer ref={canvasContainerRef}>
+      <CanvasContainer
+        ref={canvasContainerRef}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDragEnter={(e) => {
+          e.preventDefault();
+        }}
+      >
         <PerformanceMonitor />
         <Canvas tabIndex={1} ref={canvasRef} />
       </CanvasContainer>

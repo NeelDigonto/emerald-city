@@ -88,7 +88,6 @@ const BasicShapes = () => {
               data.map((item, index) => (
                 <React.Fragment key={index}>
                   <ListItemButton
-                    draggable
                     key={item.label}
                     sx={{
                       py: 0,
