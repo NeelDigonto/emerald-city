@@ -35,6 +35,7 @@ export const multiplyTexture = async (albedo: Buffer, ao: Buffer) => {
         gravity: 'center',
       },
     ])
+    .toColorspace('srgb')
     .jpeg({
       quality: 100,
       progressive: false,
@@ -45,5 +46,6 @@ export const multiplyTexture = async (albedo: Buffer, ao: Buffer) => {
       overshootDeringing: true,
       optimiseScans: true,
     })
+
     .toBuffer();
 };

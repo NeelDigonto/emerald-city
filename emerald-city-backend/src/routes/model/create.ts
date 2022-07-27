@@ -10,7 +10,8 @@ export async function CreateModel(req, res) {
     .collection(db.Table.Model);
 
   const insertResult = await collection.insertOne(body);
-  connection.close();
 
   res.send({ id: insertResult.insertedId });
+
+  await connection.close();
 }

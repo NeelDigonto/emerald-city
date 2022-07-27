@@ -4,6 +4,7 @@ import { compressTexture, multiplyTexture } from '../../lib/img-proc.js';
 import { api, db } from '../../types/api/Core.js';
 import { s3 } from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function RequestImageProc(req, res) {
   const requestImageProc: api.RequestImageProc =
@@ -94,12 +95,14 @@ export async function RequestImageProc(req, res) {
       );
 
       texturePackDB.pmaaao = {
+        fuuid: uuidv4(),
         bucket: 'emerald-city',
         key: `textures/${requestImageProc.texturePackName}/pmaaao.jpg`,
         byteLength: pmaaaoFile.byteLength,
       };
 
       texturePackDB.pmaaaoCompressed = {
+        fuuid: uuidv4(),
         bucket: 'emerald-city',
         key: `textures/${requestImageProc.texturePackName}/pmaaao_compressed.jpg`,
         byteLength: fileCompressed.byteLength,
@@ -112,7 +115,9 @@ export async function RequestImageProc(req, res) {
     .db(process.env.DB_NAME)
     .collection(db.Table.TexturePack);
 
-  collection.insertOne(texturePackDB);
-  connection.close();
+  await collection.insertOne(texturePackDB);
+
   res.end();
+
+  await connection.close();
 }

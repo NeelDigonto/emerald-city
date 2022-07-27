@@ -1,3 +1,4 @@
+import { api } from "@backend/types/api/Core";
 import * as THREE from "three";
 import { Object3D } from "three";
 import { SceneGraph } from "./SceneGraph";
@@ -46,6 +47,31 @@ export function deepTraverse(
   if (object.children.length === 0) callback(object);
 
   object.children.forEach((_object) => deepTraverse(_object, callback));
+}
+
+export function replaceMat(
+  _object: Object3D<THREE.Event>,
+  newMat: THREE.Material
+) {
+  deepTraverse(_object, (obj) => {
+    if (obj instanceof THREE.Mesh) {
+      obj.material.dispose();
+      obj.material = newMat;
+    }
+  });
+}
+
+export async function getPresignedDownloadUrl(fileRef: api.FileRef) {
+  return await fetch("http://localhost:5000/get-presigned-get-url", {
+    method: "POST",
+    body: JSON.stringify({
+      bucket: fileRef.bucket,
+      key: fileRef.key,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((response) => response.text());
 }
 
 export function createMesh(model: string) {}

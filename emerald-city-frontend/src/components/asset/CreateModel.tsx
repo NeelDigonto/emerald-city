@@ -38,7 +38,7 @@ const CreateModel = () => {
     type: api.ModelType.Imported,
     geometryID: null,
     materialID: null,
-    modelID: null,
+    importedModelID: null,
   };
 
   const formik: FormikProps<Omit<api.Model, "id">> = useFormik({
@@ -121,25 +121,7 @@ const CreateModel = () => {
                         option.id === value.id
                       }
                       onChange={(event, value) =>
-                        formik.setFieldValue("modelID", value?.id)
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} label="Imported Model Name" />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item {...{ sm: 12, lg: 3 }}>
-                    <Autocomplete
-                      fullWidth
-                      disablePortal
-                      id="combo-box-demo"
-                      options={importedModel}
-                      getOptionLabel={(option) => option.name}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      onChange={(event, value) =>
-                        formik.setFieldValue("modelID", value?.id)
+                        formik.setFieldValue("importedModelID", value?.id)
                       }
                       renderInput={(params) => (
                         <TextField {...params} label="Imported Model Name" />

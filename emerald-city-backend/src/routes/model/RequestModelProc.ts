@@ -4,6 +4,7 @@ import { compressTexture, multiplyTexture } from '../../lib/img-proc.js';
 import { api, db } from '../../types/api/Core.js';
 import { s3 } from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function RequestModelProc(req, res) {
   const requestModelProc: api.RequestModelProc =
@@ -21,14 +22,16 @@ export async function RequestModelProc(req, res) {
     type: api.ImportedModelType.FBX,
     name: requestModelProc.modelName,
     file: {
+      fuuid: uuidv4(),
       bucket,
       key: `models/${requestModelProc.modelName}/model.fbx`,
       byteLength: 0,
     },
   };
 
-  collection.insertOne(modelDB);
-  connection.close();
+  await collection.insertOne(modelDB);
 
   res.end();
+
+  await connection.close();
 }

@@ -12,6 +12,7 @@ export enum Role {
 }
 
 type BeforeRenerCallback = (delta: DOMHighResTimeStamp) => void;
+type OnRenderEngineInitializeCallback = () => void;
 
 export class Engine {
   //renderEngine
@@ -24,7 +25,15 @@ export class Engine {
   lastLoopStartTimeStamp: number = 0;
   lastLoopTime: number = 0;
 
-  beforeRenderCallbacks: Map<string, BeforeRenerCallback>;
+  onRenderEngineInitializeCallbacks: Map<
+    string,
+    OnRenderEngineInitializeCallback
+  > = new Map<string, OnRenderEngineInitializeCallback>();
+
+  beforeRenderCallbacks: Map<string, BeforeRenerCallback> = new Map<
+    string,
+    BeforeRenerCallback
+  >();
 
   sceneGraph: SceneGraph;
   renderEngine: RenderEngine | null = null;
@@ -34,7 +43,6 @@ export class Engine {
     console.log("Engine Loaded");
     this.currentRole = Role.Editor;
     this.sceneGraph = new SceneGraph(this);
-    this.beforeRenderCallbacks = new Map<string, BeforeRenerCallback>();
   }
 
   initializeRenderEngine(container: HTMLDivElement, canvas: HTMLCanvasElement) {
@@ -47,6 +55,18 @@ export class Engine {
         false
       )
     );
+
+    this.onRenderEngineInitializeCallbacks.forEach((callbackfn) =>
+      callbackfn()
+    );
+  }
+
+  registerOnRenderEngineInitializeCallback(
+    callbackfn: OnRenderEngineInitializeCallback
+  ) {
+    const id = uuidv4();
+    this.onRenderEngineInitializeCallbacks.set(id, callbackfn);
+    return id;
   }
 
   play() {

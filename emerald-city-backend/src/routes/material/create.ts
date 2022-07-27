@@ -11,7 +11,7 @@ export async function CreateMaterial(req, res) {
 
   const insertResult = await collection.insertOne(body);
 
-  connection.close();
-
   res.send({ id: insertResult.insertedId });
+
+  await connection.close();
 }

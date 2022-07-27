@@ -242,9 +242,9 @@ const CreateMaterial = () => {
                         label="Material Type"
                         onChange={formik.handleChange}
                       >
-                        <MenuItem value={api.MaterialType.Basic}>
+                        {/* <MenuItem value={api.MaterialType.Basic}>
                           {api.MaterialType.Basic}
-                        </MenuItem>
+                        </MenuItem> */}
                         <MenuItem value={api.MaterialType.Standard}>
                           {api.MaterialType.Standard}
                         </MenuItem>

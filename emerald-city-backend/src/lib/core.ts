@@ -48,7 +48,7 @@ export const compressorUtil = async (
 
   texturePackDB[`${fname}Compressed`] = {
     bucket,
-    key: `textures/${texturePackName}/${fname}_compressed..jpg`,
+    key: `textures/${texturePackName}/${fname}_compressed.jpg`,
     byteLength: fileCompressed.byteLength,
   };
 

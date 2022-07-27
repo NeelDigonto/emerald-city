@@ -7,6 +7,10 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomPass";
 import * as THREE from "three";
 import { EditorControls } from "./EditorControls";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import { api } from "@backend/types/api/Core";
+import { store } from "@src/app/store";
+import { getPresignedDownloadUrl } from "./utils";
 
 export class RenderEngine {
   // should always be attached
@@ -25,6 +29,20 @@ export class RenderEngine {
   delta: number = 0;
   lastFrameStartTimeStamp: number = 0;
   lastFrameRenderTime: number = 0;
+
+  textureStore: Map<string, THREE.Texture> = new Map<string, THREE.Texture>();
+  materialStore: Map<string, THREE.Material> = new Map<
+    string,
+    THREE.Material
+  >();
+  importedModelStore: Map<string, THREE.Object3D> = new Map<
+    string,
+    THREE.Object3D
+  >();
+  modelStore: Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
+
+  textureLoader: THREE.TextureLoader = new THREE.TextureLoader();
+  fbxLoader: FBXLoader = new FBXLoader();
 
   //renderPass: RenderPass | null = null;
   //renderScene!: RenderPass;
@@ -73,6 +91,97 @@ export class RenderEngine {
       engine.sceneGraph,
       this.container,
       this.camera
+    );
+  }
+
+  async ensureMaterial(materialID: string) {
+    if (this.materialStore.has(materialID)) return;
+
+    const state = store.getState();
+    const _material = state.material.find((mat) => mat.id === materialID)!;
+
+    let material: THREE.MeshStandardMaterial | THREE.MeshPhysicalMaterial;
+    if (_material.type === api.MaterialType.Standard)
+      material = new THREE.MeshStandardMaterial();
+    else if (_material.type === api.MaterialType.Physical)
+      material = new THREE.MeshPhysicalMaterial();
+    else {
+      material = new THREE.MeshStandardMaterial();
+    }
+
+    //_material.baseColor
+
+    const texturePack = state.texturePack.find(
+      (atexturePack) => atexturePack.id === _material.texturePackID
+    )!;
+
+    if (texturePack.pmaaaoCompressed !== undefined) {
+      if (!this.textureStore.has(texturePack.pmaaaoCompressed.fuuid)) {
+        const tex = await this.textureLoader.loadAsync(
+          await getPresignedDownloadUrl(texturePack.pmaaaoCompressed)
+        );
+        tex.encoding = THREE.sRGBEncoding;
+        this.textureStore.set(texturePack.pmaaaoCompressed.fuuid, tex);
+        material.map = tex;
+      }
+    } else if (texturePack.albedoCompressed !== undefined) {
+      if (!this.textureStore.has(texturePack.albedoCompressed.fuuid)) {
+        const tex = await this.textureLoader.loadAsync(
+          await getPresignedDownloadUrl(texturePack.albedoCompressed)
+        );
+        tex.encoding = THREE.sRGBEncoding;
+        this.textureStore.set(texturePack.albedoCompressed.fuuid, tex);
+        material.map = tex;
+      }
+    }
+
+    if (texturePack.normalCompressed !== undefined) {
+      if (!this.textureStore.has(texturePack.normalCompressed.fuuid)) {
+        const tex = await this.textureLoader.loadAsync(
+          await getPresignedDownloadUrl(texturePack.normalCompressed)
+        );
+        this.textureStore.set(texturePack.normalCompressed.fuuid, tex);
+        material.normalMap = tex;
+      }
+    }
+
+    if (texturePack.roughnessCompressed !== undefined) {
+      if (!this.textureStore.has(texturePack.roughnessCompressed.fuuid)) {
+        const tex = await this.textureLoader.loadAsync(
+          await getPresignedDownloadUrl(texturePack.roughnessCompressed)
+        );
+        this.textureStore.set(texturePack.roughnessCompressed.fuuid, tex);
+        material.roughnessMap = tex;
+      }
+    }
+
+    if (texturePack.metalnessCompressed !== undefined) {
+      if (!this.textureStore.has(texturePack.metalnessCompressed.fuuid)) {
+        const tex = await this.textureLoader.loadAsync(
+          await getPresignedDownloadUrl(texturePack.metalnessCompressed)
+        );
+        this.textureStore.set(texturePack.metalnessCompressed.fuuid, tex);
+        material.metalnessMap = tex;
+      }
+    }
+
+    this.materialStore.set(_material.id, material);
+  }
+
+  async ensureImportedModel(importedModelID: string) {
+    if (this.importedModelStore.has(importedModelID)) return;
+
+    const importedModels = store.getState().importedModel;
+
+    const importedModelFileRef = importedModels.find(
+      (importedModel) => importedModel.id === importedModelID
+    )!.file;
+
+    this.importedModelStore.set(
+      importedModelID,
+      await this.fbxLoader.loadAsync(
+        await getPresignedDownloadUrl(importedModelFileRef)
+      )
     );
   }
 

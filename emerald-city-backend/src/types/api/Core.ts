@@ -1,5 +1,6 @@
 export namespace api {
   export interface FileRef {
+    fuuid: string;
     bucket: string;
     key: string;
     byteLength: number;
@@ -30,7 +31,7 @@ export namespace api {
   }
 
   export enum MaterialType {
-    Basic = 'Basic',
+    //Basic = 'Basic',
     Standard = 'Standard',
     Physical = 'Physical',
   }
@@ -105,7 +106,7 @@ export namespace db {
     id: string;
     name: string;
     type: api.ModelType;
-    modelID: string | null;
+    importedModelID: string | null;
     materialID: string | null;
     geometryID: string | null;
   }
