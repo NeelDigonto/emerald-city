@@ -22,6 +22,8 @@ export async function loadFBX(
     sceneGraph.root!.id,
     new SceneObject("Base T Pose 1", model, SceneObjectType.MeshObject, true)
   );
+
+  console.log(model);
   //renderEngine.editorControls.transformControls.attach(model);
 
   fbxLoader.load(
@@ -37,7 +39,7 @@ export async function loadFBX(
  */
       object.scale.set(0.02, 0.02, 0.02);
       object.position.set(0, 0, 0);
-      scene.add(object);
+      /* scene.add(object);
       sceneGraph.add(
         sceneGraph.root!.id,
         new SceneObject(
@@ -46,7 +48,7 @@ export async function loadFBX(
           SceneObjectType.MeshObject,
           true
         )
-      );
+      ); */
     },
     (xhr) => {},
     (error) => {}
@@ -65,7 +67,7 @@ export async function loadFBX(
 
       model2.scale.set(0.02, 0.02, 0.02);
       model2.position.set(3.5, 0, 0);
-      scene.add(model2);
+      /* scene.add(model2);
       sceneGraph.add(
         sceneGraph.root!.id,
         new SceneObject(
@@ -74,7 +76,7 @@ export async function loadFBX(
           SceneObjectType.MeshObject,
           true
         )
-      );
+      ); */
     },
     (xhr) => {},
     (error) => {}
@@ -83,10 +85,9 @@ export async function loadFBX(
   const apples = await fbxLoader.loadAsync("apples/t1.fbx");
 
   //scene.add(apples);
-}
 
-/* const animationAction = mixer.clipAction(
-        (object as THREE.Object3D).animations[0]
-      ); */
-//animationActions.push(animationAction);
-//activeAction = animationActions[0];
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+}

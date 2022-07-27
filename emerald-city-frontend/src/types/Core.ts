@@ -108,7 +108,7 @@ export interface Material {
 }
 
 export interface Mesh {
-  model: Model;
+  //model: Model;
   material: Material;
 }
 
@@ -120,5 +120,5 @@ export enum SidebarPanel {
   ModelImporter,
   AnimationImporter,
   MaterialCreator,
-  MeshCreator,
+  CreateModel,
 }

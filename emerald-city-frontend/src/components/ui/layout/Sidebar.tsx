@@ -33,6 +33,7 @@ import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
 import CreateMaterial from "../../content/CreateMaterial";
 import ModelUploader from "@src/components/content/ModelUploader";
+import ModelViewer from "@src/components/content/ModelViewer";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -95,6 +96,7 @@ const Sidebar = () => {
         <CreateMaterial />
       )}
       {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelUploader />}
+      <ModelViewer />
     </SidebarContainer>
   );
 };

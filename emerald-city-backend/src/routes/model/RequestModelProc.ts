@@ -5,7 +5,7 @@ import { api, db } from '../../types/api/Core.js';
 import { s3 } from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 
-export async function RequestImageProc(req, res) {
+export async function RequestModelProc(req, res) {
   const requestModelProc: api.RequestModelProc =
     req.body as api.RequestModelProc;
 

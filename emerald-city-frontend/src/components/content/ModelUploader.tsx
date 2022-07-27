@@ -23,12 +23,13 @@ import { MapTypes, SidebarPanel, textureMaps } from "@src/types/Core";
 import { api } from "@backend/types/api/Core";
 import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { useDispatch } from "react-redux";
+import { uploadFile } from "@src/utils";
 
 const ModelImporter = () => {
   const [open, setOpen] = React.useState(true);
   const dispatch = useDispatch();
 
-  const modelRef = React.useRef<HTMLInputElement>(null);
+  const fileRef = React.useRef<HTMLInputElement>(null);
 
   const initialState: api.RequestModelProc = {
     modelName: "",
@@ -41,13 +42,17 @@ const ModelImporter = () => {
       setSubmitting(true);
 
       const bucket: string = "emerald-city";
-      /* 
-      if (values.albedo) {
+
+      if (
+        fileRef.current &&
+        fileRef.current.files &&
+        fileRef.current.files[0]
+      ) {
         await fetch("http://localhost:5000/get-presigned-post-url", {
           method: "POST",
           body: JSON.stringify({
             bucket,
-            key: `textures/${values.texturePackName}/albedo.jpg`,
+            key: `models/${values.modelName}/model.fbx`,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -55,9 +60,17 @@ const ModelImporter = () => {
         })
           .then((response) => response.json())
           .then(({ url, fields }) =>
-            uploadFile(url, fields, albedoFileRef.current!.files![0])
+            uploadFile(url, fields, fileRef.current!.files![0])
           );
-      } */
+
+        await fetch("http://localhost:5000/model/request-model-proc", {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
       dispatch(setActiveSidebarPanel(SidebarPanel.None));
       setSubmitting(false);
     },
@@ -94,6 +107,7 @@ const ModelImporter = () => {
                   onChange={formik.handleChange}
                   value={formik.values.modelName}
                 />
+                <input type="file" ref={fileRef} name="myImage" />
               </Container>
             </DialogContent>
           </Container>
