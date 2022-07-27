@@ -19,6 +19,7 @@ export async function RequestModelProc(req, res) {
 
   const modelDB: Omit<api.ImportedModel, 'id'> = {
     type: api.ImportedModelType.FBX,
+    name: requestModelProc.modelName,
     file: {
       bucket,
       key: `models/${requestModelProc.modelName}/model.fbx`,

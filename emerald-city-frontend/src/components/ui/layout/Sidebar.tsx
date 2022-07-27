@@ -25,15 +25,16 @@ import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import WorldOutliner from "./WorldOutliner";
-import BasicShapes from "../../content/BaicsShapes";
-import TextureUploader from "../../content/TextureUploader";
+import BasicShapes from "../../asset/BaicsShapes";
+import TextureUploader from "../../asset/TextureUploader";
 import { useSelector } from "react-redux";
 import { RootState } from "@src/app/store";
 import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
-import CreateMaterial from "../../content/CreateMaterial";
-import ModelUploader from "@src/components/content/ModelUploader";
-import ModelViewer from "@src/components/content/ModelViewer";
+import CreateMaterial from "../../asset/CreateMaterial";
+import ModelUploader from "@src/components/asset/ModelUploader";
+import ModelViewer from "@src/components/asset/ModelViewer";
+import CreateModel from "@src/components/asset/CreateModel";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -96,6 +97,7 @@ const Sidebar = () => {
         <CreateMaterial />
       )}
       {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelUploader />}
+      {activeSidebarPanel === SidebarPanel.CreateModel && <CreateModel />}
       <ModelViewer />
     </SidebarContainer>
   );

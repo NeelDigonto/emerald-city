@@ -58,7 +58,17 @@ const Toolbar = () => {
           }
         >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Import Material
+            Import Textures
+          </Typography>
+        </Button>
+        <Button
+          startIcon={<DownloadRoundedIcon fontSize="large" />}
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.MaterialCreator))
+          }
+        >
+          <Typography sx={{ color: "white", opacity: 0.6 }}>
+            Create Material
           </Typography>
         </Button>
         <Button
@@ -74,21 +84,11 @@ const Toolbar = () => {
         <Button
           startIcon={<DownloadRoundedIcon fontSize="large" />}
           onClick={() =>
-            dispatch(setActiveSidebarPanel(SidebarPanel.AnimationImporter))
+            dispatch(setActiveSidebarPanel(SidebarPanel.CreateModel))
           }
         >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Import Animation
-          </Typography>
-        </Button>
-        <Button
-          startIcon={<DownloadRoundedIcon fontSize="large" />}
-          onClick={() =>
-            dispatch(setActiveSidebarPanel(SidebarPanel.MaterialCreator))
-          }
-        >
-          <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Create Material
+            Create Model
           </Typography>
         </Button>
         {/* <Button

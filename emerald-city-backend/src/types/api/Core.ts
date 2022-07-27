@@ -95,6 +95,7 @@ export namespace db {
   }
 
   export interface ImportedModel {
+    name: string;
     id: string;
     type: api.ImportedModelType;
     file: api.FileRef;
@@ -103,9 +104,9 @@ export namespace db {
   export interface Model {
     id: string;
     type: api.ModelType;
-    modelID?: string;
-    materialID?: string;
-    geometryID?: string;
+    modelID: string | null;
+    materialID: string | null;
+    geometryID: string | null;
   }
 
   export interface Geometry {
