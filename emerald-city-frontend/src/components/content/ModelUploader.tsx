@@ -19,11 +19,14 @@ import React from "react";
 import { FormikProps, useFormik } from "formik";
 import Home from "@mui/icons-material/Home";
 import styled from "@emotion/styled";
-import { MapTypes, textureMaps } from "@src/types/Core";
+import { MapTypes, SidebarPanel, textureMaps } from "@src/types/Core";
 import { api } from "@backend/types/api/Core";
+import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
+import { useDispatch } from "react-redux";
 
 const ModelImporter = () => {
   const [open, setOpen] = React.useState(true);
+  const dispatch = useDispatch();
 
   const modelRef = React.useRef<HTMLInputElement>(null);
 
@@ -55,7 +58,7 @@ const ModelImporter = () => {
             uploadFile(url, fields, albedoFileRef.current!.files![0])
           );
       } */
-
+      dispatch(setActiveSidebarPanel(SidebarPanel.None));
       setSubmitting(false);
     },
   });
@@ -65,7 +68,10 @@ const ModelImporter = () => {
       fullWidth={true}
       maxWidth="xl"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        dispatch(setActiveSidebarPanel(SidebarPanel.None));
+        setOpen(false);
+      }}
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>

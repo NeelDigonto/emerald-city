@@ -19,9 +19,11 @@ import React from "react";
 import { FormikProps, useFormik } from "formik";
 import Home from "@mui/icons-material/Home";
 import styled from "@emotion/styled";
-import { MapTypes, textureMaps } from "@src/types/Core";
+import { MapTypes, SidebarPanel, textureMaps } from "@src/types/Core";
 import { api } from "@backend/types/api/Core";
 import { uploadFile } from "@src/utils";
+import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
+import { useDispatch } from "react-redux";
 
 const Image = styled.img`
   width: 100%;
@@ -96,6 +98,7 @@ const UploadArea = ({
 
 const TextureUploader = () => {
   const [open, setOpen] = React.useState(true);
+  const dispatch = useDispatch();
 
   const albedoFileRef = React.useRef<HTMLInputElement>(null);
   const normalFileRef = React.useRef<HTMLInputElement>(null);
@@ -213,6 +216,7 @@ const TextureUploader = () => {
         },
       });
 
+      dispatch(setActiveSidebarPanel(SidebarPanel.None));
       setSubmitting(false);
     },
   });
@@ -222,7 +226,10 @@ const TextureUploader = () => {
       fullWidth={true}
       maxWidth="xl"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        dispatch(setActiveSidebarPanel(SidebarPanel.None));
+        setOpen(false);
+      }}
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>

@@ -19,14 +19,17 @@ import {
   Select,
 } from "@mui/material";
 import { RootState } from "@src/app/store";
-import { textureMaps } from "@src/types/Core";
+import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
+import { SidebarPanel, textureMaps } from "@src/types/Core";
 import { FormikProps, useFormik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 const CreateMaterial = () => {
   const [open, setOpen] = React.useState(true);
 
+  const dispatch = useDispatch();
   const texturePacks = useSelector((state: RootState) => state.texturePack);
 
   const initialState: Omit<api.Material, "id"> = {
@@ -58,6 +61,7 @@ const CreateMaterial = () => {
         },
       });
 
+      dispatch(setActiveSidebarPanel(SidebarPanel.None));
       setSubmitting(false);
     },
   });
@@ -67,7 +71,10 @@ const CreateMaterial = () => {
       fullWidth={true}
       maxWidth="xl"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        dispatch(setActiveSidebarPanel(SidebarPanel.None));
+        setOpen(false);
+      }}
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>
