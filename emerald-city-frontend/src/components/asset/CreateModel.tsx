@@ -30,9 +30,11 @@ const CreateModel = () => {
   const [open, setOpen] = React.useState(true);
 
   const dispatch = useDispatch();
-  const texturePacks = useSelector((state: RootState) => state.texturePack);
+  const importedModel = useSelector((state: RootState) => state.importedModel);
+  const materials = useSelector((state: RootState) => state.material);
 
   const initialState: Omit<api.Model, "id"> = {
+    name: "",
     type: api.ModelType.Imported,
     geometryID: null,
     materialID: null,
@@ -47,7 +49,7 @@ const CreateModel = () => {
 
       //console.log(values);
 
-      await fetch("http://localhost:5000/material/create", {
+      await fetch("http://localhost:5000/model/create", {
         method: "POST",
         body: JSON.stringify(values),
         headers: {
@@ -73,12 +75,96 @@ const CreateModel = () => {
       <Paper>
         <form onSubmit={formik.handleSubmit}>
           <Container>
-            <DialogTitle color="secondary">Create Material</DialogTitle>
+            <DialogTitle color="secondary">Create Model</DialogTitle>
             <DialogContent>
               <DialogContentText>Do what you like.</DialogContentText>
               <Container>
                 <Divider />
-                <Grid container spacing={2}></Grid>
+                <Grid sx={{ mt: "0.25rem" }} rowGap={1} container spacing={2}>
+                  <Grid item {...{ sm: 12, lg: 3 }}>
+                    <TextField
+                      label="Model Name"
+                      name="name"
+                      onChange={formik.handleChange}
+                      value={formik.values.name}
+                    />
+                  </Grid>
+                  <Grid item {...{ sm: 12, lg: 3 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Type
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        name="type"
+                        value={formik.values.type}
+                        label="Type"
+                        onChange={formik.handleChange}
+                      >
+                        <MenuItem value={api.ModelType.Imported}>
+                          {api.ModelType.Imported}
+                        </MenuItem>
+                        <MenuItem value={api.ModelType.Custom}>
+                          {api.ModelType.Custom}
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item {...{ sm: 12, lg: 3 }}>
+                    <Autocomplete
+                      fullWidth
+                      disablePortal
+                      id="combo-box-demo"
+                      options={importedModel}
+                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                      }
+                      onChange={(event, value) =>
+                        formik.setFieldValue("modelID", value?.id)
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Imported Model Name" />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item {...{ sm: 12, lg: 3 }}>
+                    <Autocomplete
+                      fullWidth
+                      disablePortal
+                      id="combo-box-demo"
+                      options={importedModel}
+                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                      }
+                      onChange={(event, value) =>
+                        formik.setFieldValue("modelID", value?.id)
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Imported Model Name" />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item {...{ sm: 12, lg: 3 }}>
+                    <Autocomplete
+                      fullWidth
+                      disablePortal
+                      id="combo-box-demo"
+                      options={materials}
+                      getOptionLabel={(option) => option.materialName}
+                      isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                      }
+                      onChange={(event, value) =>
+                        formik.setFieldValue("materialID", value?.id)
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Material Name" />
+                      )}
+                    />
+                  </Grid>
+                </Grid>
               </Container>
             </DialogContent>
           </Container>

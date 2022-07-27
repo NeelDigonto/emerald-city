@@ -84,15 +84,16 @@ const CreateMaterial = () => {
               <DialogContentText>Do what you like.</DialogContentText>
               <Container>
                 <Divider />
-                <Grid container spacing={2}>
+                <Grid sx={{ mt: "0.25rem" }} rowGap={1} container spacing={2}>
                   <Grid item {...{ sm: 12, lg: 3 }}>
                     <TextField
-                      sx={{ mt: "1rem" }}
                       label="material Name"
                       name="materialName"
                       onChange={formik.handleChange}
                       value={formik.values.materialName}
                     />
+                  </Grid>
+                  <Grid item {...{ sm: 12, lg: 3 }}>
                     <Autocomplete
                       fullWidth
                       disablePortal

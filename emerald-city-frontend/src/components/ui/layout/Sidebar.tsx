@@ -32,7 +32,7 @@ import { RootState } from "@src/app/store";
 import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
 import CreateMaterial from "../../asset/CreateMaterial";
-import ModelUploader from "@src/components/asset/ModelUploader";
+import ImportModel from "@src/components/asset/ImportModel";
 import ModelViewer from "@src/components/asset/ModelViewer";
 import CreateModel from "@src/components/asset/CreateModel";
 
@@ -96,7 +96,7 @@ const Sidebar = () => {
       {activeSidebarPanel === SidebarPanel.MaterialCreator && (
         <CreateMaterial />
       )}
-      {activeSidebarPanel === SidebarPanel.ModelImporter && <ModelUploader />}
+      {activeSidebarPanel === SidebarPanel.ModelImporter && <ImportModel />}
       {activeSidebarPanel === SidebarPanel.CreateModel && <CreateModel />}
       <ModelViewer />
     </SidebarContainer>

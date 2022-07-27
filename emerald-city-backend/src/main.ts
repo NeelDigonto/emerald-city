@@ -16,6 +16,7 @@ import { db } from './types/api/Core.js';
 import { GetResourceTable } from './routes/resource/get.js';
 import { CreateMaterial } from './routes/material/create.js';
 import { RequestModelProc } from './routes/model/RequestModelProc.js';
+import { CreateModel } from './routes/model/create.js';
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,8 @@ app.get('/resource/get/:rname', express.json(), GetResourceTable);
 app.post('/material/create', express.json(), CreateMaterial);
 
 app.post('/model/request-model-proc', express.json(), RequestModelProc);
+
+app.post('/model/create', express.json(), CreateModel);
 
 app.listen(5000, () => {
   console.log('Listening on port 5000');

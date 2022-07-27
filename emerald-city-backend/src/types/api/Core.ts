@@ -41,8 +41,8 @@ export namespace api {
   }
 
   export enum ModelType {
-    Imported,
-    Custom,
+    Imported = 'Imported',
+    Custom = 'Custom',
   }
 
   export type TexturePack = db.TexturePack;
@@ -103,6 +103,7 @@ export namespace db {
 
   export interface Model {
     id: string;
+    name: string;
     type: api.ModelType;
     modelID: string | null;
     materialID: string | null;

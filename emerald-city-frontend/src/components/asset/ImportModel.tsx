@@ -25,7 +25,7 @@ import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { useDispatch } from "react-redux";
 import { uploadFile } from "@src/utils";
 
-const ModelImporter = () => {
+const ImportModel = () => {
   const [open, setOpen] = React.useState(true);
   const dispatch = useDispatch();
 
@@ -123,4 +123,4 @@ const ModelImporter = () => {
   );
 };
 
-export default ModelImporter;
+export default ImportModel;
