@@ -96,6 +96,84 @@ function handleBasicShapeDrop(
   }
 }
 
+function handleLightDrop(engine: Engine, lightType: api.Light) {
+  const renderEngine = engine.renderEngine!;
+
+  switch (lightType) {
+    case api.Light.Ambient:
+      {
+        const light = new THREE.AmbientLight(0x404040, 1); // soft white light
+        renderEngine.mainScene.add(light);
+        engine.sceneGraph.add(
+          engine.sceneGraph.root!.id,
+          new SceneObject("Sky Light", light, SceneObjectType.Light, true)
+        );
+      }
+      break;
+    case api.Light.Directional:
+      {
+        const light = new THREE.DirectionalLight(0x404040, 1); // soft white light
+        renderEngine.mainScene.add(light);
+        engine.sceneGraph.add(
+          engine.sceneGraph.root!.id,
+          new SceneObject(
+            "Directional Light",
+            light,
+            SceneObjectType.Light,
+            true
+          )
+        );
+      }
+      break;
+    case api.Light.RectArea:
+      {
+        const light = new THREE.RectAreaLight(0x404040, 1, 1, 1); // soft white light
+        renderEngine.mainScene.add(light);
+        engine.sceneGraph.add(
+          engine.sceneGraph.root!.id,
+          new SceneObject("RectArea Light", light, SceneObjectType.Light, true)
+        );
+      }
+      break;
+    case api.Light.Spot:
+      {
+        const light = new THREE.SpotLight(0x404040, 1); // soft white light
+        renderEngine.mainScene.add(light);
+        engine.sceneGraph.add(
+          engine.sceneGraph.root!.id,
+          new SceneObject("Spot Light", light, SceneObjectType.Light, true)
+        );
+      }
+      break;
+    case api.Light.Point:
+      {
+        const light = new THREE.PointLight(0x404040, 1); // soft white light
+        renderEngine.mainScene.add(light);
+        engine.sceneGraph.add(
+          engine.sceneGraph.root!.id,
+          new SceneObject("Point Light", light, SceneObjectType.Light, true)
+        );
+      }
+      break;
+    default:
+      break;
+  }
+
+  /* renderEngine.mainScene.add(renderObject);
+
+    //renderObject.scale.set(0.04, 0.04, 0.04);
+    renderEngine.mainScene.add(renderObject);
+    engine.sceneGraph.add(
+      engine.sceneGraph.root!.id,
+      new SceneObject(
+        "Untitled",
+        renderObject,
+        SceneObjectType.MeshObject,
+        true
+      )
+    ); */
+}
+
 export function dropCallback(
   engine: Engine,
   e: React.DragEvent<HTMLDivElement>
@@ -110,5 +188,7 @@ export function dropCallback(
       handleModelDrop(engine, dropData.data);
     else if (dropData.dropObjectType === DropObjectType.BasicShape)
       handleBasicShapeDrop(engine, dropData.data);
+    else if (dropData.dropObjectType === DropObjectType.Light)
+      handleLightDrop(engine, dropData.data);
   }
 }

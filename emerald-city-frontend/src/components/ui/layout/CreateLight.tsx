@@ -24,22 +24,11 @@ import { api } from "@backend/types/api/Core";
 import { deepTraverse, replaceMat } from "@src/core/utils";
 import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
 import SidebarListHeading from "../SidebarListHeading";
+import { DropObjectType, DropData } from "@src/types/Core";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 
-const ModelViewer = () => {
+const CreateLight = () => {
   const [open, setOpen] = React.useState(true);
-  const models = useSelector((state: RootState) => state.model);
-  //console.log(models);
-  const engine = useEngineContext();
-  const [, forceUpdate] = React.useReducer((x: number) => x + 1, 0);
-
-  function dropCallback() {}
-
-  React.useEffect(() => {
-    engine.registerOnRenderEngineInitializeCallback(() => {
-      forceUpdate();
-      dropCallback();
-    });
-  });
 
   return (
     <Stack direction="column">
@@ -47,16 +36,22 @@ const ModelViewer = () => {
         <FireNav>
           <SidebarListTitle label="Lights" />
           <Divider />
-          <SidebarListHeading primaryLabel="Models" secondaryLabel="">
+          <SidebarListHeading primaryLabel="Lights" secondaryLabel="">
             {open &&
-              models.map((model, index) => (
+              Object.keys(api.Light).map((light, index) => (
                 <React.Fragment key={index}>
                   <ListItemButton
                     draggable
                     onDragStart={(e) => {
-                      e.dataTransfer.setData("text/plain", model.id);
+                      e.dataTransfer.setData(
+                        "text/plain",
+                        JSON.stringify({
+                          dropObjectType: DropObjectType.Light,
+                          data: light,
+                        } as DropData)
+                      );
                     }}
-                    key={model.id}
+                    key={index}
                     sx={{
                       py: 0,
                       minHeight: 32,
@@ -64,10 +59,10 @@ const ModelViewer = () => {
                     }}
                   >
                     <ListItemIcon sx={{ color: "inherit" }}>
-                      {<ViewInArRounded />}
+                      {<LightModeRoundedIcon />}
                     </ListItemIcon>
                     <ListItemText
-                      primary={model.name}
+                      primary={light}
                       primaryTypographyProps={{
                         fontSize: 14,
                         fontWeight: "medium",
@@ -83,4 +78,4 @@ const ModelViewer = () => {
   );
 };
 
-export default ModelViewer;
+export default CreateLight;

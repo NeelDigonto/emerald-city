@@ -49,6 +49,14 @@ export namespace api {
     Torus = 'Torus',
   }
 
+  export enum Light {
+    Directional = 'Directional',
+    Point = 'Point',
+    Spot = 'Spot',
+    RectArea = 'RectArea',
+    Ambient = 'Ambient',
+  }
+
   export enum ImportedMeshType {
     FBX = 'FBX',
     // add gtlf, glb and obj import
