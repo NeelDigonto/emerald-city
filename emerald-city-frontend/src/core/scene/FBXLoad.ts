@@ -10,7 +10,7 @@ export async function loadFBX(
   sceneGraph: SceneGraph,
   renderEngine: RenderEngine
 ) {
-  const fbxLoader = new FBXLoader();
+  /*   const fbxLoader = new FBXLoader();
 
   const model = await fbxLoader.loadAsync("models/xbot.fbx");
   const model2 = await fbxLoader.loadAsync("models/xbot.fbx");
@@ -21,25 +21,23 @@ export async function loadFBX(
   sceneGraph.add(
     sceneGraph.root!.id,
     new SceneObject("Base T Pose 1", model, SceneObjectType.MeshObject, true)
-  );
-
+  ); */
   //console.log(model);
   //renderEngine.editorControls.transformControls.attach(model);
-
-  fbxLoader.load(
+  /*  fbxLoader.load(
     "models/Breakdance 1990.fbx",
     (object) => {
       const mixer = new THREE.AnimationMixer(object);
 
-      /* mixer.clipAction(object.animations[1]).play();
+      mixer.clipAction(object.animations[1]).play();
 
       renderEngine.engine.registerBeforeRenderCallback((delta) => {
         mixer.update(delta / 1000);
       });
- */
+
       object.scale.set(0.02, 0.02, 0.02);
       object.position.set(0, 0, 0);
-      /* scene.add(object);
+      scene.add(object);
       sceneGraph.add(
         sceneGraph.root!.id,
         new SceneObject(
@@ -48,26 +46,25 @@ export async function loadFBX(
           SceneObjectType.MeshObject,
           true
         )
-      ); */
+      );
     },
     (xhr) => {},
     (error) => {}
-  );
-
-  fbxLoader.load(
+  ); */
+  /* fbxLoader.load(
     "models/Breakdance 1990_without_skin.fbx",
     (object) => {
       const mixer = new THREE.AnimationMixer(model2);
 
-      /*  mixer.clipAction(object.animations[0]).play();
+       mixer.clipAction(object.animations[0]).play();
 
       renderEngine.engine.registerBeforeRenderCallback((delta) => {
         mixer.update(delta / 1000);
-      }); */
+      });
 
       model2.scale.set(0.02, 0.02, 0.02);
       model2.position.set(3.5, 0, 0);
-      /* scene.add(model2);
+      scene.add(model2);
       sceneGraph.add(
         sceneGraph.root!.id,
         new SceneObject(
@@ -76,13 +73,11 @@ export async function loadFBX(
           SceneObjectType.MeshObject,
           true
         )
-      ); */
+      );
     },
     (xhr) => {},
     (error) => {}
-  );
-
-  const apples = await fbxLoader.loadAsync("apples/t1.fbx");
-
+  ); */
+  //const apples = await fbxLoader.loadAsync("apples/t1.fbx");
   //scene.add(apples);
 }

@@ -40,8 +40,21 @@ const ModelViewer = () => {
         const modelID = e.dataTransfer!.getData("text/plain");
 
         if (renderEngine.modelStore.has(modelID)) {
-          renderEngine.mainScene.add(
-            renderEngine.modelStore.get(modelID)!.clone()
+          const renderObject = renderEngine.modelStore.get(modelID)!.clone();
+          renderEngine.mainScene.add(renderObject);
+
+          renderObject.scale.set(0.04, 0.04, 0.04);
+          renderObject.position.setX(Math.floor(Math.random() * 30) - 15);
+          renderObject.position.setZ(Math.floor(Math.random() * 30) - 15);
+          renderEngine.mainScene.add(renderObject);
+          engine.sceneGraph.add(
+            engine.sceneGraph.root!.id,
+            new SceneObject(
+              "Untitled",
+              renderObject,
+              SceneObjectType.MeshObject,
+              true
+            )
           );
         } else {
           const promises: Promise<any>[] = [];
@@ -74,6 +87,9 @@ const ModelViewer = () => {
                 .get(modelID)!
                 .clone();
 
+              renderObject.scale.set(0.04, 0.04, 0.04);
+              renderObject.position.setX(Math.floor(Math.random() * 30) - 15);
+              renderObject.position.setZ(Math.floor(Math.random() * 30) - 15);
               renderEngine.mainScene.add(renderObject);
               engine.sceneGraph.add(
                 engine.sceneGraph.root!.id,
@@ -151,7 +167,6 @@ const ModelViewer = () => {
                 }}
               />
             </ListItemButton>
-
             {open &&
               models
                 .filter(
