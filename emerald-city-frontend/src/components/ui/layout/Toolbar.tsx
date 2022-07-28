@@ -19,6 +19,10 @@ import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { SidebarPanel } from "@src/types/Core";
 import { useDispatch } from "react-redux";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
+import PageviewRoundedIcon from "@mui/icons-material/PageviewRounded";
+import TextureRoundedIcon from "@mui/icons-material/TextureRounded";
 
 const ToolbarContainer = styled.nav`
   width: 100%;
@@ -78,7 +82,7 @@ const Toolbar = () => {
           }
         />
         <ToolbarButton
-          Icon={DownloadRoundedIcon}
+          Icon={TextureRoundedIcon}
           label="Create Material"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.MaterialCreator))
@@ -92,28 +96,28 @@ const Toolbar = () => {
           }
         />
         <ToolbarButton
-          Icon={DownloadRoundedIcon}
+          Icon={LocationCityRoundedIcon}
           label="Create Model"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.ModelCreator))
           }
         />
         <ToolbarButton
-          Icon={DownloadRoundedIcon}
+          Icon={PageviewRoundedIcon}
           label="View Models"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.ModelViewer))
           }
         />
         <ToolbarButton
-          Icon={DownloadRoundedIcon}
+          Icon={DashboardCustomizeRoundedIcon}
           label="Add Basic Shapes"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.BasicShapes))
           }
         />
         <ToolbarButton
-          Icon={DownloadRoundedIcon}
+          Icon={LightModeRoundedIcon}
           label="Add Lights"
           onClick={() => dispatch(setActiveSidebarPanel(SidebarPanel.Lights))}
         />
