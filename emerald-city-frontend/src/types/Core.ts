@@ -85,3 +85,14 @@ export enum SidebarPanel {
   ModelCreator = "ModelCreator",
   ModelViewer = "ModelViewer",
 }
+
+export enum DropObjectType {
+  Model = "Model",
+  Light = "Light",
+  BasicShape = "BasicShape",
+}
+
+export interface DropData {
+  dropObjectType: DropObjectType;
+  data: any;
+}

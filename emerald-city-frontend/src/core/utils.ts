@@ -98,7 +98,7 @@ export function generatePrimitiveMeshes() {
 
   map.set(api.PrimitiveMesh.Sphere, new THREE.SphereGeometry(1, 50, 25));
 
-  map.set(api.PrimitiveMesh.Torus, new THREE.TorusGeometry(1, 4, 25, 50));
+  map.set(api.PrimitiveMesh.Torus, new THREE.TorusGeometry(2, 0.5, 25, 50));
 
   return map;
 }

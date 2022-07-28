@@ -24,6 +24,7 @@ import { api } from "@backend/types/api/Core";
 import { deepTraverse, replaceMat } from "@src/core/utils";
 import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
 import SidebarListHeading from "../SidebarListHeading";
+import { DropData, DropObjectType } from "@src/types/Core";
 
 const ModelViewer = () => {
   const [open, setOpen] = React.useState(true);
@@ -59,7 +60,13 @@ const ModelViewer = () => {
                     <ListItemButton
                       draggable
                       onDragStart={(e) => {
-                        e.dataTransfer.setData("text/plain", model.id);
+                        e.dataTransfer.setData(
+                          "text/plain",
+                          JSON.stringify({
+                            dropObjectType: DropObjectType.Model,
+                            data: model.id,
+                          } as DropData)
+                        );
                       }}
                       key={model.id}
                       sx={{
