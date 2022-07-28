@@ -74,7 +74,7 @@ const Toolbar = () => {
         <Button
           startIcon={<DownloadRoundedIcon fontSize="large" />}
           onClick={() =>
-            dispatch(setActiveSidebarPanel(SidebarPanel.ModelImporter))
+            dispatch(setActiveSidebarPanel(SidebarPanel.MeshImporter))
           }
         >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
@@ -84,7 +84,7 @@ const Toolbar = () => {
         <Button
           startIcon={<DownloadRoundedIcon fontSize="large" />}
           onClick={() =>
-            dispatch(setActiveSidebarPanel(SidebarPanel.CreateModel))
+            dispatch(setActiveSidebarPanel(SidebarPanel.ModelCreator))
           }
         >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
@@ -94,11 +94,11 @@ const Toolbar = () => {
         {/* <Button
           startIcon={<DownloadRoundedIcon fontSize="large" />}
           onClick={() =>
-            dispatch(setActiveSidebarPanel(SidebarPanel.AnimationImporter))
+            dispatch(setActiveSidebarPanel(SidebarPanel.ModelCreator))
           }
         >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Create Mesh
+            Create Model
           </Typography>
         </Button> */}
       </Stack>

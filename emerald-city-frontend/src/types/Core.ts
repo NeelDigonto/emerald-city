@@ -75,12 +75,12 @@ export interface Animation {
 //export type TexturePack = Partial<Record<MapTypes, FileRef>>;
 
 export enum SidebarPanel {
-  None,
-  BasicShapes,
-  Lights,
-  TexturePackImporter,
-  ModelImporter,
-  AnimationImporter,
-  MaterialCreator,
-  CreateModel,
+  None = "None",
+  BasicShapes = "BasicShapes",
+  Lights = "Lights",
+  TexturePackImporter = "TextureImporter",
+  MeshImporter = "MeshImporter",
+  AnimationImporter = "AnimationImporter",
+  MaterialCreator = "MaterialCreator",
+  ModelCreator = "ModelCreator",
 }
