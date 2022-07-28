@@ -62,16 +62,19 @@ const ModelViewer = () => {
             .model.find((_model) => _model.id === modelID)!;
 
           if (model.type === api.ModelType.Imported) {
-            promises.push(renderEngine.ensureMaterial(model.materialID!));
-            promises.push(
-              renderEngine.ensureImportedModel(model.importedModelID!)
-            );
+            if (model.materialID !== "")
+              promises.push(renderEngine.ensureMaterial(model.materialID));
+
+            if (model.importedMeshID !== "")
+              promises.push(
+                renderEngine.ensureImportedMesh(model.importedMeshID)
+              );
           }
 
           Promise.all(promises)
             .then(() => {
-              const tempIModel = renderEngine.importedModelStore.get(
-                model.importedModelID!
+              const tempIModel = renderEngine.importedMeshStore.get(
+                model.importedMeshID!
               )!;
               //.clone();
 

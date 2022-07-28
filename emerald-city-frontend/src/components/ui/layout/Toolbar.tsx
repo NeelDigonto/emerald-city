@@ -78,7 +78,7 @@ const Toolbar = () => {
           }
         >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Import Model
+            Import Mesh
           </Typography>
         </Button>
         <Button

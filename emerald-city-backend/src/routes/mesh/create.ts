@@ -6,30 +6,29 @@ import { s3 } from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function RequestModelProc(req, res) {
-  const requestModelProc: api.RequestModelProc =
-    req.body as api.RequestModelProc;
+export async function CreateMesh(req, res) {
+  const requestMeshProc: api.RequestMeshProc = req.body as api.RequestMeshProc;
 
   const bucket: string = 'emerald-city';
   const region: string = 'ap-south-1';
 
   const connection = await getMongoConnection();
-  const collection = connection
+  let collection = connection
     .db(process.env.DB_NAME)
-    .collection(db.Table.ImportedModel);
+    .collection(db.Table.ImportedMesh);
 
-  const modelDB: Omit<api.ImportedModel, 'id'> = {
-    type: api.ImportedModelType.FBX,
-    name: requestModelProc.modelName,
+  const meshDB: Omit<api.ImportedMesh, 'id'> = {
+    type: api.ImportedMeshType.FBX,
+    name: requestMeshProc.name,
     file: {
       fuuid: uuidv4(),
       bucket,
-      key: `models/${requestModelProc.modelName}/model.fbx`,
-      byteLength: 0,
+      key: `meshes/${requestMeshProc.name}.fbx`,
+      byteLength: requestMeshProc.bytelength,
     },
   };
 
-  await collection.insertOne(modelDB);
+  const insertedId = (await collection.insertOne(meshDB)).insertedId.toString();
 
   res.end();
 

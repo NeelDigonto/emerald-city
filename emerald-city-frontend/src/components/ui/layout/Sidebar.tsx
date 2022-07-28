@@ -32,7 +32,7 @@ import { RootState } from "@src/app/store";
 import { SidebarPanel } from "@src/types/Core";
 import { getActiveElement } from "formik";
 import CreateMaterial from "../../asset/CreateMaterial";
-import ImportModel from "@src/components/asset/ImportModel";
+import ImportModel from "@src/components/asset/ImportMesh";
 import ModelViewer from "@src/components/ui/layout/ModelViewer";
 import CreateModel from "@src/components/asset/CreateModel";
 

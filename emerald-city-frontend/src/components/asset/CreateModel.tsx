@@ -30,15 +30,17 @@ const CreateModel = () => {
   const [open, setOpen] = React.useState(true);
 
   const dispatch = useDispatch();
-  const importedModel = useSelector((state: RootState) => state.importedModel);
+  const importedMeshes = useSelector(
+    (state: RootState) => state.importedMeshes
+  );
   const materials = useSelector((state: RootState) => state.material);
 
   const initialState: Omit<api.Model, "id"> = {
     name: "",
     type: api.ModelType.Imported,
-    geometryID: null,
-    materialID: null,
-    importedModelID: null,
+    materialID: "",
+    importedMeshID: "",
+    primitiveMeshType: undefined,
   };
 
   const formik: FormikProps<Omit<api.Model, "id">> = useFormik({
@@ -104,8 +106,8 @@ const CreateModel = () => {
                         <MenuItem value={api.ModelType.Imported}>
                           {api.ModelType.Imported}
                         </MenuItem>
-                        <MenuItem value={api.ModelType.Custom}>
-                          {api.ModelType.Custom}
+                        <MenuItem value={api.ModelType.Basic}>
+                          {api.ModelType.Basic}
                         </MenuItem>
                       </Select>
                     </FormControl>
@@ -115,16 +117,16 @@ const CreateModel = () => {
                       fullWidth
                       disablePortal
                       id="combo-box-demo"
-                      options={importedModel}
+                      options={importedMeshes}
                       getOptionLabel={(option) => option.name}
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.id
                       }
                       onChange={(event, value) =>
-                        formik.setFieldValue("importedModelID", value?.id)
+                        formik.setFieldValue("importedMeshID", value?.id)
                       }
                       renderInput={(params) => (
-                        <TextField {...params} label="Imported Model Name" />
+                        <TextField {...params} label="Imported Mesh Name" />
                       )}
                     />
                   </Grid>

@@ -25,22 +25,22 @@ import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { useDispatch } from "react-redux";
 import { uploadFile } from "@src/utils";
 
-const ImportModel = () => {
+const ImportMesh = () => {
   const [open, setOpen] = React.useState(true);
   const dispatch = useDispatch();
 
   const fileRef = React.useRef<HTMLInputElement>(null);
 
-  const initialState: api.RequestModelProc = {
-    modelName: "",
+  const initialState: api.RequestMeshProc = {
+    name: "",
+    bytelength: 0,
   };
 
-  const formik: FormikProps<api.RequestModelProc> = useFormik({
+  const formik: FormikProps<api.RequestMeshProc> = useFormik({
     initialValues: initialState,
     validateOnChange: false,
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
-
       const bucket: string = "emerald-city";
 
       if (
@@ -52,7 +52,7 @@ const ImportModel = () => {
           method: "POST",
           body: JSON.stringify({
             bucket,
-            key: `models/${values.modelName}/model.fbx`,
+            key: `meshes/${values.name}.fbx`,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const ImportModel = () => {
             uploadFile(url, fields, fileRef.current!.files![0])
           );
 
-        await fetch("http://localhost:5000/model/request-model-proc", {
+        await fetch("http://localhost:5000/mesh/create", {
           method: "POST",
           body: JSON.stringify(values),
           headers: {
@@ -89,9 +89,9 @@ const ImportModel = () => {
       <Paper>
         <form onSubmit={formik.handleSubmit}>
           <Container>
-            <DialogTitle color="secondary">Upload Fbx Model</DialogTitle>
+            <DialogTitle color="secondary">Upload Fbx Mesh</DialogTitle>
             <DialogContent>
-              <DialogContentText>Select your Model File.</DialogContentText>
+              <DialogContentText>Select your Mesh File.</DialogContentText>
               <Container>
                 <Stack
                   direction="row"
@@ -102,10 +102,10 @@ const ImportModel = () => {
                 <Divider />
                 <TextField
                   sx={{ mt: "1rem" }}
-                  label="Model Name"
-                  name="modelName"
+                  label="Mesh Name"
+                  name="name"
                   onChange={formik.handleChange}
-                  value={formik.values.modelName}
+                  value={formik.values.name}
                 />
                 <input type="file" ref={fileRef} name="myImage" />
               </Container>
@@ -123,4 +123,4 @@ const ImportModel = () => {
   );
 };
 
-export default ImportModel;
+export default ImportMesh;

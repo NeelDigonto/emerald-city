@@ -35,7 +35,7 @@ export class RenderEngine {
     string,
     THREE.Material
   >();
-  importedModelStore: Map<string, THREE.Object3D> = new Map<
+  importedMeshStore: Map<string, THREE.Object3D> = new Map<
     string,
     THREE.Object3D
   >();
@@ -168,19 +168,19 @@ export class RenderEngine {
     this.materialStore.set(_material.id, material);
   }
 
-  async ensureImportedModel(importedModelID: string) {
-    if (this.importedModelStore.has(importedModelID)) return;
+  async ensureImportedMesh(importedMeshID: string) {
+    if (this.importedMeshStore.has(importedMeshID)) return;
 
-    const importedModels = store.getState().importedModel;
+    const importedMeshes = store.getState().importedMeshes;
 
-    const importedModelFileRef = importedModels.find(
-      (importedModel) => importedModel.id === importedModelID
+    const importedMeshFileRef = importedMeshes.find(
+      (importedMesh) => importedMesh.id === importedMeshID
     )!.file;
 
-    this.importedModelStore.set(
-      importedModelID,
+    this.importedMeshStore.set(
+      importedMeshID,
       await this.fbxLoader.loadAsync(
-        await getPresignedDownloadUrl(importedModelFileRef)
+        await getPresignedDownloadUrl(importedMeshFileRef)
       )
     );
   }

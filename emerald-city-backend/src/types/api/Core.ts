@@ -15,8 +15,9 @@ export namespace api {
     roughness: boolean;
   }
 
-  export interface RequestModelProc {
-    modelName: string;
+  export interface RequestMeshProc {
+    name: string;
+    bytelength: number;
   }
 
   export interface GetPresignedPostUrls {
@@ -36,19 +37,19 @@ export namespace api {
     Physical = 'Physical',
   }
 
-  export enum ImportedModelType {
+  export enum ImportedMeshType {
     FBX = 'FBX',
     // add gtlf, glb and obj import
   }
 
   export enum ModelType {
+    Basic = 'Basic',
     Imported = 'Imported',
-    Custom = 'Custom',
   }
 
   export type TexturePack = db.TexturePack;
   export type Material = db.Material;
-  export type ImportedModel = db.ImportedModel;
+  export type ImportedMesh = db.ImportedMesh;
   export type Model = db.Model;
   export type Geometry = db.Geometry;
 }
@@ -95,10 +96,22 @@ export namespace db {
     repeatY: number;
   }
 
-  export interface ImportedModel {
-    name: string;
+  export enum PrimitiveMesh {
+    Box = 'Box',
+    Capsule = 'Capsule',
+    Circle = 'Circle',
+    Cone = 'Cone',
+    Cylinder = 'Cylinder',
+    Plane = 'Plane',
+    Ring = 'Ring',
+    Sphere = 'Sphere',
+    Torus = 'Torus',
+  }
+
+  export interface ImportedMesh {
     id: string;
-    type: api.ImportedModelType;
+    name: string;
+    type: api.ImportedMeshType;
     file: api.FileRef;
   }
 
@@ -106,9 +119,9 @@ export namespace db {
     id: string;
     name: string;
     type: api.ModelType;
-    importedModelID: string | null;
-    materialID: string | null;
-    geometryID: string | null;
+    importedMeshID: string;
+    primitiveMeshType?: PrimitiveMesh;
+    materialID: string;
   }
 
   export interface Geometry {
@@ -118,8 +131,7 @@ export namespace db {
   export enum Table {
     TexturePack = 'TexturePack',
     Material = 'Material',
-    ImportedModel = 'ImportedModel',
-    Geometry = 'Geometry',
+    ImportedMesh = 'ImportedMesh',
     Model = 'Model',
   }
 }

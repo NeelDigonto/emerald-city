@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import { api, db } from "@backend/types/api/Core";
 import { addTexturePack } from "@src/feature/texturePackSlice";
 import { addMaterial } from "@src/feature/materialSlice";
-import { addImportedModel } from "@src/feature/importedModelSlice";
+import { addImportedMesh } from "@src/feature/importedMeshSlice";
 import { addModel } from "@src/feature/modelSlice";
-import { addGeometry } from "@src/feature/geometrySlice";
 
 const DataLoader = ({
   children,
@@ -37,11 +36,11 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${db.Table.ImportedModel}`)
+      fetch(`http://localhost:5000/resource/get/${db.Table.ImportedMesh}`)
         .then((response) => response.json())
-        .then((resources: api.ImportedModel[]) => {
+        .then((resources: api.ImportedMesh[]) => {
           resources.forEach((resource_unit) => {
-            dispatch(addImportedModel(resource_unit));
+            dispatch(addImportedMesh(resource_unit));
           });
         });
 
@@ -50,14 +49,6 @@ const DataLoader = ({
         .then((resources: api.Model[]) => {
           resources.forEach((resource_unit) => {
             dispatch(addModel(resource_unit));
-          });
-        });
-
-      fetch(`http://localhost:5000/resource/get/${db.Table.Geometry}`)
-        .then((response) => response.json())
-        .then((resources: api.Geometry[]) => {
-          resources.forEach((resource_unit) => {
-            dispatch(addGeometry(resource_unit));
           });
         });
     }
