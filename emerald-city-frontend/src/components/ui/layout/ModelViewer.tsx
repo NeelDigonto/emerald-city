@@ -44,8 +44,6 @@ const ModelViewer = () => {
           renderEngine.mainScene.add(renderObject);
 
           renderObject.scale.set(0.04, 0.04, 0.04);
-          renderObject.position.setX(Math.floor(Math.random() * 30) - 15);
-          renderObject.position.setZ(Math.floor(Math.random() * 30) - 15);
           renderEngine.mainScene.add(renderObject);
           engine.sceneGraph.add(
             engine.sceneGraph.root!.id,
@@ -88,8 +86,6 @@ const ModelViewer = () => {
                 .clone();
 
               renderObject.scale.set(0.04, 0.04, 0.04);
-              renderObject.position.setX(Math.floor(Math.random() * 30) - 15);
-              renderObject.position.setZ(Math.floor(Math.random() * 30) - 15);
               renderEngine.mainScene.add(renderObject);
               engine.sceneGraph.add(
                 engine.sceneGraph.root!.id,

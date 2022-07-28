@@ -19,6 +19,10 @@ const EngineContextProvider = ({
 }) => {
   const engine = React.useMemo(() => new Engine(), []);
 
+  React.useEffect(() => {
+    window.engine = engine;
+  }, []);
+
   return (
     <EngineContext.Provider value={engine}>{children}</EngineContext.Provider>
   );
