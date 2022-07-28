@@ -21,7 +21,7 @@ const EngineContextProvider = ({
 
   React.useEffect(() => {
     window.engine = engine;
-  }, []);
+  }, [engine]);
 
   return (
     <EngineContext.Provider value={engine}>{children}</EngineContext.Provider>

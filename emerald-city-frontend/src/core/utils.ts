@@ -75,3 +75,30 @@ export async function getPresignedDownloadUrl(fileRef: api.FileRef) {
 }
 
 export function createMesh(model: string) {}
+
+export function generatePrimitiveMeshes() {
+  const map = new Map<api.PrimitiveMesh, THREE.BufferGeometry>();
+
+  map.set(api.PrimitiveMesh.Box, new THREE.BoxGeometry(1, 1, 1));
+
+  map.set(api.PrimitiveMesh.Capsule, new THREE.CapsuleGeometry(1, 2, 20, 30));
+
+  map.set(api.PrimitiveMesh.Circle, new THREE.CircleGeometry(1, 50));
+
+  map.set(api.PrimitiveMesh.Cone, new THREE.ConeGeometry(1, 2, 40, 1));
+
+  map.set(
+    api.PrimitiveMesh.Cylinder,
+    new THREE.CylinderGeometry(1, 1, 2, 50, 1)
+  );
+
+  map.set(api.PrimitiveMesh.Plane, new THREE.PlaneGeometry(1, 1));
+
+  map.set(api.PrimitiveMesh.Ring, new THREE.RingGeometry(1, 2, 50, 1));
+
+  map.set(api.PrimitiveMesh.Sphere, new THREE.SphereGeometry(1, 50, 25));
+
+  map.set(api.PrimitiveMesh.Torus, new THREE.TorusGeometry(1, 4, 25, 50));
+
+  return map;
+}

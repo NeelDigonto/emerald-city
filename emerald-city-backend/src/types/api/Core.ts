@@ -37,6 +37,18 @@ export namespace api {
     Physical = 'Physical',
   }
 
+  export enum PrimitiveMesh {
+    Box = 'Box',
+    Capsule = 'Capsule',
+    Circle = 'Circle',
+    Cone = 'Cone',
+    Cylinder = 'Cylinder',
+    Plane = 'Plane',
+    Ring = 'Ring',
+    Sphere = 'Sphere',
+    Torus = 'Torus',
+  }
+
   export enum ImportedMeshType {
     FBX = 'FBX',
     // add gtlf, glb and obj import
@@ -46,6 +58,8 @@ export namespace api {
     Basic = 'Basic',
     Imported = 'Imported',
   }
+
+  export enum Characters {}
 
   export type TexturePack = db.TexturePack;
   export type Material = db.Material;
@@ -96,18 +110,6 @@ export namespace db {
     repeatY: number;
   }
 
-  export enum PrimitiveMesh {
-    Box = 'Box',
-    Capsule = 'Capsule',
-    Circle = 'Circle',
-    Cone = 'Cone',
-    Cylinder = 'Cylinder',
-    Plane = 'Plane',
-    Ring = 'Ring',
-    Sphere = 'Sphere',
-    Torus = 'Torus',
-  }
-
   export interface ImportedMesh {
     id: string;
     name: string;
@@ -120,7 +122,7 @@ export namespace db {
     name: string;
     type: api.ModelType;
     importedMeshID: string;
-    primitiveMeshType?: PrimitiveMesh;
+    primitiveMeshType?: api.PrimitiveMesh;
     materialID: string;
   }
 

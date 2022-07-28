@@ -8,6 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
+  SvgIconTypeMap,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -17,6 +18,7 @@ import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { SidebarPanel } from "@src/types/Core";
 import { useDispatch } from "react-redux";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 const ToolbarContainer = styled.nav`
   width: 100%;
@@ -25,6 +27,22 @@ const ToolbarContainer = styled.nav`
 
   border-bottom: green 1px solid;
 `;
+
+const ToolbarButton = ({
+  label,
+  Icon,
+  onClick,
+}: {
+  label: string;
+  Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  onClick: () => void;
+}) => {
+  return (
+    <Button startIcon={<Icon fontSize="large" />} onClick={onClick}>
+      <Typography sx={{ color: "white", opacity: 0.6 }}>{label}</Typography>
+    </Button>
+  );
+};
 
 const Toolbar = () => {
   const dispatch = useDispatch();
@@ -46,61 +64,59 @@ const Toolbar = () => {
           />
         </ListItemButton>
       </Stack> */}
-      <Stack direction="row" columnGap="5rem">
+      <Stack direction="row" columnGap="3rem">
         <Button startIcon={<PlayArrowRoundedIcon fontSize="large" />}>
           <Typography sx={{ color: "white", opacity: 0.6 }}>Play</Typography>
         </Button>
         <Divider />
-        <Button
-          startIcon={<DownloadRoundedIcon fontSize="large" />}
+
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="Import Textures"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.TexturePackImporter))
           }
-        >
-          <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Import Textures
-          </Typography>
-        </Button>
-        <Button
-          startIcon={<DownloadRoundedIcon fontSize="large" />}
+        />
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="Create Material"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.MaterialCreator))
           }
-        >
-          <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Create Material
-          </Typography>
-        </Button>
-        <Button
-          startIcon={<DownloadRoundedIcon fontSize="large" />}
+        />
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="Import Mesh"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.MeshImporter))
           }
-        >
-          <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Import Mesh
-          </Typography>
-        </Button>
-        <Button
-          startIcon={<DownloadRoundedIcon fontSize="large" />}
+        />
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="Create Model"
           onClick={() =>
             dispatch(setActiveSidebarPanel(SidebarPanel.ModelCreator))
           }
-        >
-          <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Create Model
-          </Typography>
-        </Button>
-        {/* <Button
-          startIcon={<DownloadRoundedIcon fontSize="large" />}
+        />
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="View Models"
           onClick={() =>
-            dispatch(setActiveSidebarPanel(SidebarPanel.ModelCreator))
+            dispatch(setActiveSidebarPanel(SidebarPanel.ModelViewer))
           }
-        >
-          <Typography sx={{ color: "white", opacity: 0.6 }}>
-            Create Model
-          </Typography>
-        </Button> */}
+        />
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="Add Basic Shapes"
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.BasicShapes))
+          }
+        />
+        <ToolbarButton
+          Icon={DownloadRoundedIcon}
+          label="Add Lights"
+          onClick={() => dispatch(setActiveSidebarPanel(SidebarPanel.Lights))}
+        />
       </Stack>
     </ToolbarContainer>
   );

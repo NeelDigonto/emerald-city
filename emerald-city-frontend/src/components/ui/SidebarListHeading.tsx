@@ -27,6 +27,7 @@ const SidebarListHeading = ({
           px: 3,
           pt: 2.5,
           pb: open ? 0 : 2.5,
+          mb: "0.5rem",
           "&:hover, &:focus": { "& svg": { opacity: open ? 1 : 0 } },
         }}
       >

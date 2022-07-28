@@ -35,6 +35,8 @@ import CreateMaterial from "../../asset/CreateMaterial";
 import MeshImporter from "@src/components/asset/ImportMesh";
 import ModelViewer from "@src/components/ui/layout/ModelViewer";
 import CreateModel from "@src/components/asset/CreateModel";
+import CreateLight from "./CreateLight";
+import AddBasicShapes from "./AddBasicShapes";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -97,7 +99,9 @@ const Sidebar = () => {
       )}
       {activeSidebarPanel === SidebarPanel.MeshImporter && <MeshImporter />}
       {activeSidebarPanel === SidebarPanel.ModelCreator && <CreateModel />}
-      <ModelViewer />
+      {activeSidebarPanel === SidebarPanel.ModelViewer && <ModelViewer />}
+      {activeSidebarPanel === SidebarPanel.BasicShapes && <AddBasicShapes />}
+      {activeSidebarPanel === SidebarPanel.Lights && <CreateLight />}
     </SidebarContainer>
   );
 };

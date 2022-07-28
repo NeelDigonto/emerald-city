@@ -83,4 +83,5 @@ export enum SidebarPanel {
   AnimationImporter = "AnimationImporter",
   MaterialCreator = "MaterialCreator",
   ModelCreator = "ModelCreator",
+  ModelViewer = "ModelViewer",
 }

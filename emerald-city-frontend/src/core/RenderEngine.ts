@@ -10,7 +10,7 @@ import { EditorControls } from "./EditorControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { api } from "@backend/types/api/Core";
 import { store } from "@src/app/store";
-import { getPresignedDownloadUrl } from "./utils";
+import { generatePrimitiveMeshes, getPresignedDownloadUrl } from "./utils";
 
 export class RenderEngine {
   // should always be attached
@@ -39,6 +39,7 @@ export class RenderEngine {
     string,
     THREE.Object3D
   >();
+  primitiveMeshStore: Map<api.PrimitiveMesh, THREE.BufferGeometry>;
   modelStore: Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
 
   textureLoader: THREE.TextureLoader = new THREE.TextureLoader();
@@ -92,6 +93,8 @@ export class RenderEngine {
       this.container,
       this.camera
     );
+
+    this.primitiveMeshStore = generatePrimitiveMeshes();
   }
 
   async ensureMaterial(materialID: string) {
