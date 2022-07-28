@@ -23,6 +23,7 @@ import { useEngineContext } from "@src/contexts/EngineContext";
 import { api } from "@backend/types/api/Core";
 import { deepTraverse, replaceMat } from "@src/core/utils";
 import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
+import SidebarListHeading from "../SidebarListHeading";
 
 const ModelViewer = () => {
   const [open, setOpen] = React.useState(true);
@@ -117,55 +118,15 @@ const ModelViewer = () => {
         <FireNav>
           <SidebarListTitle label="Basic Items" />
           <Divider />
-          <Box
-            sx={{
-              bgcolor: open ? "rgba(71, 98, 130, 0.2)" : null,
-              pb: open ? 2 : 0,
-            }}
-          >
+          <SidebarListHeading primaryLabel="Models" secondaryLabel="">
             <TextField
               fullWidth
               label="Model Name"
+              sx={{ mt: "0.5rem", mb: "0.5rem" }}
               name="name"
               onChange={(event) => setFilterModelName(() => event.target.value)}
               value={filterModelName}
             />
-            <ListItemButton
-              alignItems="flex-start"
-              onClick={() => setOpen(!open)}
-              sx={{
-                px: 3,
-                pt: 2.5,
-                pb: open ? 0 : 2.5,
-                "&:hover, &:focus": { "& svg": { opacity: open ? 1 : 0 } },
-              }}
-            >
-              <ListItemText
-                primary="Models"
-                primaryTypographyProps={{
-                  fontSize: 15,
-                  fontWeight: "medium",
-                  lineHeight: "20px",
-                  mb: "2px",
-                }}
-                secondary="Box, Cylinder, etc."
-                secondaryTypographyProps={{
-                  noWrap: true,
-                  fontSize: 12,
-                  lineHeight: "16px",
-                  color: open ? "rgba(0,0,0,0)" : "rgba(255,255,255,0.5)",
-                }}
-                sx={{ my: 0 }}
-              />
-              <KeyboardArrowDown
-                sx={{
-                  mr: -1,
-                  opacity: 0,
-                  transform: open ? "rotate(-180deg)" : "rotate(0)",
-                  transition: "0.2s",
-                }}
-              />
-            </ListItemButton>
             {open &&
               models
                 .filter(
@@ -202,7 +163,7 @@ const ModelViewer = () => {
                     </ListItemButton>
                   </React.Fragment>
                 ))}
-          </Box>
+          </SidebarListHeading>
         </FireNav>
       </Paper>
     </Stack>

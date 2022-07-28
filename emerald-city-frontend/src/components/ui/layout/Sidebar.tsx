@@ -25,7 +25,7 @@ import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
 import WorldOutliner from "./WorldOutliner";
-import BasicShapes from "../../asset/BaicsShapes";
+
 import TextureUploader from "../../asset/TextureUploader";
 import { useSelector } from "react-redux";
 import { RootState } from "@src/app/store";
@@ -89,7 +89,6 @@ const Sidebar = () => {
       </ListItemButton>
       <Divider />
       <WorldOutliner />
-      {activeSidebarPanel === SidebarPanel.BasicShapes && <BasicShapes />}
       {activeSidebarPanel === SidebarPanel.TexturePackImporter && (
         <TextureUploader />
       )}
