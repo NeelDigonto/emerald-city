@@ -73,6 +73,7 @@ const ModelViewer = () => {
               const renderObject = renderEngine.modelStore
                 .get(modelID)!
                 .clone();
+
               renderEngine.mainScene.add(renderObject);
               engine.sceneGraph.add(
                 engine.sceneGraph.root!.id,
@@ -155,7 +156,10 @@ const ModelViewer = () => {
               models
                 .filter(
                   (model) =>
-                    filterModelName === "" || model.name === filterModelName
+                    filterModelName === "" ||
+                    model.name
+                      .toLowerCase()
+                      .includes(filterModelName.trim().toLowerCase())
                 )
                 .map((model, index) => (
                   <React.Fragment key={index}>
