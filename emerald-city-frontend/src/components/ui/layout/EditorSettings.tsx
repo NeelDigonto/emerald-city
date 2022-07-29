@@ -22,7 +22,7 @@ import { RootState, store } from "@src/app/store";
 import { useSelector } from "react-redux";
 import ViewInArRounded from "@mui/icons-material/ViewInArRounded";
 import { useEngineContext } from "@src/contexts/EngineContext";
-import { api } from "@backend/types/api/Core";
+import * as  api  from "@backend/types/api/Core";
 import { deepTraverse, replaceMat } from "@src/core/utils";
 import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
 import SidebarListHeading from "../SidebarListHeading";

@@ -8,7 +8,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing//UnrealBloomP
 import * as THREE from "three";
 import { EditorControls } from "./EditorControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import { store } from "@src/app/store";
 import { generatePrimitiveMeshes, getPresignedDownloadUrl } from "./utils";
 

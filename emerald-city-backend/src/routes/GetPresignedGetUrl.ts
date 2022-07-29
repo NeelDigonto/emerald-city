@@ -1,5 +1,6 @@
-import { api } from '../types/api/Core.js';
-import { s3 } from '../util/aws-wrapper.js';
+import * as api from '../types/api/Core.js';
+
+import * as s3 from '../util/aws-wrapper.js';
 
 export async function GetPresignedGetUrl(req, res) {
   const { bucket, key }: api.GetPresignedPostUrls =

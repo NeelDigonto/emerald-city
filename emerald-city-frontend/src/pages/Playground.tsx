@@ -3,6 +3,7 @@ import { Toolbar } from "@mui/material";
 import PerformanceMonitor from "@src/components/ui/layout/PerformanceMonitor";
 import Sidebar from "@src/components/ui/layout/Sidebar";
 import { useEngineContext } from "@src/contexts/EngineContext";
+import { EngineMode } from "@src/core/Engine";
 import { setupScene } from "@src/core/scene/BaseScene";
 import { dropCallback } from "@src/util/dropEventHandler";
 import React from "react";
@@ -47,6 +48,7 @@ const Playground = () => {
       canvasRef.current &&
       engine.renderEngine === null
     ) {
+      engine.setEngineMode(EngineMode.Playground);
       engine.initializeRenderEngine(
         canvasContainerRef.current,
         canvasRef.current

@@ -1,4 +1,4 @@
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import { store } from "@src/app/store";
 import { Engine } from "@src/core/Engine";
 import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";

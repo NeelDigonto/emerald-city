@@ -1,6 +1,6 @@
 import { Readable } from 'form-data';
 import sharp from 'sharp';
-import { s3 } from '../util/aws-wrapper.js';
+import * as s3 from '../util/aws-wrapper.js';
 import { stream2buffer } from './core.js';
 
 export const compressTexture = async (ifile: Buffer, quality: number) => {

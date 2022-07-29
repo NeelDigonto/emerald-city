@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { api, db } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import { addTexturePack } from "@src/feature/texturePackSlice";
 import { addMaterial } from "@src/feature/materialSlice";
 import { addImportedMesh } from "@src/feature/importedMeshSlice";
@@ -20,7 +20,7 @@ const DataLoader = ({
       isLoaded.current = true;
       console.log("Data Fetched");
 
-      fetch(`http://localhost:5000/resource/get/${db.Table.TexturePack}`)
+      fetch(`http://localhost:5000/resource/get/${api.Table.TexturePack}`)
         .then((response) => response.json())
         .then((resources: api.TexturePack[]) => {
           resources.forEach((resource_unit) => {
@@ -28,7 +28,7 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${db.Table.Material}`)
+      fetch(`http://localhost:5000/resource/get/${api.Table.Material}`)
         .then((response) => response.json())
         .then((resources: api.Material[]) => {
           resources.forEach((resource_unit) => {
@@ -36,7 +36,7 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${db.Table.ImportedMesh}`)
+      fetch(`http://localhost:5000/resource/get/${api.Table.ImportedMesh}`)
         .then((response) => response.json())
         .then((resources: api.ImportedMesh[]) => {
           resources.forEach((resource_unit) => {
@@ -44,7 +44,7 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${db.Table.Model}`)
+      fetch(`http://localhost:5000/resource/get/${api.Table.Model}`)
         .then((response) => response.json())
         .then((resources: api.Model[]) => {
           resources.forEach((resource_unit) => {

@@ -1,4 +1,4 @@
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import {
   Dialog,
   Paper,

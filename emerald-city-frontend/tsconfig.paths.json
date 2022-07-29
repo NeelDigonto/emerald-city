@@ -6,7 +6,7 @@
       "@components/*": ["src/components/*"],
       "@core/*": ["src/core/*"],
       "@lib/*": ["src/lib/*"],
-      "@backend/types/api/*": ["../emerald-city-backend/src/types/api/*"]
+      "@backend/types/*": ["../emerald-city-backend/src/types/*"]
     }
   }
 }

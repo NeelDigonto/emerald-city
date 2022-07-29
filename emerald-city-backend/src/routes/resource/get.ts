@@ -1,4 +1,4 @@
-import { db } from '../../types/api/Core.js';
+import * as db from '../../types/api/Core.js';
 import { getMongoConnection } from '../../util/db.js';
 
 export async function GetResourceTable(req, res) {

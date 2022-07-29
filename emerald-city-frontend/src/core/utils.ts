@@ -1,4 +1,4 @@
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import * as THREE from "three";
 import { Object3D } from "three";
 import { SceneGraph } from "./SceneGraph";

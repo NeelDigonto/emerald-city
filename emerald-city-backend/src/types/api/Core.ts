@@ -1,149 +1,133 @@
-export namespace api {
-  export interface FileRef {
-    fuuid: string;
-    bucket: string;
-    key: string;
-    byteLength: number;
-  }
-
-  export interface RequestImageProc {
-    texturePackName: string;
-    albedo: boolean;
-    normal: boolean;
-    ao: boolean;
-    metalness: boolean;
-    roughness: boolean;
-  }
-
-  export interface RequestMeshProc {
-    name: string;
-    bytelength: number;
-  }
-
-  export interface GetPresignedPostUrls {
-    bucket: string;
-    key: string;
-  }
-
-  export enum WrapMode {
-    RepeatWrapping = 'RepeatWrapping',
-    ClampToEdgeWrapping = 'ClampToEdgeWrapping',
-    MirroredRepeatWrapping = 'MirroredRepeatWrapping',
-  }
-
-  export enum MaterialType {
-    //Basic = 'Basic',
-    Standard = 'Standard',
-    Physical = 'Physical',
-  }
-
-  export enum PrimitiveMesh {
-    Box = 'Box',
-    Capsule = 'Capsule',
-    Circle = 'Circle',
-    Cone = 'Cone',
-    Cylinder = 'Cylinder',
-    Plane = 'Plane',
-    Ring = 'Ring',
-    Sphere = 'Sphere',
-    Torus = 'Torus',
-  }
-
-  export enum Light {
-    Directional = 'Directional',
-    Point = 'Point',
-    Spot = 'Spot',
-    RectArea = 'RectArea',
-    Ambient = 'Ambient',
-  }
-
-  export enum ImportedMeshType {
-    FBX = 'FBX',
-    // add gtlf, glb and obj import
-  }
-
-  export enum ModelType {
-    Basic = 'Basic',
-    Imported = 'Imported',
-  }
-
-  export enum Characters {}
-
-  export type TexturePack = db.TexturePack;
-  export type Material = db.Material;
-  export type ImportedMesh = db.ImportedMesh;
-  export type Model = db.Model;
-  export type Geometry = db.Geometry;
+export interface FileRef {
+  fuuid: string;
+  bucket: string;
+  key: string;
+  byteLength: number;
 }
 
-export namespace db {
-  export interface TexturePack {
-    id: string;
-    texturePackName: string;
+export interface RequestImageProc {
+  texturePackName: string;
+  albedo: boolean;
+  normal: boolean;
+  ao: boolean;
+  metalness: boolean;
+  roughness: boolean;
+}
 
-    albedo?: api.FileRef;
-    normal?: api.FileRef;
-    ao?: api.FileRef;
-    metalness?: api.FileRef;
-    roughness?: api.FileRef;
-    pmaaao?: api.FileRef;
+export interface RequestMeshProc {
+  name: string;
+  bytelength: number;
+}
 
-    albedoCompressed?: api.FileRef;
-    normalCompressed?: api.FileRef;
-    aoCompressed?: api.FileRef;
-    metalnessCompressed?: api.FileRef;
-    roughnessCompressed?: api.FileRef;
-    pmaaaoCompressed?: api.FileRef;
-  }
+export interface GetPresignedPostUrls {
+  bucket: string;
+  key: string;
+}
 
-  export enum MaterialType {
-    Basic = 'Basic',
-    Standard = 'Standard',
-    Physical = 'Physical',
-  }
+export enum WrapMode {
+  RepeatWrapping = 'RepeatWrapping',
+  ClampToEdgeWrapping = 'ClampToEdgeWrapping',
+  MirroredRepeatWrapping = 'MirroredRepeatWrapping',
+}
 
-  export interface Material {
-    id: string;
-    texturePackID: string;
-    materialName: string;
-    type: MaterialType;
+export enum MaterialType {
+  //Basic = 'Basic',
+  Standard = 'Standard',
+  Physical = 'Physical',
+}
 
-    baseColor: string;
-    metalness: number;
-    roughness: number;
+export enum PrimitiveMesh {
+  Box = 'Box',
+  Capsule = 'Capsule',
+  Circle = 'Circle',
+  Cone = 'Cone',
+  Cylinder = 'Cylinder',
+  Plane = 'Plane',
+  Ring = 'Ring',
+  Sphere = 'Sphere',
+  Torus = 'Torus',
+}
 
-    wrapS: api.WrapMode;
-    wrapT: api.WrapMode;
-    repeatX: number;
-    repeatY: number;
-  }
+export enum Light {
+  Directional = 'Directional',
+  Point = 'Point',
+  Spot = 'Spot',
+  RectArea = 'RectArea',
+  Ambient = 'Ambient',
+}
 
-  export interface ImportedMesh {
-    id: string;
-    name: string;
-    type: api.ImportedMeshType;
-    file: api.FileRef;
-  }
+export enum ImportedMeshType {
+  FBX = 'FBX',
+  // add gtlf, glb and obj import
+}
 
-  export interface Model {
-    id: string;
-    name: string;
-    type: api.ModelType;
-    importedMeshID: string;
-    primitiveMeshType?: api.PrimitiveMesh;
-    materialID: string;
-  }
+export enum ModelType {
+  Basic = 'Basic',
+  Imported = 'Imported',
+}
 
-  export interface Geometry {
-    id: string;
-  }
+export enum Characters {}
 
-  export enum Table {
-    TexturePack = 'TexturePack',
-    Material = 'Material',
-    ImportedMesh = 'ImportedMesh',
-    Model = 'Model',
-  }
+export interface TexturePack {
+  id: string;
+  texturePackName: string;
+
+  albedo?: FileRef;
+  normal?: FileRef;
+  ao?: FileRef;
+  metalness?: FileRef;
+  roughness?: FileRef;
+  pmaaao?: FileRef;
+
+  albedoCompressed?: FileRef;
+  normalCompressed?: FileRef;
+  aoCompressed?: FileRef;
+  metalnessCompressed?: FileRef;
+  roughnessCompressed?: FileRef;
+  pmaaaoCompressed?: FileRef;
+}
+
+export interface Material {
+  id: string;
+  texturePackID: string;
+  materialName: string;
+  type: MaterialType;
+
+  baseColor: string;
+  metalness: number;
+  roughness: number;
+
+  wrapS: WrapMode;
+  wrapT: WrapMode;
+  repeatX: number;
+  repeatY: number;
+}
+
+export interface ImportedMesh {
+  id: string;
+  name: string;
+  type: ImportedMeshType;
+  file: FileRef;
+}
+
+export interface Model {
+  id: string;
+  name: string;
+  type: ModelType;
+  importedMeshID: string;
+  primitiveMeshType?: PrimitiveMesh;
+  materialID: string;
+}
+
+export interface Geometry {
+  id: string;
+}
+
+export enum Table {
+  TexturePack = 'TexturePack',
+  Material = 'Material',
+  ImportedMesh = 'ImportedMesh',
+  Model = 'Model',
 }
 
 /* export interface LOD {

@@ -14,7 +14,6 @@ import { GetPresignedPostUrl } from './routes/GetPresignedPostUrl.js';
 import { GetPresignedGetUrl } from './routes/GetPresignedGetUrl.js';
 
 import { RequestImageProc } from './routes/texture-pack/RequestImageProc.js';
-import { db } from './types/api/Core.js';
 import { GetResourceTable } from './routes/resource/get.js';
 import { CreateMaterial } from './routes/material/create.js';
 import { CreateMesh } from './routes/mesh/create.js';
@@ -40,3 +39,6 @@ app.post('/model/create', express.json(), CreateModel);
 app.listen(5000, () => {
   console.log('Listening on port 5000');
 });
+
+const args = process.argv.slice(0);
+console.log(args);

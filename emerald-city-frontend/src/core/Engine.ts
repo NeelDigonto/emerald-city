@@ -14,6 +14,12 @@ export enum Role {
 type BeforeRenerCallback = (delta: DOMHighResTimeStamp) => void;
 type OnRenderEngineInitializeCallback = () => void;
 
+export enum EngineMode {
+  None = "None",
+  Editor = "Editor",
+  Playground = "Playground",
+}
+
 export class Engine {
   //renderEngine
   //scenegrpah
@@ -24,6 +30,7 @@ export class Engine {
   delta: number = 0;
   lastLoopStartTimeStamp: number = 0;
   lastLoopTime: number = 0;
+  mode: EngineMode;
 
   onRenderEngineInitializeCallbacks: Map<
     string,
@@ -41,8 +48,13 @@ export class Engine {
 
   constructor() {
     console.log("Engine Loaded");
+    this.mode = EngineMode.None;
     this.currentRole = Role.Editor;
     this.sceneGraph = new SceneGraph(this);
+  }
+
+  setEngineMode(mode: EngineMode) {
+    this.mode = mode;
   }
 
   initializeRenderEngine(container: HTMLDivElement, canvas: HTMLCanvasElement) {

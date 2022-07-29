@@ -6,11 +6,11 @@ import Sidebar from "@src/components/ui/layout/Sidebar";
 import Toolbar from "@src/components/ui/layout/Toolbar";
 import PerformanceMonitor from "../components/ui/layout/PerformanceMonitor";
 import { setupScene } from "../core/scene/BaseScene";
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import { store } from "../app/store";
 import { SceneObject, SceneObjectType } from "../core/SceneGraph";
 import { replaceMat } from "../core/utils";
-import { Engine } from "../core/Engine";
+import { Engine, EngineMode } from "../core/Engine";
 import { dropCallback } from "../util/dropEventHandler";
 
 const RootContainer = styled.div`
@@ -73,6 +73,7 @@ function Editor() {
       canvasRef.current &&
       engine.renderEngine === null
     ) {
+      engine.setEngineMode(EngineMode.Editor);
       engine.initializeRenderEngine(
         canvasContainerRef.current,
         canvasRef.current

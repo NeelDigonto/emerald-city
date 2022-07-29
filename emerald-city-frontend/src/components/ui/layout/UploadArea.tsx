@@ -4,7 +4,7 @@ import { MapTypes } from "@src/types/Core";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import { FormikProps } from "formik";
 import React from "react";
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 
 const Image = styled.img`
   width: 100%;

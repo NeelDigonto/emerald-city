@@ -20,7 +20,7 @@ import { FormikProps, useFormik } from "formik";
 import Home from "@mui/icons-material/Home";
 import styled from "@emotion/styled";
 import { MapTypes, SidebarPanel, textureMaps } from "@src/types/Core";
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import { uploadFile } from "@src/utils";
 import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { useDispatch } from "react-redux";

@@ -1,4 +1,5 @@
-import { api, db } from '../../types/api/Core.js';
+import * as api from '../../types/api/Core.js';
+
 import { getMongoConnection } from '../../util/db.js';
 
 export async function CreateMaterial(req, res) {
@@ -7,7 +8,7 @@ export async function CreateMaterial(req, res) {
   const connection = await getMongoConnection();
   const collection = connection
     .db(process.env.DB_NAME)
-    .collection(db.Table.Material);
+    .collection(api.Table.Material);
 
   const insertResult = await collection.insertOne(body);
 

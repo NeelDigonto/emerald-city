@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { api } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 
 export const texturePackSlice = createSlice({
   name: "Texture Packs",
