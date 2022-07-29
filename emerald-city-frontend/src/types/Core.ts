@@ -84,6 +84,7 @@ export enum SidebarPanel {
   MaterialCreator = "MaterialCreator",
   ModelCreator = "ModelCreator",
   ModelViewer = "ModelViewer",
+  EditorSettings = "EditorSettings",
 }
 
 export enum DropObjectType {

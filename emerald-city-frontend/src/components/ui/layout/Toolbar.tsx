@@ -23,6 +23,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
 import PageviewRoundedIcon from "@mui/icons-material/PageviewRounded";
 import TextureRoundedIcon from "@mui/icons-material/TextureRounded";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 const ToolbarContainer = styled.nav`
   width: 100%;
@@ -43,7 +44,17 @@ const ToolbarButton = ({
 }) => {
   return (
     <Button startIcon={<Icon fontSize="large" />} onClick={onClick}>
-      <Typography sx={{ color: "white", opacity: 0.6 }}>{label}</Typography>
+      <Typography
+        sx={{
+          color: "white",
+          opacity: 0.6,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          fontSize: `min(1rem, 0.5rem + 0.75vw)`,
+        }}
+      >
+        {label}
+      </Typography>
     </Button>
   );
 };
@@ -52,28 +63,13 @@ const Toolbar = () => {
   const dispatch = useDispatch();
   return (
     <ToolbarContainer>
-      {/* <Stack component="li" direction="row">
-        <ListItemButton component="button" sx={{ p: "auto", m: 0 }}>
-          <ListItemIcon sx={{ m: 0, p: 0, height: "100%", fontSize: 50 }}>
-            <PlayArrowRoundedIcon color="secondary" />
-          </ListItemIcon>
-          <ListItemText
-            sx={{ my: 0 }}
-            primary="Play"
-            primaryTypographyProps={{
-              fontSize: 20,
-              fontWeight: "medium",
-              letterSpacing: 0,
-            }}
-          />
-        </ListItemButton>
-      </Stack> */}
-      <Stack direction="row" columnGap="3rem">
+      <Stack direction="row" justifyContent="space-between" overflow="auto">
         <Button startIcon={<PlayArrowRoundedIcon fontSize="large" />}>
-          <Typography sx={{ color: "white", opacity: 0.6 }}>Play</Typography>
+          <Typography sx={{ color: "white", opacity: 0.6 }}>
+            {"Play"}
+          </Typography>
         </Button>
-        <Divider />
-
+        <Divider orientation="vertical" />
         <ToolbarButton
           Icon={DownloadRoundedIcon}
           label="Import Textures"
@@ -121,9 +117,35 @@ const Toolbar = () => {
           label="Add Lights"
           onClick={() => dispatch(setActiveSidebarPanel(SidebarPanel.Lights))}
         />
+        <ToolbarButton
+          Icon={TuneRoundedIcon}
+          label="Editor Settings"
+          onClick={() =>
+            dispatch(setActiveSidebarPanel(SidebarPanel.EditorSettings))
+          }
+        />
       </Stack>
     </ToolbarContainer>
   );
 };
 
 export default Toolbar;
+
+{
+  /* <Stack component="li" direction="row">
+        <ListItemButton component="button" sx={{ p: "auto", m: 0 }}>
+          <ListItemIcon sx={{ m: 0, p: 0, height: "100%", fontSize: 50 }}>
+            <PlayArrowRoundedIcon color="secondary" />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ my: 0 }}
+            primary="Play"
+            primaryTypographyProps={{
+              fontSize: 20,
+              fontWeight: "medium",
+              letterSpacing: 0,
+            }}
+          />
+        </ListItemButton>
+      </Stack> */
+}

@@ -37,6 +37,7 @@ import ModelViewer from "@src/components/ui/layout/ModelViewer";
 import CreateModel from "@src/components/asset/CreateModel";
 import CreateLight from "./CreateLight";
 import AddBasicShapes from "./AddBasicShapes";
+import EditorSettings from "./EditorSettings";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -102,6 +103,7 @@ const Sidebar = () => {
       {activeSidebarPanel === SidebarPanel.ModelViewer && <ModelViewer />}
       {activeSidebarPanel === SidebarPanel.BasicShapes && <AddBasicShapes />}
       {activeSidebarPanel === SidebarPanel.Lights && <CreateLight />}
+      {activeSidebarPanel === SidebarPanel.EditorSettings && <EditorSettings />}
     </SidebarContainer>
   );
 };
