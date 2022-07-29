@@ -24,6 +24,7 @@ import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomiz
 import PageviewRoundedIcon from "@mui/icons-material/PageviewRounded";
 import TextureRoundedIcon from "@mui/icons-material/TextureRounded";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 const ToolbarContainer = styled.nav`
   width: 100%;
@@ -64,7 +65,12 @@ const Toolbar = () => {
   return (
     <ToolbarContainer>
       <Stack direction="row" justifyContent="space-between" overflow="auto">
-        <Button startIcon={<PlayArrowRoundedIcon fontSize="large" />}>
+        <Button
+          startIcon={<PlayArrowRoundedIcon fontSize="large" />}
+          href="/play"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Typography sx={{ color: "white", opacity: 0.6 }}>
             {"Play"}
           </Typography>
