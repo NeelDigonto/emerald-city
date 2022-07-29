@@ -1,14 +1,15 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
+import path from 'path';
+const __dirname = path.resolve();
 
+import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
 import { getMongoConnection } from './util/db.js';
 import { func1 } from './util/image-proc.js';
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
-
-import fs from 'fs';
 
 import { GetPresignedPostUrl } from './routes/GetPresignedPostUrl.js';
 import { GetPresignedGetUrl } from './routes/GetPresignedGetUrl.js';
@@ -18,27 +19,73 @@ import { GetResourceTable } from './routes/resource/get.js';
 import { CreateMaterial } from './routes/material/create.js';
 import { CreateMesh } from './routes/mesh/create.js';
 import { CreateModel } from './routes/model/create.js';
+import { GameServer } from './GameServer.js';
 
-const app = express();
-app.use(cors());
+function frontendServer() {
+  const app = express();
 
-app.post('/get-presigned-get-url', express.json(), GetPresignedGetUrl);
+  app.use(
+    express.static(
+      path.join(__dirname, '..', 'emerald-city-frontend', 'build'),
+    ),
+  );
 
-app.post('/get-presigned-post-url', express.json(), GetPresignedPostUrl);
+  app.get('/*', function (req, res) {
+    res.sendFile(
+      path.join(
+        __dirname,
+        '..',
+        'emerald-city-frontend',
+        'build',
+        'index.html',
+      ),
+    );
+  });
 
-app.post('/texture-pack/request-img-proc', express.json(), RequestImageProc);
+  app.listen(8080);
+}
 
-app.get('/resource/get/:rname', express.json(), GetResourceTable);
+function mainBackendServer() {
+  const app = express();
+  app.use(cors());
 
-app.post('/material/create', express.json(), CreateMaterial);
+  app.post('/get-presigned-get-url', express.json(), GetPresignedGetUrl);
 
-app.post('/mesh/create', express.json(), CreateMesh);
+  app.post('/get-presigned-post-url', express.json(), GetPresignedPostUrl);
 
-app.post('/model/create', express.json(), CreateModel);
+  app.post('/texture-pack/request-img-proc', express.json(), RequestImageProc);
 
-app.listen(5000, () => {
-  console.log('Listening on port 5000');
-});
+  app.get('/resource/get/:rname', express.json(), GetResourceTable);
 
-const args = process.argv.slice(0);
-console.log(args);
+  app.post('/material/create', express.json(), CreateMaterial);
+
+  app.post('/mesh/create', express.json(), CreateMesh);
+
+  app.post('/model/create', express.json(), CreateModel);
+
+  app.listen(5000, () => {
+    console.log('Listening on port 5000');
+  });
+}
+
+function main() {
+  const command = process.argv[2];
+
+  switch (command) {
+    case 'frontend':
+      frontendServer();
+      break;
+    case 'backend':
+      mainBackendServer();
+      break;
+    case 'game':
+      new GameServer();
+      break;
+    default:
+      mainBackendServer();
+      new GameServer();
+      break;
+  }
+}
+
+main();

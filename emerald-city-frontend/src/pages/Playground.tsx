@@ -53,6 +53,7 @@ const Playground = () => {
         canvasContainerRef.current,
         canvasRef.current
       );
+      engine.initializeNetworkEngine();
 
       engine.play();
 

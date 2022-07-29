@@ -13,6 +13,7 @@
     "@types/node": "~16",
     "@types/sharp": "^0.30.4",
     "@types/uuid": "^8.3.4",
+    "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "~5.26",
     "@typescript-eslint/parser": "~5.26",
     "eslint": "~8.16",
@@ -52,8 +53,10 @@
     "form-data": "^4.0.0",
     "mongodb": "^4.7.0",
     "sharp": "^0.30.7",
+    "socket.io": "^4.5.1",
     "tslib": "~2.4",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "ws": "^8.8.1"
   },
   "volta": {
     "node": "16.13.0"

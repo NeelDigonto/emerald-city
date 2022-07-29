@@ -1,3 +1,5 @@
+import { WebSocketServer, WebSocket } from 'ws';
+
 export interface FileRef {
   fuuid: string;
   bucket: string;
@@ -66,8 +68,6 @@ export enum ModelType {
   Imported = 'Imported',
 }
 
-export enum Characters {}
-
 export interface TexturePack {
   id: string;
   texturePackName: string;
@@ -129,6 +129,63 @@ export enum Table {
   ImportedMesh = 'ImportedMesh',
   Model = 'Model',
 }
+
+// pnos, playerid,
+
+export enum Characters {
+  Remy = 'Remy',
+}
+
+export interface PlayerState {
+  translation: [number, number, number];
+}
+
+export interface PlayerStates {
+  [playerID: string]: PlayerState;
+}
+
+export interface GameState {
+  playerStates: PlayerStates;
+}
+
+export enum ServerResponseType {
+  PlayerJoined,
+  PlayerExit,
+  GameStateUpdate,
+}
+
+export interface ServerResponse {
+  type: ServerResponseType;
+  playerJoinedName?: string;
+  playerJoinedID?: string;
+  playerJoinedCharacter?: Characters;
+  playerJoinedState?: PlayerState;
+  playerExitedID?: string;
+  gameState?: GameState;
+  playerStates?: PlayerStates;
+}
+
+export enum PlayerResponseType {
+  PlayerJoined,
+  GameStateUpdate,
+}
+
+export interface PlayerResponse {
+  type: PlayerResponseType;
+  name?: string;
+  character?: Characters;
+  playerState: PlayerState;
+}
+
+export interface ServerPlayerData {
+  playerID: string;
+  name: string;
+  character: Characters;
+  playerState: PlayerState;
+  clientSocket: WebSocket;
+}
+
+export type ClientPlayerData = Omit<ServerPlayerData, 'clientSocket'>;
 
 /* export interface LOD {
   uuid: string;

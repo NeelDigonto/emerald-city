@@ -5,6 +5,8 @@ import { EditorControls } from "./EditorControls";
 import { SceneGraph, SceneObject, SceneObjectType } from "./SceneGraph";
 import { RenderEngine } from "./RenderEngine";
 import { v4 as uuidv4 } from "uuid";
+import { NetworkEngine } from "./NetworkEngine";
+import { ClientPlayerData, PlayerState } from "@backend/types/api/Core";
 
 export enum Role {
   Editor,
@@ -42,8 +44,11 @@ export class Engine {
     BeforeRenerCallback
   >();
 
+  players: Map<string, ClientPlayerData> = new Map<string, ClientPlayerData>();
+
   sceneGraph: SceneGraph;
   renderEngine: RenderEngine | null = null;
+  networkEngine: NetworkEngine | null = null;
   currentRole: Role;
 
   constructor() {
@@ -71,6 +76,22 @@ export class Engine {
     this.onRenderEngineInitializeCallbacks.forEach((callbackfn) =>
       callbackfn()
     );
+  }
+
+  initializeNetworkEngine() {
+    this.networkEngine = new NetworkEngine(this);
+  }
+
+  registerPlayer(playerData: ClientPlayerData) {
+    this.players.set(playerData.playerID, playerData);
+  }
+
+  deRegisterPlayer(playerID: string) {
+    this.players.delete(playerID);
+  }
+
+  setPlayerState(playerID: string, playerState: PlayerState) {
+    this.players.get(playerID)!.playerState = playerState;
   }
 
   registerOnRenderEngineInitializeCallback(
