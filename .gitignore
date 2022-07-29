@@ -137,3 +137,6 @@ yarn-error.log*
 **/*.jpg
 **/*.hdr
 **/*.exr
+
+emerald-city-frontend/build/*
+emerald-city-backend/build/*
