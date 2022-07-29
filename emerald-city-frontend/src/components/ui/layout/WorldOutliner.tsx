@@ -155,6 +155,14 @@ export default React.memo(function WorldOutliner() {
           onClick={() => {
             engine.renderEngine?.editorControls.selectSceneObject(node);
           }}
+          onKeyDown={(e) => {
+            console.log("a");
+            if (e.code === "F2") console.log(e);
+          }}
+          onKeyUp={(e) => {
+            console.log("a");
+            if (e.code === "F2") console.log(e);
+          }}
         ></StyledTreeItem>
       );
 

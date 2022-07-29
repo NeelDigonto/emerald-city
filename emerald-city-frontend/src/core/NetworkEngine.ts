@@ -27,17 +27,28 @@ export class NetworkEngine {
       };
 
       this.gameServer.send(JSON.stringify(data));
+
+      setInterval(() => {
+        const data: PlayerResponse = {
+          type: PlayerResponseType.GameStateUpdate,
+          playerState: { translation: [0, 0, 0] },
+        };
+
+        this.gameServer.send(JSON.stringify(data));
+        console.log("Sent Data");
+      }, 5000);
     });
 
     // Listen for messages
     this.gameServer.addEventListener("message", (event) => {
-      console.log(event.data);
+      console.log("Received Data");
       const serverResponse: ServerResponse = JSON.parse(event.data);
 
       switch (serverResponse.type) {
         case ServerResponseType.GameStateUpdate: {
           Object.entries(serverResponse.playerStates!).forEach(
             ([playerID, playerState]) => {
+              console.log(this.engine.players, [playerID, playerState]);
               this.engine.setPlayerState(playerID, playerState);
             }
           );
@@ -63,15 +74,6 @@ export class NetworkEngine {
           break;
       }
     });
-
-    setInterval(() => {
-      const data: PlayerResponse = {
-        type: PlayerResponseType.GameStateUpdate,
-        playerState: { translation: [0, 0, 0] },
-      };
-
-      this.gameServer.send(JSON.stringify(data));
-    }, 10);
 
     this.gameServer.addEventListener("close", function (event) {
       console.error("Game Server Disconnected!");

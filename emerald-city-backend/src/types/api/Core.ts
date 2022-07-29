@@ -183,9 +183,13 @@ export interface ServerPlayerData {
   character: Characters;
   playerState: PlayerState;
   clientSocket: WebSocket;
+  //echoIntervalTimer: NodeJS.Timer;
 }
 
-export type ClientPlayerData = Omit<ServerPlayerData, 'clientSocket'>;
+export type ClientPlayerData = Omit<
+  ServerPlayerData,
+  'clientSocket' /*  | 'echoIntervalTimer' */
+>;
 
 /* export interface LOD {
   uuid: string;

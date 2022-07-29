@@ -9,28 +9,58 @@ import {
   ServerResponseType,
 } from './types/api/Core.js';
 import { v4 as uuidv4 } from 'uuid';
+import { clearInterval } from 'timers';
+
+const echoGameState = (
+  playerID: string,
+  players: Map<string, ServerPlayerData>,
+) => {
+  let playerStates: PlayerStates;
+
+  players.forEach((serverPlayerData) => {
+    if (serverPlayerData.playerID === playerID) return;
+
+    playerStates[serverPlayerData.playerID] = serverPlayerData.playerState;
+  });
+
+  const gameUpdate: ServerResponse = {
+    type: ServerResponseType.GameStateUpdate,
+    playerStates: playerStates,
+  };
+
+  players.forEach((serverPlayerData) => {
+    if (serverPlayerData.playerID === playerID) return;
+
+    serverPlayerData.clientSocket.send(JSON.stringify(gameUpdate));
+  });
+};
 
 export class GameServer {
   players: Map<string, ServerPlayerData> = new Map<string, ServerPlayerData>();
   server: WebSocketServer;
+  p1: boolean = true;
 
   constructor() {
     this.server = new WebSocketServer({ port: 7000, perMessageDeflate: false });
 
     this.server.on('connection', (player) => {
-      const playerID = uuidv4();
+      let playerID: string;
+      if (this.p1) {
+        this.p1 = false;
+        playerID = 'player1';
+      } else {
+        playerID = 'player2';
+      }
 
       player.on('message', (playerResponseRaw: string) => {
         const playerResponse: PlayerResponse = JSON.parse(playerResponseRaw);
-        console.log(playerResponse);
 
         switch (playerResponse.type) {
           case PlayerResponseType.GameStateUpdate: {
             // update
             this.players.get(playerID).playerState = playerResponse.playerState;
 
-            //send other updates
-            let playerStates: PlayerStates;
+            let playerStates: PlayerStates = {};
 
             this.players.forEach((serverPlayerData) => {
               if (serverPlayerData.playerID === playerID) return;
@@ -54,6 +84,18 @@ export class GameServer {
           }
 
           case PlayerResponseType.PlayerJoined: {
+            this.players.set(playerID, {
+              playerID: playerID,
+              name: playerResponse.name,
+              character: playerResponse.character,
+              playerState: playerResponse.playerState,
+              clientSocket: player,
+              /*               echoIntervalTimer: setInterval(
+                echoGameState.bind(null, playerID, this.players),
+                1000,
+              ), */
+            });
+
             this.players.forEach((serverPlayerData) => {
               if (serverPlayerData.playerID === playerID) return;
 
@@ -66,14 +108,6 @@ export class GameServer {
               serverPlayerData.clientSocket.send(JSON.stringify(data));
             });
 
-            this.players.set(playerID, {
-              playerID: playerID,
-              name: playerResponse.name,
-              character: playerResponse.character,
-              playerState: playerResponse.playerState,
-              clientSocket: player,
-            });
-
             break;
           }
           default:
@@ -82,6 +116,7 @@ export class GameServer {
       });
 
       player.on('close', () => {
+        //clearInterval(this.players.get(playerID).echoIntervalTimer);
         this.players.delete(playerID);
 
         this.players.forEach((serverPlayerData) => {

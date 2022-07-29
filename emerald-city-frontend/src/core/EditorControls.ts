@@ -114,6 +114,11 @@ export class EditorControls {
     );
     this.transformControls.setSpace("world");
     this.transformControls.setMode("translate");
+
+    this.transformControls.setTranslationSnap(0.1);
+    this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(10));
+    this.transformControls.setScaleSnap(0.1);
+
     this.renderEngine.mainScene.add(this.transformControls);
   }
 
@@ -206,12 +211,12 @@ export class EditorControls {
       case "NumpadSubtract":
         this.transformControls.setSize(this.transformControls.size * 0.99);
         break;
-      case "ShiftLeft":
+      /*       case "ShiftLeft":
       case "ShiftRight":
         this.transformControls.setTranslationSnap(1);
         this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(15));
         this.transformControls.setScaleSnap(0.25);
-        break;
+        break; */
       default:
         break;
     }
@@ -237,12 +242,12 @@ export class EditorControls {
       case "KeyC":
         this.keyState.flyDown = false;
         break;
-      case "ShiftLeft":
+      /* case "ShiftLeft":
       case "ShiftRight":
         this.transformControls.setTranslationSnap(null);
         this.transformControls.setRotationSnap(null);
         this.transformControls.setScaleSnap(null);
-        break;
+        break; */
       default:
         break;
     }

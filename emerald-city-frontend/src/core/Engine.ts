@@ -79,7 +79,7 @@ export class Engine {
   }
 
   initializeNetworkEngine() {
-    this.networkEngine = new NetworkEngine(this);
+    //this.networkEngine = new NetworkEngine(this);
   }
 
   registerPlayer(playerData: ClientPlayerData) {

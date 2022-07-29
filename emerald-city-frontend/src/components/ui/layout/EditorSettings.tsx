@@ -11,6 +11,7 @@ import {
   TextField,
   Slider,
   Container,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import FireNav from "../FireNav";
@@ -22,7 +23,7 @@ import { RootState, store } from "@src/app/store";
 import { useSelector } from "react-redux";
 import ViewInArRounded from "@mui/icons-material/ViewInArRounded";
 import { useEngineContext } from "@src/contexts/EngineContext";
-import * as  api  from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 import { deepTraverse, replaceMat } from "@src/core/utils";
 import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
 import SidebarListHeading from "../SidebarListHeading";
@@ -74,14 +75,62 @@ const EditorSettings = () => {
           <Divider />
           <SidebarListHeading primaryLabel="Settings" secondaryLabel="">
             <Container maxWidth="xl">
-              <Slider
-                aria-label="Custom marks"
-                defaultValue={20}
-                /* getAriaValueText={valuetext} */
-                step={10}
-                //valueLabelDisplay="auto"
-                marks={marks}
-              />
+              <Stack>
+                <Box>
+                  <Typography
+                    gutterBottom
+                    sx={{
+                      color: "white",
+                      opacity: 0.6,
+                    }}
+                  >
+                    Position Snap Value
+                  </Typography>
+                  <Slider
+                    aria-label="Custom marks"
+                    defaultValue={20}
+                    step={10}
+                    valueLabelDisplay="auto"
+                    marks={marks}
+                  />
+                </Box>
+                <Box>
+                  <Typography
+                    gutterBottom
+                    sx={{
+                      color: "white",
+                      opacity: 0.6,
+                    }}
+                  >
+                    Rotation Snap Value
+                  </Typography>
+                  <Slider
+                    aria-label="Custom marks"
+                    defaultValue={20}
+                    step={10}
+                    valueLabelDisplay="auto"
+                    marks={marks}
+                  />
+                </Box>
+                <Box>
+                  <Typography
+                    gutterBottom
+                    sx={{
+                      color: "white",
+                      opacity: 0.6,
+                    }}
+                  >
+                    Scale Snap Value
+                  </Typography>
+                  <Slider
+                    aria-label="Custom marks"
+                    defaultValue={20}
+                    step={10}
+                    valueLabelDisplay="auto"
+                    marks={marks}
+                  />
+                </Box>
+              </Stack>
             </Container>
           </SidebarListHeading>
         </FireNav>
