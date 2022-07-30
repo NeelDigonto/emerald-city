@@ -123,7 +123,7 @@ export class EditorControls {
 
     this.transformControls.setTranslationSnap(0.1);
     this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(10));
-    this.transformControls.setScaleSnap(0.1);
+    this.transformControls.setScaleSnap(0.005);
 
     this.renderEngine.mainScene.add(this.transformControls);
   }
@@ -226,7 +226,7 @@ export class EditorControls {
       case "ShiftLeft":
       case "ShiftRight":
         this.keyState.shift = true;
-        this.transformControls.setUniformScale(true);
+        //this.transformControls.setUniformScale(true);
         break;
       case "ControlLeft":
       case "ControlRight":
@@ -266,7 +266,7 @@ export class EditorControls {
       case "ShiftLeft":
       case "ShiftRight":
         this.keyState.shift = false;
-        this.transformControls.setUniformScale(false);
+        //this.transformControls.setUniformScale(false);
         break;
       case "ControlLeft":
       case "ControlRight":

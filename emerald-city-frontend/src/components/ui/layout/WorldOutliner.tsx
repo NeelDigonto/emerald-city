@@ -22,6 +22,8 @@ import ThreeDRotationRoundedIcon from "@mui/icons-material/ThreeDRotationRounded
 import ViewInArRoundedIcon from "@mui/icons-material/ViewInArRounded";
 import VideoCameraBackRoundedIcon from "@mui/icons-material/VideoCameraBackRounded";
 import QuestionMarkRoundedIcon from "@mui/icons-material/QuestionMarkRounded";
+import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 import {
   Divider,
   IconButton,
@@ -29,6 +31,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  TextField,
+  TextFieldProps,
   Tooltip,
 } from "@mui/material";
 import ArrowRight from "@mui/icons-material/ArrowRight";
@@ -50,6 +54,7 @@ type StyledTreeItemProps = TreeItemProps & {
   labelIcon: React.ElementType<SvgIconProps>;
   labelInfo?: string;
   labelText: string;
+  sceneObject: SceneObject;
 };
 
 const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
@@ -90,24 +95,75 @@ function StyledTreeItem(props: StyledTreeItemProps) {
     labelIcon: LabelIcon,
     labelInfo,
     labelText,
+    sceneObject,
     ...other
   } = props;
 
+  const [isEditing, setIsEditing] = React.useState<boolean>(false);
+  const [name, setName] = React.useState<string>(labelText);
+  const textfieldRef = React.useRef<TextFieldProps>(null);
+
+  /* <Typography variant="caption" color="inherit">
+            {labelInfo}
+          </Typography> */
   return (
     <StyledTreeItemRoot
+      /* tabIndex={0}
+      onKeyDown={(e) => console.log(e)} */
       sx={{ msOverflow: "auto" }}
       label={
         <Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
           <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: "inherit", flexGrow: 1 }}
-          >
-            {labelText}
-          </Typography>
-          <Typography variant="caption" color="inherit">
-            {labelInfo}
-          </Typography>
+          {!isEditing && (
+            <>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: "inherit", flexGrow: 1 }}
+              >
+                {labelText}
+              </Typography>
+              <IconButton
+                sx={{ m: 0, p: 0, pr: 2 }}
+                onClick={(e) => setIsEditing(true)}
+              >
+                <DriveFileRenameOutlineRoundedIcon
+                  fontSize="small"
+                  color="secondary"
+                />
+              </IconButton>
+            </>
+          )}
+          {isEditing && (
+            <>
+              <TextField
+                inputRef={textfieldRef}
+                sx={{ m: 0, p: 0, mr: "0.5rem", input: { color: "darkblue" } }}
+                size="small"
+                label="Name"
+                name="name"
+                onChange={(e) => setName(() => e.target.value)}
+                value={name}
+                /* onKeyPress={(e) => {
+                  if (e.code === "Enter" || e.code === "NumpadEnter") {
+                    const name = textfieldRef.current!.value! as string;
+                    console.log(name);
+                    setName(name);
+                    sceneObject.name = name;
+                    setIsEditing(false);
+                  }
+                }} */
+              />
+              <IconButton
+                sx={{ m: 0, p: 0, pr: 2 }}
+                onClick={(e) => {
+                  sceneObject.name = name;
+                  setIsEditing(false);
+                }}
+              >
+                <SaveRoundedIcon fontSize="small" color="secondary" />
+              </IconButton>
+            </>
+          )}
         </Box>
       }
       style={{
@@ -147,6 +203,7 @@ export default React.memo(function WorldOutliner() {
         <StyledTreeItem
           key={node.id}
           nodeId={node.id}
+          sceneObject={node}
           labelText={node.name}
           labelIcon={getSceneObjectIcon(node.type)}
           sx={{ color: node.isSelected ? "red" : "inherit" }}
@@ -155,20 +212,13 @@ export default React.memo(function WorldOutliner() {
           onClick={() => {
             engine.renderEngine?.editorControls.selectSceneObject(node);
           }}
-          onKeyDown={(e) => {
-            console.log("a");
-            if (e.code === "F2") console.log(e);
-          }}
-          onKeyUp={(e) => {
-            console.log("a");
-            if (e.code === "F2") console.log(e);
-          }}
         ></StyledTreeItem>
       );
 
     return (
       <StyledTreeItem
         key={node.id}
+        sceneObject={node}
         nodeId={node.id}
         labelText={node.name}
         labelIcon={getSceneObjectIcon(node.type)}

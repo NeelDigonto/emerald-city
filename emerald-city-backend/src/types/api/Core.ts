@@ -128,6 +128,7 @@ export enum Table {
   Material = 'Material',
   ImportedMesh = 'ImportedMesh',
   Model = 'Model',
+  SceneGraph = 'SceneGraph',
 }
 
 // pnos, playerid,
