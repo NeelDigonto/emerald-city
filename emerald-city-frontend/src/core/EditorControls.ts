@@ -2,10 +2,12 @@ import * as THREE from "three";
 import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
 import { RenderEngine } from "./RenderEngine";
-import {
+/* import {
   TransformControls,
   TransformControlsPlane,
-} from "three/examples/jsm/controls/TransformControls";
+} from "three/examples/jsm/controls/TransformControls"; */
+import { TransformControls, TransformControlsPlane } from "./TransformControls";
+
 import { SceneGraph, SceneObject } from "./SceneGraph";
 import { MeshBasicMaterial } from "three";
 //import { Key } from "ts-key-enum";
@@ -17,6 +19,8 @@ export interface KeyState {
   right: boolean;
   flyUp: boolean;
   flyDown: boolean;
+  shift: boolean;
+  cntrl: boolean;
 }
 
 export interface MouseMovement {
@@ -66,6 +70,8 @@ export class EditorControls {
     right: false,
     flyUp: false,
     flyDown: false,
+    shift: false,
+    cntrl: false,
   };
   mouseMovement: MouseMovement = { movementX: 0, movementY: 0 };
   accumulatedWheelMovementY: number = 0;
@@ -191,6 +197,12 @@ export class EditorControls {
         case "KeyC":
           this.keyState.flyDown = true;
           break;
+        case "KeyC":
+          this.keyState.flyDown = true;
+          break;
+        case "KeyC":
+          this.keyState.flyDown = true;
+          break;
         default:
           break;
       }
@@ -210,6 +222,15 @@ export class EditorControls {
         break;
       case "NumpadSubtract":
         this.transformControls.setSize(this.transformControls.size * 0.99);
+        break;
+      case "ShiftLeft":
+      case "ShiftRight":
+        this.keyState.shift = true;
+        this.transformControls.setUniformScale(true);
+        break;
+      case "ControlLeft":
+      case "ControlRight":
+        this.keyState.cntrl = true;
         break;
       /*       case "ShiftLeft":
       case "ShiftRight":
@@ -241,6 +262,15 @@ export class EditorControls {
         break;
       case "KeyC":
         this.keyState.flyDown = false;
+        break;
+      case "ShiftLeft":
+      case "ShiftRight":
+        this.keyState.shift = false;
+        this.transformControls.setUniformScale(false);
+        break;
+      case "ControlLeft":
+      case "ControlRight":
+        this.keyState.cntrl = false;
         break;
       /* case "ShiftLeft":
       case "ShiftRight":

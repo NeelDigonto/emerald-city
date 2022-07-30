@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+
 import { RenderEngine } from "../RenderEngine";
 import { SceneGraph, SceneObject, SceneObjectType } from "../SceneGraph";
 

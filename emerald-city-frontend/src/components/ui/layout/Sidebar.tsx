@@ -38,6 +38,7 @@ import CreateModel from "@src/components/asset/CreateModel";
 import CreateLight from "./CreateLight";
 import AddBasicShapes from "./AddBasicShapes";
 import EditorSettings from "./EditorSettings";
+import ModelProperty from "./ModelProperty";
 
 const data = [
   { icon: <SquareRoundedIcon />, label: "Box" },
@@ -92,6 +93,7 @@ const Sidebar = () => {
       </ListItemButton>
       <Divider />
       <WorldOutliner />
+      <ModelProperty />
       {activeSidebarPanel === SidebarPanel.TexturePackImporter && (
         <TextureUploader />
       )}

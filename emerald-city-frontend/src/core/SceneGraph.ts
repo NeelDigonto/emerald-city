@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
+import * as api from "@backend/types/api/Core";
 
 export enum SceneObjectType {
   Level,
@@ -17,6 +18,12 @@ export class SceneObject {
   type: SceneObjectType;
   renderObject: THREE.Object3D;
   childrens: SceneObject[];
+
+  modelType?: api.ModelType;
+  primitiveMesh?: api.PrimitiveMesh;
+  materialID?: string;
+  importedMeshID?: string;
+  lightType?: api.Light;
 
   constructor(
     name: string,
