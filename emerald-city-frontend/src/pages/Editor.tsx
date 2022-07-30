@@ -84,6 +84,20 @@ function Editor() {
         engine.renderEngine!
       );
     }
+
+    const id = setInterval(() => {
+      const sceneGraph = engine.serializeSceneGraph();
+
+      fetch("http://localhost:5000/sceneGraph/update", {
+        method: "POST",
+        body: JSON.stringify(sceneGraph),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }, 5000);
+
+    return () => clearInterval(id);
   }, [engine, canvasContainerRef.current, canvasRef.current]);
 
   return (

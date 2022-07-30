@@ -20,6 +20,10 @@ import { CreateMaterial } from './routes/material/create.js';
 import { CreateMesh } from './routes/mesh/create.js';
 import { CreateModel } from './routes/model/create.js';
 import { GameServer } from './GameServer.js';
+import { GetSceneGraph } from './routes/sceneGraph/get.js';
+import { UpdateSceneGraph } from './routes/sceneGraph/udpate.js';
+import { UpdateModel } from './routes/model/update.js';
+import { UpdateMaterial } from './routes/material/updateMaterial.js';
 
 function frontendServer() {
   const app = express();
@@ -59,9 +63,17 @@ function mainBackendServer() {
 
   app.post('/material/create', express.json(), CreateMaterial);
 
+  app.post('/material/update', express.json(), UpdateMaterial);
+
   app.post('/mesh/create', express.json(), CreateMesh);
 
   app.post('/model/create', express.json(), CreateModel);
+
+  app.post('/model/update', express.json(), UpdateModel);
+
+  app.get('/sceneGraph/get', express.json(), GetSceneGraph);
+
+  app.post('/sceneGraph/update', express.json(), UpdateSceneGraph);
 
   app.listen(5000, () => {
     console.log('Listening on port 5000');

@@ -106,7 +106,7 @@ export function generatePrimitiveMeshes() {
 export function toDBSceneObject(sceneObject: SceneObject) {
   const dbSceneObject: api.DBSceneObject = {
     id: sceneObject.id,
-    name: sceneObject.id,
+    name: sceneObject.name,
     isSelectable: sceneObject.isSelectable,
     isSelected: sceneObject.isSelected,
     type: sceneObject.type,
