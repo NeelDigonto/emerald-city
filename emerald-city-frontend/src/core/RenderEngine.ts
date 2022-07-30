@@ -64,6 +64,11 @@ export class RenderEngine {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
 
+    this.materialStore.set(
+      api.MESH_STANDARD_WHITE_MAT,
+      new THREE.MeshStandardMaterial()
+    );
+
     this.camera = new THREE.PerspectiveCamera(
       70,
       this.width / this.height,

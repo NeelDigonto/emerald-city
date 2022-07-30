@@ -76,7 +76,9 @@ function handleBasicShapeDrop(
   const renderEngine = engine.renderEngine!;
 
   if (renderEngine.primitiveMeshStore.has(primitiveMeshType)) {
-    const mat = new THREE.MeshStandardMaterial();
+    const mat = renderEngine.materialStore
+      .get(api.MESH_STANDARD_WHITE_MAT)!
+      .clone();
     const geometry = renderEngine.primitiveMeshStore.get(primitiveMeshType)!;
     const renderObject = new THREE.Mesh(geometry, mat);
 

@@ -192,6 +192,8 @@ export type ClientPlayerData = Omit<
   'clientSocket' /*  | 'echoIntervalTimer' */
 >;
 
+export const MESH_STANDARD_WHITE_MAT = 'MESH_STANDARD_WHITE_MAT';
+
 /* export interface LOD {
   uuid: string;
   level: number;
