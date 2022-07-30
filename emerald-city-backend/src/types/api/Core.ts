@@ -89,11 +89,11 @@ export interface TexturePack {
 
 export interface Material {
   id: string;
-  texturePackID: string;
+  texturePackID?: string;
   materialName: string;
   type: MaterialType;
 
-  baseColor: string;
+  baseColor: number;
   metalness: number;
   roughness: number;
 
@@ -114,7 +114,7 @@ export interface Model {
   id: string;
   name: string;
   type: ModelType;
-  importedMeshID: string;
+  importedMeshID?: string;
   primitiveMeshType?: PrimitiveMesh;
   materialID: string;
 }
@@ -225,12 +225,24 @@ export interface DBSceneObject {
   type: SceneObjectType;
   childrens: DBSceneObject[];
 
-  materialID?: string;
-  primitiveMesh?: PrimitiveMesh;
-  importedMeshID?: string;
+  modelID?: string;
   lightID?: string;
 
   meshTranslation?: [number, number, number];
   meshRotQuat?: [number, number, number, number];
   meshScale?: [number, number, number];
 }
+
+export const basicStandardMat: Omit<Material, 'id'> = {
+  materialName: 'Untitled Mat',
+  type: MaterialType.Standard,
+
+  baseColor: 0xffffff,
+  metalness: 0,
+  roughness: 1,
+
+  wrapS: WrapMode.ClampToEdgeWrapping,
+  wrapT: WrapMode.ClampToEdgeWrapping,
+  repeatX: 1,
+  repeatY: 1,
+};

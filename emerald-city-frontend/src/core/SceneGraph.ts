@@ -3,33 +3,18 @@ import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
 import * as api from "@backend/types/api/Core";
 
-export class SceneObject {
+export interface SceneObject {
   id: string;
   name: string;
-  isSelected: boolean = false;
-  isSelectable: boolean = true;
   type: api.SceneObjectType;
+  isSelectable: boolean;
+  isSelected: boolean;
   renderObject: THREE.Object3D;
+  parent: SceneObject;
   childrens: SceneObject[];
 
-  materialID?: string;
-  primitiveMesh?: api.PrimitiveMesh;
-  importedMeshID?: string;
+  modelID?: string;
   lightID?: string;
-
-  constructor(
-    name: string,
-    renderObject: THREE.Object3D,
-    type: api.SceneObjectType,
-    isSelectable: boolean
-  ) {
-    this.id = uuidv4();
-    this.name = name;
-    this.type = type;
-    this.isSelectable = isSelectable;
-    this.renderObject = renderObject;
-    this.childrens = [];
-  }
 }
 
 export class SceneGraph {

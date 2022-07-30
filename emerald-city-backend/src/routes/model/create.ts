@@ -27,9 +27,9 @@ export async function CreateModel(req, res) {
     primitiveMeshType: modeCreateReq.primitiveMeshType,
   };
 
-  await collection.insertOne(modelDB);
+  const insertResult = await collection.insertOne(modelDB);
 
-  res.end();
+  res.send({ id: insertResult.insertedId });
 
   await connection.close();
 }

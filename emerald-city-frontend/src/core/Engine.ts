@@ -7,6 +7,7 @@ import { RenderEngine } from "./RenderEngine";
 import { v4 as uuidv4 } from "uuid";
 import { NetworkEngine } from "./NetworkEngine";
 import * as api from "@backend/types/api/Core";
+import { fabClasses } from "@mui/material";
 
 export enum Role {
   Editor,
@@ -67,14 +68,18 @@ export class Engine {
 
   initializeRenderEngine(container: HTMLDivElement, canvas: HTMLCanvasElement) {
     this.renderEngine = new RenderEngine(this, container, canvas);
-    this.sceneGraph.setRootObject(
-      new SceneObject(
-        "Level Editor",
-        this.renderEngine.mainScene,
-        api.SceneObjectType.Level,
-        false
-      )
-    );
+
+    this.sceneGraph.setRootObject({
+      id: uuidv4(),
+
+      name: "Level Editor",
+      type: api.SceneObjectType.Level,
+      isSelectable: false,
+      isSelected: false,
+      renderObject: this.renderEngine.mainScene,
+      parent: this.sceneGraph.root!,
+      childrens: [],
+    });
 
     this.onRenderEngineInitializeCallbacks.forEach((callbackfn) =>
       callbackfn()

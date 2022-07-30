@@ -7,6 +7,7 @@ import { SceneGraph, SceneObject } from "../SceneGraph";
 import { RenderEngine } from "../RenderEngine";
 import { loadFBX } from "./FBXLoad";
 import * as api from "@backend/types/api/Core";
+import { v4 as uuidv4 } from "uuid";
 
 export async function setupScene(
   scene: THREE.Scene,
@@ -52,15 +53,17 @@ export async function setupScene(
   if (sceneGraph.root === null)
     throw new Error("Scene Graph Root not Initialized");
 
-  sceneGraph.add(
-    sceneGraph.root.id,
-    new SceneObject(
-      "Ground",
-      ground,
-      api.SceneObjectType.UnkownMeshObject,
-      false
-    )
-  );
+  sceneGraph.add(sceneGraph.root.id, {
+    id: uuidv4(),
+
+    name: "Ground",
+    type: api.SceneObjectType.UnkownMeshObject,
+    isSelectable: false,
+    isSelected: false,
+    renderObject: ground,
+    parent: sceneGraph.root!,
+    childrens: [],
+  });
 
   let boxCount: number = 0;
 

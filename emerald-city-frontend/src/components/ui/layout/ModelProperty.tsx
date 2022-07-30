@@ -21,6 +21,7 @@ import FireNav from "../FireNav";
 import SidebarListHeading from "../SidebarListHeading";
 import SidebarListTitle from "../SidebarListTitle";
 import * as THREE from "three";
+import { ensureMaterial } from "@src/core/SceneReconstruction";
 
 const ModelProperty = () => {
   const engine = useEngineContext();
@@ -62,7 +63,7 @@ const ModelProperty = () => {
                     sceneObjects instanceof THREE.Group &&
                     sceneObjects instanceof THREE.Mesh
                   ) {
-                    engine.renderEngine!.ensureMaterial(value.id);
+                    ensureMaterial(engine.renderEngine!, value.id);
                     replaceMat(
                       sceneObjects,
                       engine.renderEngine!.materialStore.get(value.id)!

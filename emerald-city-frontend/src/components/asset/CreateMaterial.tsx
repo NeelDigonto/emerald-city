@@ -34,7 +34,7 @@ const CreateMaterial = () => {
 
   const initialState: Omit<api.Material, "id"> = {
     texturePackID: "",
-    baseColor: "0xffffff",
+    baseColor: 0xffffff,
     materialName: "",
     metalness: 0,
     roughness: 1,
