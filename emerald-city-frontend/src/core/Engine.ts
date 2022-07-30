@@ -2,11 +2,11 @@ import * as THREE from "three";
 
 import { setupScene } from "./scene/BaseScene";
 import { EditorControls } from "./EditorControls";
-import { SceneGraph, SceneObject, SceneObjectType } from "./SceneGraph";
+import { SceneGraph, SceneObject } from "./SceneGraph";
 import { RenderEngine } from "./RenderEngine";
 import { v4 as uuidv4 } from "uuid";
 import { NetworkEngine } from "./NetworkEngine";
-import { ClientPlayerData, PlayerState } from "@backend/types/api/Core";
+import * as api from "@backend/types/api/Core";
 
 export enum Role {
   Editor,
@@ -44,7 +44,10 @@ export class Engine {
     BeforeRenerCallback
   >();
 
-  players: Map<string, ClientPlayerData> = new Map<string, ClientPlayerData>();
+  players: Map<string, api.ClientPlayerData> = new Map<
+    string,
+    api.ClientPlayerData
+  >();
 
   sceneGraph: SceneGraph;
   renderEngine: RenderEngine | null = null;
@@ -68,7 +71,7 @@ export class Engine {
       new SceneObject(
         "Level Editor",
         this.renderEngine.mainScene,
-        SceneObjectType.Level,
+        api.SceneObjectType.Level,
         false
       )
     );
@@ -82,7 +85,7 @@ export class Engine {
     //this.networkEngine = new NetworkEngine(this);
   }
 
-  registerPlayer(playerData: ClientPlayerData) {
+  registerPlayer(playerData: api.ClientPlayerData) {
     this.players.set(playerData.playerID, playerData);
   }
 
@@ -90,7 +93,7 @@ export class Engine {
     this.players.delete(playerID);
   }
 
-  setPlayerState(playerID: string, playerState: PlayerState) {
+  setPlayerState(playerID: string, playerState: api.PlayerState) {
     this.players.get(playerID)!.playerState = playerState;
   }
 

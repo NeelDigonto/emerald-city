@@ -14,7 +14,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { SvgIconProps } from "@mui/material/SvgIcon";
-import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
+import { SceneObject } from "@src/core/SceneGraph";
 import { useEngineContext } from "@src/contexts/EngineContext";
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
@@ -39,6 +39,7 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 import Home from "@mui/icons-material/Home";
 import Settings from "@mui/icons-material/Settings";
 import * as THREE from "three";
+import * as api from "@backend/types/api/Core";
 import SidebarListTitle from "../SidebarListTitle";
 
 declare module "react" {
@@ -175,15 +176,17 @@ function StyledTreeItem(props: StyledTreeItemProps) {
   );
 }
 
-const getSceneObjectIcon = (sceneObjectType: SceneObjectType) => {
+const getSceneObjectIcon = (sceneObjectType: api.SceneObjectType) => {
   switch (sceneObjectType) {
-    case SceneObjectType.Level:
+    case api.SceneObjectType.Level:
       return MapRoundedIcon;
-    case SceneObjectType.MeshObject:
+    case api.SceneObjectType.UnkownMeshObject:
+    case api.SceneObjectType.PrimitiveMeshModel:
+    case api.SceneObjectType.ImportedMeshModel:
       return ThreeDRotationRoundedIcon;
-    case SceneObjectType.Light:
+    case api.SceneObjectType.Light:
       return LightModeRoundedIcon;
-    case SceneObjectType.Camera:
+    case api.SceneObjectType.Camera:
       return VideoCameraBackRoundedIcon;
     default:
       return QuestionMarkRoundedIcon;

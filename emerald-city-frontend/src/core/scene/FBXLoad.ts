@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 import { RenderEngine } from "../RenderEngine";
-import { SceneGraph, SceneObject, SceneObjectType } from "../SceneGraph";
+import { SceneGraph, SceneObject } from "../SceneGraph";
 
 //import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
 
@@ -20,7 +20,7 @@ export async function loadFBX(
   scene.add(model);
   sceneGraph.add(
     sceneGraph.root!.id,
-    new SceneObject("Base T Pose 1", model, SceneObjectType.MeshObject, true)
+    new SceneObject("Base T Pose 1", model, api.SceneObjectType.MeshObject, true)
   ); */
   //console.log(model);
   //renderEngine.editorControls.transformControls.attach(model);
@@ -43,7 +43,7 @@ export async function loadFBX(
         new SceneObject(
           "Base T Pose 2",
           object,
-          SceneObjectType.MeshObject,
+          api.SceneObjectType.MeshObject,
           true
         )
       );
@@ -70,7 +70,7 @@ export async function loadFBX(
         new SceneObject(
           "Base T Pose 3",
           model2,
-          SceneObjectType.MeshObject,
+          api.SceneObjectType.MeshObject,
           true
         )
       );

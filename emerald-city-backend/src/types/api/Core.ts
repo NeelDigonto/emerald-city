@@ -129,6 +129,7 @@ export enum Table {
   ImportedMesh = 'ImportedMesh',
   Model = 'Model',
   SceneGraph = 'SceneGraph',
+  Light = 'Light',
 }
 
 // pnos, playerid,
@@ -206,3 +207,30 @@ export interface Model {
   animation?: Animation[];
 }
  */
+
+export enum SceneObjectType {
+  Level,
+  Light,
+  Camera,
+  PrimitiveMeshModel,
+  ImportedMeshModel,
+  UnkownMeshObject,
+}
+
+export interface DBSceneObject {
+  id: string;
+  name: string;
+  isSelectable: boolean;
+  isSelected: string;
+  type: SceneObjectType;
+  childrens: DBSceneObject[];
+
+  materialID?: string;
+  primitiveMesh?: PrimitiveMesh;
+  importedMeshID?: string;
+  lightID?: string;
+
+  meshTranslation?: [number, number, number];
+  meshRotQuat?: [number, number, number, number];
+  meshScale?: [number, number, number];
+}

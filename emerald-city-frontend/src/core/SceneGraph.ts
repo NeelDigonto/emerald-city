@@ -3,32 +3,24 @@ import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
 import * as api from "@backend/types/api/Core";
 
-export enum SceneObjectType {
-  Level,
-  MeshObject,
-  Camera,
-  Light,
-}
-
 export class SceneObject {
   id: string;
   name: string;
   isSelected: boolean = false;
   isSelectable: boolean = true;
-  type: SceneObjectType;
+  type: api.SceneObjectType;
   renderObject: THREE.Object3D;
   childrens: SceneObject[];
 
-  modelType?: api.ModelType;
-  primitiveMesh?: api.PrimitiveMesh;
   materialID?: string;
+  primitiveMesh?: api.PrimitiveMesh;
   importedMeshID?: string;
-  lightType?: api.Light;
+  lightID?: string;
 
   constructor(
     name: string,
     renderObject: THREE.Object3D,
-    type: SceneObjectType,
+    type: api.SceneObjectType,
     isSelectable: boolean
   ) {
     this.id = uuidv4();

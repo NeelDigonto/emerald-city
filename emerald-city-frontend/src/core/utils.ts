@@ -16,7 +16,7 @@ export function addDeepObjectToSceneGraph(
 ) {
   /*   sceneGraph.add(
     parent,
-    new SceneObject("Base T Pose 3", model2, SceneObjectType.MeshObject, true)
+    new SceneObject("Base T Pose 3", model2, api.SceneObjectType.MeshObject, true)
   ); */
 }
 

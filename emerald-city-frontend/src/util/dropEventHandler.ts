@@ -1,7 +1,7 @@
 import * as api from "@backend/types/api/Core";
 import { store } from "@src/app/store";
 import { Engine } from "@src/core/Engine";
-import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
+import { SceneObject } from "@src/core/SceneGraph";
 import { replaceMat } from "@src/core/utils";
 import { DropData, DropObjectType } from "@src/types/Core";
 import * as THREE from "three";
@@ -20,7 +20,7 @@ function handleModelDrop(engine: Engine, modelID: string) {
       new SceneObject(
         "Untitled",
         renderObject,
-        SceneObjectType.MeshObject,
+        api.SceneObjectType.ImportedMeshModel,
         true
       )
     );
@@ -61,7 +61,7 @@ function handleModelDrop(engine: Engine, modelID: string) {
           new SceneObject(
             "Untitled",
             renderObject,
-            SceneObjectType.MeshObject,
+            api.SceneObjectType.ImportedMeshModel,
             true
           )
         );
@@ -91,7 +91,7 @@ function handleBasicShapeDrop(
       new SceneObject(
         "Untitled",
         renderObject,
-        SceneObjectType.MeshObject,
+        api.SceneObjectType.PrimitiveMeshModel,
         true
       )
     );
@@ -108,7 +108,7 @@ function handleLightDrop(engine: Engine, lightType: api.Light) {
         renderEngine.mainScene.add(light);
         engine.sceneGraph.add(
           engine.sceneGraph.root!.id,
-          new SceneObject("Sky Light", light, SceneObjectType.Light, true)
+          new SceneObject("Sky Light", light, api.SceneObjectType.Light, true)
         );
       }
       break;
@@ -121,7 +121,7 @@ function handleLightDrop(engine: Engine, lightType: api.Light) {
           new SceneObject(
             "Directional Light",
             light,
-            SceneObjectType.Light,
+            api.SceneObjectType.Light,
             true
           )
         );
@@ -133,7 +133,12 @@ function handleLightDrop(engine: Engine, lightType: api.Light) {
         renderEngine.mainScene.add(light);
         engine.sceneGraph.add(
           engine.sceneGraph.root!.id,
-          new SceneObject("RectArea Light", light, SceneObjectType.Light, true)
+          new SceneObject(
+            "RectArea Light",
+            light,
+            api.SceneObjectType.Light,
+            true
+          )
         );
       }
       break;
@@ -143,7 +148,7 @@ function handleLightDrop(engine: Engine, lightType: api.Light) {
         renderEngine.mainScene.add(light);
         engine.sceneGraph.add(
           engine.sceneGraph.root!.id,
-          new SceneObject("Spot Light", light, SceneObjectType.Light, true)
+          new SceneObject("Spot Light", light, api.SceneObjectType.Light, true)
         );
       }
       break;
@@ -153,7 +158,7 @@ function handleLightDrop(engine: Engine, lightType: api.Light) {
         renderEngine.mainScene.add(light);
         engine.sceneGraph.add(
           engine.sceneGraph.root!.id,
-          new SceneObject("Point Light", light, SceneObjectType.Light, true)
+          new SceneObject("Point Light", light, api.SceneObjectType.Light, true)
         );
       }
       break;
@@ -170,7 +175,7 @@ function handleLightDrop(engine: Engine, lightType: api.Light) {
       new SceneObject(
         "Untitled",
         renderObject,
-        SceneObjectType.MeshObject,
+        api.SceneObjectType.MeshObject,
         true
       )
     ); */

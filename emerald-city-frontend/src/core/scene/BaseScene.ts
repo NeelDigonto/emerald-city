@@ -2,10 +2,11 @@ import * as THREE from "three";
 import { Engine } from "@src/core/Engine";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { loadTextures } from "../TextureManager";
-import { SceneGraph, SceneObject, SceneObjectType } from "../SceneGraph";
+import { SceneGraph, SceneObject } from "../SceneGraph";
 
 import { RenderEngine } from "../RenderEngine";
 import { loadFBX } from "./FBXLoad";
+import * as api from "@backend/types/api/Core";
 
 export async function setupScene(
   scene: THREE.Scene,
@@ -53,7 +54,12 @@ export async function setupScene(
 
   sceneGraph.add(
     sceneGraph.root.id,
-    new SceneObject("Ground", ground, SceneObjectType.MeshObject, false)
+    new SceneObject(
+      "Ground",
+      ground,
+      api.SceneObjectType.UnkownMeshObject,
+      false
+    )
   );
 
   let boxCount: number = 0;
@@ -73,7 +79,7 @@ export async function setupScene(
         new SceneObject(
           `Box ${boxCount++}`,
           box,
-          SceneObjectType.MeshObject,
+          api.SceneObjectType.MeshObject,
           true
         )
       );

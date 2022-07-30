@@ -14,15 +14,7 @@ import React from "react";
 import FireNav from "../FireNav";
 
 import SidebarListTitle from "../SidebarListTitle";
-import ViewInArIcon from "@mui/icons-material/ViewInAr";
-import SquareRoundedIcon from "@mui/icons-material/SquareRounded";
-import { RootState, store } from "@src/app/store";
-import { useSelector } from "react-redux";
-import ViewInArRounded from "@mui/icons-material/ViewInArRounded";
-import { useEngineContext } from "@src/contexts/EngineContext";
 import * as api from "@backend/types/api/Core";
-import { deepTraverse, replaceMat } from "@src/core/utils";
-import { SceneObject, SceneObjectType } from "@src/core/SceneGraph";
 import SidebarListHeading from "../SidebarListHeading";
 import { DropObjectType, DropData } from "@src/types/Core";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
