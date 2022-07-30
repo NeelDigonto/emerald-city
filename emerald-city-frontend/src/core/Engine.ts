@@ -90,6 +90,39 @@ export class Engine {
     );
   }
 
+  setupBaseScene() {
+    setupScene(
+      this.renderEngine!.mainScene,
+      this.renderEngine!.camera,
+      this.sceneGraph,
+      this.renderEngine!
+    )
+      .then(() => (this.isBaseSceneInitialized = true))
+      .then(() =>
+        fetch("http://localhost:5000/sceneGraph/get")
+          .then((response) => response.json())
+          .then((dbSceneObject) => {
+            this.reconstructSceneGraph(dbSceneObject);
+          })
+      )
+      .then(() => (this.isSceneGraphInitialized = true))
+      .then(() => {
+        if (this.mode === EngineMode.Editor) {
+          const id = setInterval(() => {
+            const sceneGraph = this.serializeSceneGraph();
+
+            fetch("http://localhost:5000/sceneGraph/update", {
+              method: "POST",
+              body: JSON.stringify(sceneGraph),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          }, 5000);
+        }
+      });
+  }
+
   serializeSceneGraph(): api.DBSceneObject {
     const root = this.sceneGraph.root!;
     const dbSceneObject: api.DBSceneObject = toDBSceneObject(root);
