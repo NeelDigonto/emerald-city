@@ -1,7 +1,7 @@
 import * as api from "@backend/types/api/Core";
 import * as THREE from "three";
 import { Object3D } from "three";
-import { SceneGraph } from "./SceneGraph";
+import { SceneGraph, SceneObject } from "./SceneGraph";
 
 export function requestUnThrottledAnimationFrame(
   callback: (timestamp: DOMHighResTimeStamp) => void
@@ -101,4 +101,22 @@ export function generatePrimitiveMeshes() {
   map.set(api.PrimitiveMesh.Torus, new THREE.TorusGeometry(1, 0.25, 25, 50));
 
   return map;
+}
+
+export function toDBSceneObject(sceneObject: SceneObject) {
+  const dbSceneObject: api.DBSceneObject = {
+    id: sceneObject.id,
+    name: sceneObject.id,
+    isSelectable: sceneObject.isSelectable,
+    isSelected: sceneObject.isSelected,
+    type: sceneObject.type,
+    childrens: [],
+
+    modelID: sceneObject.modelID,
+    lightID: sceneObject.lightID,
+
+    localTransformation: sceneObject.renderObject.matrix.toArray(),
+  };
+
+  return dbSceneObject;
 }

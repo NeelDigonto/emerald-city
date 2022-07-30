@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { NetworkEngine } from "./NetworkEngine";
 import * as api from "@backend/types/api/Core";
 import { fabClasses } from "@mui/material";
+import { toDBSceneObject } from "./utils";
 
 export enum Role {
   Editor,
@@ -85,6 +86,19 @@ export class Engine {
       callbackfn()
     );
   }
+
+  serializeSceneGraph(): api.DBSceneObject {
+    const root = this.sceneGraph.root!;
+    const dbSceneObject: api.DBSceneObject = toDBSceneObject(root);
+
+    root.childrens.forEach((obj) => {
+      dbSceneObject.childrens.push(toDBSceneObject(obj));
+    });
+
+    return dbSceneObject;
+  }
+
+  reconstructSceneGraph(sceneObject: api.DBSceneObject) {}
 
   initializeNetworkEngine() {
     //this.networkEngine = new NetworkEngine(this);

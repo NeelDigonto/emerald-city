@@ -221,16 +221,14 @@ export interface DBSceneObject {
   id: string;
   name: string;
   isSelectable: boolean;
-  isSelected: string;
+  isSelected: boolean;
   type: SceneObjectType;
   childrens: DBSceneObject[];
 
   modelID?: string;
   lightID?: string;
 
-  meshTranslation?: [number, number, number];
-  meshRotQuat?: [number, number, number, number];
-  meshScale?: [number, number, number];
+  localTransformation: number[];
 }
 
 export const basicStandardMat: Omit<Material, 'id'> = {
