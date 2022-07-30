@@ -120,3 +120,21 @@ export function toDBSceneObject(sceneObject: SceneObject) {
 
   return dbSceneObject;
 }
+
+export function toSceneObject(dbSceneObject: api.DBSceneObject, ) {
+  /*   const sceneObject: SceneObject = {
+      id: dbSceneObject.id,
+  name: dbSceneObject.name,
+  type: dbSceneObject.type,
+  isSelectable: dbSceneObject.isSelectable,
+  isSelected:dbSceneObject.isSelected,
+  renderObject: THREE.Object3D;
+  parent: SceneObject;
+  childrens: [],
+
+  modelID?: string;
+  lightID?: string;
+  };
+
+  return sceneObject; */
+}

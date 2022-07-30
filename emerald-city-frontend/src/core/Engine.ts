@@ -9,6 +9,7 @@ import { NetworkEngine } from "./NetworkEngine";
 import * as api from "@backend/types/api/Core";
 import { fabClasses } from "@mui/material";
 import { toDBSceneObject } from "./utils";
+import { ensureModel } from "./SceneReconstruction";
 
 export enum Role {
   Editor,
@@ -35,6 +36,8 @@ export class Engine {
   lastLoopStartTimeStamp: number = 0;
   lastLoopTime: number = 0;
   mode: EngineMode;
+  isBaseSceneInitialized: boolean = false;
+  isSceneGraphInitialized: boolean = false;
 
   onRenderEngineInitializeCallbacks: Map<
     string,
@@ -98,7 +101,44 @@ export class Engine {
     return dbSceneObject;
   }
 
-  reconstructSceneGraph(sceneObject: api.DBSceneObject) {}
+  async reconstructSceneGraph(rootSceneObject: api.DBSceneObject) {
+    return Promise.all(
+      rootSceneObject.childrens.map(async (dbSceneObject) => {
+        switch (dbSceneObject.type) {
+          case api.SceneObjectType.ImportedMeshModel:
+          case api.SceneObjectType.PrimitiveMeshModel: {
+            await ensureModel(this.renderEngine!, dbSceneObject.modelID!);
+            const renderObject = this.renderEngine?.modelStore.get(
+              dbSceneObject.modelID!
+            )!;
+
+            renderObject.applyMatrix4(
+              new THREE.Matrix4().fromArray(dbSceneObject.localTransformation)
+            );
+
+            this.renderEngine?.mainScene.add(renderObject);
+
+            this.sceneGraph.add(this.sceneGraph.root!.id, {
+              id: dbSceneObject.id,
+              name: dbSceneObject.name,
+              type: dbSceneObject.type,
+              isSelectable: dbSceneObject.isSelectable,
+              isSelected: dbSceneObject.isSelected,
+              renderObject: renderObject,
+              parent: this.sceneGraph.root!,
+              childrens: [],
+
+              modelID: dbSceneObject.modelID,
+              lightID: dbSceneObject.lightID,
+            });
+            break;
+          }
+          default:
+            break;
+        }
+      })
+    );
+  }
 
   initializeNetworkEngine() {
     //this.networkEngine = new NetworkEngine(this);
