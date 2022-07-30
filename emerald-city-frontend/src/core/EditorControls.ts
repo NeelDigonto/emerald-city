@@ -203,6 +203,16 @@ export class EditorControls {
         case "KeyC":
           this.keyState.flyDown = true;
           break;
+        case "ShiftLeft":
+        case "ShiftRight":
+          this.keyState.shift = true;
+          //this.transformControls.setUniformScale(true);
+          break;
+        case "ControlLeft":
+        case "ControlRight":
+          this.keyState.cntrl = true;
+          break;
+
         default:
           break;
       }
@@ -232,6 +242,13 @@ export class EditorControls {
       case "ControlRight":
         this.keyState.cntrl = true;
         break;
+      case "Delete": {
+        const object = this.transformControls.object;
+        object?.removeFromParent();
+        this.transformControls.detach();
+        this.lastSelectedObject = null;
+        break;
+      }
       /*       case "ShiftLeft":
       case "ShiftRight":
         this.transformControls.setTranslationSnap(1);
