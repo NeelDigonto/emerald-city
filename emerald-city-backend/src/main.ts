@@ -54,27 +54,31 @@ function mainBackendServer() {
   const app = express();
   app.use(cors());
 
-  app.post('/get-presigned-get-url', express.json(), GetPresignedGetUrl);
+  app.post('/api/get-presigned-get-url', express.json(), GetPresignedGetUrl);
 
-  app.post('/get-presigned-post-url', express.json(), GetPresignedPostUrl);
+  app.post('/api/get-presigned-post-url', express.json(), GetPresignedPostUrl);
 
-  app.post('/texture-pack/request-img-proc', express.json(), RequestImageProc);
+  app.post(
+    '/api/texture-pack/request-img-proc',
+    express.json(),
+    RequestImageProc,
+  );
 
-  app.get('/resource/get/:rname', express.json(), GetResourceTable);
+  app.get('/api/resource/get/:rname', express.json(), GetResourceTable);
 
-  app.post('/material/create', express.json(), CreateMaterial);
+  app.post('/api/material/create', express.json(), CreateMaterial);
 
-  app.post('/material/update', express.json(), UpdateMaterial);
+  app.post('/api/material/update', express.json(), UpdateMaterial);
 
-  app.post('/mesh/create', express.json(), CreateMesh);
+  app.post('/api/mesh/create', express.json(), CreateMesh);
 
-  app.post('/model/create', express.json(), CreateModel);
+  app.post('/api/model/create', express.json(), CreateModel);
 
-  app.post('/model/update', express.json(), UpdateModel);
+  app.post('/api/model/update', express.json(), UpdateModel);
 
-  app.get('/sceneGraph/get', express.json(), GetSceneGraph);
+  app.get('/api/sceneGraph/get', express.json(), GetSceneGraph);
 
-  app.post('/sceneGraph/update', express.json(), UpdateSceneGraph);
+  app.post('/api/sceneGraph/update', express.json(), UpdateSceneGraph);
 
   app.listen(5000, () => {
     console.log('Listening on port 5000');
