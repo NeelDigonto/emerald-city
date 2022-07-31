@@ -77,6 +77,7 @@ async function handleBasicShapeDrop(
 
   if (renderEngine.primitiveMeshStore.has(primitiveMeshType)) {
     const dbMat = api.basicStandardMat;
+    dbMat.materialName = `Untitled Mat${store.getState().material.length}`;
 
     const matID = (
       await fetch("http://localhost:5000/material/create", {

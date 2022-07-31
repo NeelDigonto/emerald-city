@@ -17,7 +17,7 @@ export async function ensureModel(renderEngine: RenderEngine, modelID: string) {
       .get(model.primitiveMeshType!)!
       .clone();
 
-    console.log("mesh", mesh);
+    //console.log("mesh", mesh);
 
     const renderObject = new THREE.Mesh(
       mesh,
