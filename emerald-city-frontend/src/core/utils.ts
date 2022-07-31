@@ -1,4 +1,5 @@
 import * as api from "@backend/types/api/Core";
+import { REST_API_URL } from "@src/Constants";
 import * as THREE from "three";
 import { Object3D } from "three";
 import { SceneGraph, SceneObject } from "./SceneGraph";
@@ -62,7 +63,7 @@ export function replaceMat(
 }
 
 export async function getPresignedDownloadUrl(fileRef: api.FileRef) {
-  return await fetch("http://localhost:5000/get-presigned-get-url", {
+  return await fetch(`${REST_API_URL}/get-presigned-get-url`, {
     method: "POST",
     body: JSON.stringify({
       bucket: fileRef.bucket,
@@ -121,7 +122,7 @@ export function toDBSceneObject(sceneObject: SceneObject) {
   return dbSceneObject;
 }
 
-export function toSceneObject(dbSceneObject: api.DBSceneObject, ) {
+export function toSceneObject(dbSceneObject: api.DBSceneObject) {
   /*   const sceneObject: SceneObject = {
       id: dbSceneObject.id,
   name: dbSceneObject.name,

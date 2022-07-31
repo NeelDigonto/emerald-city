@@ -24,6 +24,7 @@ import * as api from "@backend/types/api/Core";
 import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { useDispatch } from "react-redux";
 import { uploadFile } from "@src/utils";
+import { REST_API_URL } from "@src/Constants";
 
 const ImportMesh = () => {
   const [open, setOpen] = React.useState(true);
@@ -48,7 +49,7 @@ const ImportMesh = () => {
         fileRef.current.files &&
         fileRef.current.files[0]
       ) {
-        await fetch("http://localhost:5000/get-presigned-post-url", {
+        await fetch(`${REST_API_URL}/get-presigned-post-url`, {
           method: "POST",
           body: JSON.stringify({
             bucket,
@@ -63,7 +64,7 @@ const ImportMesh = () => {
             uploadFile(url, fields, fileRef.current!.files![0])
           );
 
-        await fetch("http://localhost:5000/mesh/create", {
+        await fetch(`${REST_API_URL}/mesh/create`, {
           method: "POST",
           body: JSON.stringify(values),
           headers: {

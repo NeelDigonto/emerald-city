@@ -12,6 +12,7 @@ import { toDBSceneObject } from "./utils";
 import { ensureModel } from "./SceneReconstruction";
 import { setupCharacterAndCamera } from "@src/util/setupCharacter";
 import { FPSControls } from "./FPSControls";
+import { REST_API_URL } from "@src/Constants";
 
 export enum Role {
   Editor,
@@ -118,7 +119,7 @@ export class Engine {
     )
       .then(() => (this.isBaseSceneInitialized = true))
       .then(() =>
-        fetch("http://localhost:5000/sceneGraph/get")
+        fetch(`${REST_API_URL}/sceneGraph/get`)
           .then((response) => response.json())
 
           .then((dbSceneObject) => {
@@ -132,7 +133,7 @@ export class Engine {
           const id = setInterval(() => {
             const sceneGraph = this.serializeSceneGraph();
 
-            fetch("http://localhost:5000/sceneGraph/update", {
+            fetch(`${REST_API_URL}/sceneGraph/update`, {
               method: "POST",
               body: JSON.stringify(sceneGraph),
               headers: {

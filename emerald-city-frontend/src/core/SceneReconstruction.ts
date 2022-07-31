@@ -84,8 +84,10 @@ export async function ensureTexturePack(
   if (texturePack === undefined) return;
 
   if (
-    renderEngine.textureStore.has(texturePack.albedoCompressed!.fuuid) ||
-    renderEngine.textureStore.has(texturePack.pmaaaoCompressed!.fuuid)
+    (texturePack.albedoCompressed! &&
+      renderEngine.textureStore.has(texturePack.albedoCompressed!.fuuid)) ||
+    (texturePack.pmaaaoCompressed! &&
+      renderEngine.textureStore.has(texturePack.pmaaaoCompressed!.fuuid))
   ) {
     return;
   }
@@ -187,7 +189,7 @@ export async function ensureMaterial(
   //console.log("_material", _material);
 
   await ensureTexturePack(renderEngine, _material.texturePackID!);
-  console.log(renderEngine.textureStore);
+  //console.log(renderEngine.textureStore);
 
   if (
     texturePack.pmaaaoCompressed !== undefined &&

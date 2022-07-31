@@ -92,7 +92,10 @@ function main() {
       mainBackendServer();
       break;
     case 'game':
-      new GameServer();
+      //new GameServer();
+      break;
+    case 'audio':
+      //audioServer();
       break;
     default:
       mainBackendServer();

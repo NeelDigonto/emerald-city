@@ -1,5 +1,6 @@
 import * as api from "@backend/types/api/Core";
 import { store } from "@src/app/store";
+import { REST_API_URL } from "@src/Constants";
 import { Engine } from "@src/core/Engine";
 import { SceneObject } from "@src/core/SceneGraph";
 import {
@@ -80,7 +81,7 @@ async function handleBasicShapeDrop(
     dbMat.materialName = `Untitled Mat${store.getState().material.length}`;
 
     const matID = (
-      await fetch("http://localhost:5000/material/create", {
+      await fetch(`${REST_API_URL}/material/create`, {
         method: "POST",
         body: JSON.stringify(dbMat),
         headers: {
@@ -99,7 +100,7 @@ async function handleBasicShapeDrop(
     };
 
     const modelID = (
-      await fetch("http://localhost:5000/model/create", {
+      await fetch(`${REST_API_URL}/model/create`, {
         method: "POST",
         body: JSON.stringify(dbModel),
         headers: {

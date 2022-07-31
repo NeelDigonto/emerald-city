@@ -19,6 +19,7 @@ import {
   Select,
 } from "@mui/material";
 import { RootState } from "@src/app/store";
+import { REST_API_URL } from "@src/Constants";
 import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { SidebarPanel, textureMaps } from "@src/types/Core";
 import { FormikProps, useFormik } from "formik";
@@ -51,7 +52,7 @@ const CreateModel = () => {
 
       //console.log(values);
 
-      await fetch("http://localhost:5000/model/create", {
+      await fetch(`${REST_API_URL}/model/create`, {
         method: "POST",
         body: JSON.stringify(values),
         headers: {

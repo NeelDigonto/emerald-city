@@ -25,6 +25,7 @@ import * as api from "@backend/types/api/Core";
 import { ensureMaterial } from "@src/core/SceneReconstruction";
 import { useDispatch } from "react-redux";
 import { updateModel } from "@src/feature/modelSlice";
+import { REST_API_URL } from "@src/Constants";
 
 const ModelProperty = () => {
   const engine = useEngineContext();
@@ -65,7 +66,7 @@ const ModelProperty = () => {
         const newModel = { ...dbModel };
         newModel.materialID = value.id;
 
-        fetch("http://localhost:5000/model/update", {
+        fetch(`${REST_API_URL}/model/update`, {
           method: "POST",
           body: JSON.stringify(newModel),
           headers: {

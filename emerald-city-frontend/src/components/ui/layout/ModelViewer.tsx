@@ -27,6 +27,7 @@ import SidebarListHeading from "../SidebarListHeading";
 import { DropData, DropObjectType } from "@src/types/Core";
 import { useDispatch } from "react-redux";
 import { updateModel } from "@src/feature/modelSlice";
+import { REST_API_URL } from "@src/Constants";
 
 const AModel = ({ model }: { model: api.Model }) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
@@ -101,7 +102,7 @@ const AModel = ({ model }: { model: api.Model }) => {
             onClick={(e) => {
               const updatedModel = { ...model, name: name };
 
-              fetch("http://localhost:5000/model/update", {
+              fetch(`${REST_API_URL}/model/update`, {
                 method: "POST",
                 body: JSON.stringify(updatedModel),
                 headers: {

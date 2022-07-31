@@ -6,6 +6,7 @@ import { addTexturePack } from "@src/feature/texturePackSlice";
 import { addMaterial } from "@src/feature/materialSlice";
 import { addImportedMesh } from "@src/feature/importedMeshSlice";
 import { addModel } from "@src/feature/modelSlice";
+import { REST_API_URL } from "@src/Constants";
 
 const DataLoader = ({
   children,
@@ -20,7 +21,7 @@ const DataLoader = ({
       isLoaded.current = true;
       console.log("Data Fetched");
 
-      fetch(`http://localhost:5000/resource/get/${api.Table.TexturePack}`)
+      fetch(`${REST_API_URL}/resource/get/${api.Table.TexturePack}`)
         .then((response) => response.json())
         .then((resources: api.TexturePack[]) => {
           resources.forEach((resource_unit) => {
@@ -28,7 +29,7 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${api.Table.Material}`)
+      fetch(`${REST_API_URL}/resource/get/${api.Table.Material}`)
         .then((response) => response.json())
         .then((resources: api.Material[]) => {
           resources.forEach((resource_unit) => {
@@ -36,7 +37,7 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${api.Table.ImportedMesh}`)
+      fetch(`${REST_API_URL}/resource/get/${api.Table.ImportedMesh}`)
         .then((response) => response.json())
         .then((resources: api.ImportedMesh[]) => {
           resources.forEach((resource_unit) => {
@@ -44,7 +45,7 @@ const DataLoader = ({
           });
         });
 
-      fetch(`http://localhost:5000/resource/get/${api.Table.Model}`)
+      fetch(`${REST_API_URL}/resource/get/${api.Table.Model}`)
         .then((response) => response.json())
         .then((resources: api.Model[]) => {
           resources.forEach((resource_unit) => {

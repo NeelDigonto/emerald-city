@@ -24,6 +24,7 @@ import * as api from "@backend/types/api/Core";
 import { uploadFile } from "@src/utils";
 import { setActiveSidebarPanel } from "@src/feature/activeSidebarPanelSlice";
 import { useDispatch } from "react-redux";
+import { REST_API_URL } from "@src/Constants";
 
 const Image = styled.img`
   width: 100%;
@@ -124,7 +125,7 @@ const TextureUploader = () => {
       const bucket: string = "emerald-city";
 
       if (values.albedo) {
-        await fetch("http://localhost:5000/get-presigned-post-url", {
+        await fetch(`${REST_API_URL}/get-presigned-post-url`, {
           method: "POST",
           body: JSON.stringify({
             bucket,
@@ -141,7 +142,7 @@ const TextureUploader = () => {
       }
 
       if (values.ao) {
-        await fetch("http://localhost:5000/get-presigned-post-url", {
+        await fetch(`${REST_API_URL}/get-presigned-post-url`, {
           method: "POST",
           body: JSON.stringify({
             bucket,
@@ -158,7 +159,7 @@ const TextureUploader = () => {
       }
 
       if (values.normal) {
-        await fetch("http://localhost:5000/get-presigned-post-url", {
+        await fetch(`${REST_API_URL}/get-presigned-post-url`, {
           method: "POST",
           body: JSON.stringify({
             bucket,
@@ -175,7 +176,7 @@ const TextureUploader = () => {
       }
 
       if (values.roughness) {
-        await fetch("http://localhost:5000/get-presigned-post-url", {
+        await fetch(`${REST_API_URL}/get-presigned-post-url`, {
           method: "POST",
           body: JSON.stringify({
             bucket,
@@ -192,7 +193,7 @@ const TextureUploader = () => {
       }
 
       if (values.metalness) {
-        await fetch("http://localhost:5000/get-presigned-post-url", {
+        await fetch(`${REST_API_URL}/get-presigned-post-url`, {
           method: "POST",
           body: JSON.stringify({
             bucket,
@@ -208,7 +209,7 @@ const TextureUploader = () => {
           );
       }
 
-      await fetch("http://localhost:5000/texture-pack/request-img-proc", {
+      await fetch(`${REST_API_URL}/texture-pack/request-img-proc`, {
         method: "POST",
         body: JSON.stringify(values),
         headers: {
