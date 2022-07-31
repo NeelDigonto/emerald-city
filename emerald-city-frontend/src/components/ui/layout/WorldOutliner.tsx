@@ -213,7 +213,7 @@ export default React.memo(function WorldOutliner() {
           color="#a250f5"
           bgColor="#f3e8fd"
           onClick={() => {
-            engine.renderEngine?.editorControls.selectSceneObject(node);
+            engine.renderEngine?.editorControls!.selectSceneObject(node);
           }}
         ></StyledTreeItem>
       );
@@ -242,7 +242,7 @@ export default React.memo(function WorldOutliner() {
     if (engine.renderEngine === null) return;
 
     const calbackID =
-      engine.renderEngine.editorControls.registerRaycastCallback(
+      engine.renderEngine.editorControls!.registerRaycastCallback(
         (sceneObjects) => {
           //console.log(sceneObjects);
           // maintain priority to be the last one
@@ -259,7 +259,7 @@ export default React.memo(function WorldOutliner() {
 
     return () => {
       if (engine.renderEngine !== null)
-        engine.renderEngine.editorControls.removeRaycastCallback(calbackID);
+        engine.renderEngine.editorControls!.removeRaycastCallback(calbackID);
     };
   }, [engine.renderEngine]);
 

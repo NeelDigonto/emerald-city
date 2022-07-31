@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { Engine } from "./Engine";
 import { v4 as uuidv4 } from "uuid";
 import * as api from "@backend/types/api/Core";
+import { store } from "@src/app/store";
 
 export interface SceneObject {
   id: string;
@@ -95,5 +96,23 @@ export class SceneGraph {
 
     this.onChangeCallbacks.forEach((callback) => callback());
     return result;
+  }
+
+  duplicateSceneObject(sceneObject: SceneObject) {
+    console.log(sceneObject);
+
+    if (
+      sceneObject.type === api.SceneObjectType.ImportedMeshModel ||
+      sceneObject.type === api.SceneObjectType.PrimitiveMeshModel
+    ) {
+      const parent = sceneObject.parent;
+
+      const dbModel = store
+        .getState()
+        .model.find((model) => model.id === sceneObject.modelID!)!;
+      const newDBMaodel: api.Optional<api.Model, "id"> = { ...dbModel };
+
+      delete newDBMaodel.id;
+    }
   }
 }

@@ -12,7 +12,7 @@ import { SceneGraph, SceneObject } from "./SceneGraph";
 import { MeshBasicMaterial } from "three";
 //import { Key } from "ts-key-enum";
 
-export interface KeyState {
+interface KeyState {
   forward: boolean;
   left: boolean;
   backward: boolean;
@@ -23,7 +23,7 @@ export interface KeyState {
   cntrl: boolean;
 }
 
-export interface MouseMovement {
+interface MouseMovement {
   movementX: number;
   movementY: number;
 }
@@ -123,7 +123,7 @@ export class EditorControls {
 
     this.transformControls.setTranslationSnap(0.1);
     this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(10));
-    this.transformControls.setScaleSnap(0.5);
+    this.transformControls.setScaleSnap(0.1);
 
     this.renderEngine.mainScene.add(this.transformControls);
   }
@@ -203,16 +203,6 @@ export class EditorControls {
         case "KeyC":
           this.keyState.flyDown = true;
           break;
-        case "ShiftLeft":
-        case "ShiftRight":
-          this.keyState.shift = true;
-          //this.transformControls.setUniformScale(true);
-          break;
-        case "ControlLeft":
-        case "ControlRight":
-          this.keyState.cntrl = true;
-          break;
-
         default:
           break;
       }
@@ -248,8 +238,16 @@ export class EditorControls {
         this.sceneGraph.remove(
           this.sceneGraph.renderObjectToSceneObjectMap.get(object.uuid)!
         );
-
         this.lastSelectedObject = null;
+        break;
+      }
+      case "KeyV": {
+        if (this.keyState.cntrl)
+          this.sceneGraph.duplicateSceneObject(
+            this.sceneGraph.renderObjectToSceneObjectMap.get(
+              this.transformControls.object!.uuid
+            )!
+          );
         break;
       }
       /*       case "ShiftLeft":

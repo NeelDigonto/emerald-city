@@ -75,7 +75,7 @@ class Player {
         this.socket.send(JSON.stringify(gameUpdate));
         this.broadcasterTimer = setInterval(
           this.handleBroadcast.bind(this),
-          5000,
+          50,
         );
         break;
       }
@@ -127,7 +127,7 @@ class Player {
       if (aPlayer.socket.readyState === WebSocket.OPEN)
         aPlayer.playerData.clientSocket.send(JSON.stringify(gameUpdate));
     });
-    console.log(this.playerID, gameUpdate);
+    //console.log(this.playerID, gameUpdate);
   }
 
   handlePlayerJoined(playerResponse: PlayerResponse) {

@@ -24,6 +24,7 @@ import { GetSceneGraph } from './routes/sceneGraph/get.js';
 import { UpdateSceneGraph } from './routes/sceneGraph/udpate.js';
 import { UpdateModel } from './routes/model/update.js';
 import { UpdateMaterial } from './routes/material/updateMaterial.js';
+import { audioServer } from './WebRTCAudioServer.js';
 
 function frontendServer() {
   const app = express();
@@ -96,6 +97,7 @@ function main() {
     default:
       mainBackendServer();
       //new GameServer();
+      //audioServer();
       break;
   }
 }

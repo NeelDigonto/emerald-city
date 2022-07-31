@@ -6,6 +6,7 @@ import { useEngineContext } from "@src/contexts/EngineContext";
 import { EngineMode } from "@src/core/Engine";
 import { setupScene } from "@src/core/scene/BaseScene";
 import { dropCallback } from "@src/util/dropEventHandler";
+import * as api from "@backend/types/api/Core";
 import React from "react";
 
 const RootContainer = styled.div`
@@ -58,6 +59,8 @@ const Playground = () => {
       engine.play();
 
       engine.setupBaseScene();
+
+      engine.setupPlayground(api.Characters.Remy, "");
     }
   }, [engine, canvasContainerRef.current, canvasRef.current]);
 

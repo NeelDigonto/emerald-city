@@ -10,6 +10,8 @@ import * as api from "@backend/types/api/Core";
 import { fabClasses } from "@mui/material";
 import { toDBSceneObject } from "./utils";
 import { ensureModel } from "./SceneReconstruction";
+import { setupCharacterAndCamera } from "@src/util/setupCharacter";
+import { FPSControls } from "./FPSControls";
 
 export enum Role {
   Editor,
@@ -38,6 +40,10 @@ export class Engine {
   mode: EngineMode;
   isBaseSceneInitialized: boolean = false;
   isSceneGraphInitialized: boolean = false;
+
+  characterType: api.Characters = api.Characters.None;
+  character: THREE.Object3D | null = null;
+  playerName: string = "";
 
   onRenderEngineInitializeCallbacks: Map<
     string,
@@ -88,6 +94,19 @@ export class Engine {
     this.onRenderEngineInitializeCallbacks.forEach((callbackfn) =>
       callbackfn()
     );
+  }
+
+  setupPlayground(character: api.Characters, playerName: string) {
+    this.playerName = playerName;
+
+    setupCharacterAndCamera(this.renderEngine!.mainScene!, this).then(() => {
+      this.renderEngine!.fpsControls = new FPSControls(
+        this.renderEngine!,
+        this.character!,
+        this.renderEngine!.container,
+        this.renderEngine!.camera
+      );
+    });
   }
 
   setupBaseScene() {
@@ -176,7 +195,8 @@ export class Engine {
   }
 
   initializeNetworkEngine() {
-    //this.networkEngine = new NetworkEngine(this);
+    /*  if (this.networkEngine === null)
+      this.networkEngine = new NetworkEngine(this); */
   }
 
   registerPlayer(playerData: api.ClientPlayerData) {

@@ -1,4 +1,4 @@
-import { Engine } from "./Engine";
+import { Engine, EngineMode } from "./Engine";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
@@ -11,13 +11,15 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import * as api from "@backend/types/api/Core";
 import { store } from "@src/app/store";
 import { generatePrimitiveMeshes, getPresignedDownloadUrl } from "./utils";
+import { FPSControls } from "./FPSControls";
 
 export class RenderEngine {
   // should always be attached
   container: HTMLDivElement;
   canvas: HTMLCanvasElement;
   engine: Engine;
-  editorControls: EditorControls;
+  editorControls: EditorControls | null = null;
+  fpsControls: FPSControls | null = null;
 
   renderer: THREE.WebGLRenderer;
   camera: THREE.PerspectiveCamera;
@@ -92,12 +94,13 @@ export class RenderEngine {
 
     window.addEventListener("resize", this.resize.bind(this)); // on window?
 
-    this.editorControls = new EditorControls(
-      this,
-      engine.sceneGraph,
-      this.container,
-      this.camera
-    );
+    if (engine.mode === EngineMode.Editor)
+      this.editorControls = new EditorControls(
+        this,
+        engine.sceneGraph,
+        this.container,
+        this.camera
+      );
 
     this.primitiveMeshStore = generatePrimitiveMeshes();
   }
@@ -120,6 +123,7 @@ export class RenderEngine {
     this.lastFrameRenderTime = performance.now() - timestamp;
     this.lastFrameStartTimeStamp = timestamp;
 
-    this.editorControls.update(this.delta);
+    if (this.editorControls !== null) this.editorControls.update(this.delta);
+    if (this.fpsControls !== null) this.fpsControls.update(this.delta);
   }
 }

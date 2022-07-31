@@ -23,7 +23,7 @@ export class NetworkEngine {
     this.gameServer.addEventListener("open", (event) => {
       const data: PlayerResponse = {
         type: PlayerResponseType.PlayerJoined,
-        name: "Bambboo",
+        name: "Saikat",
         character: Characters.Remy,
         playerState: { translation: [0, 0, 0] },
       };
@@ -37,8 +37,8 @@ export class NetworkEngine {
         };
 
         this.gameServer.send(JSON.stringify(data));
-        console.log("Sent Data");
-      }, 5000);
+        //console.log("Sent Data");
+      }, 50);
     });
 
     // Listen for messages
@@ -48,11 +48,11 @@ export class NetworkEngine {
 
       switch (serverResponse.type) {
         case ServerResponseType.GameStateUpdate: {
-          console.log(
+          /* console.log(
             this.selfID,
             this.engine.players,
             serverResponse.playerStates
-          );
+          ); */
           Object.entries(serverResponse.playerStates!).forEach(
             ([playerID, playerState]) => {
               if (playerID !== this.selfID && this.engine.players.has(playerID))

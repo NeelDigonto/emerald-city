@@ -135,6 +135,7 @@ export enum Table {
 // pnos, playerid,
 
 export enum Characters {
+  None = 'None',
   Remy = 'Remy',
 }
 
@@ -246,3 +247,5 @@ export const basicStandardMat: Omit<Material, 'id'> = {
   repeatX: 1,
   repeatY: 1,
 };
+
+export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
