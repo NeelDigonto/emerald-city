@@ -4,11 +4,7 @@
 
 - TODO
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/landing-image.png">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/landing-image.png">
-  <img alt="Shows an illustrated sun in light color mode and a moon with stars in dark color mode." src="./assets/landing-image.png">
-</picture>
+![image](https://user-images.githubusercontent.com/57017288/182046832-e801c664-83f8-4cd2-ae0f-f016687042e5.png)
 
 ## GETTING STARTED
 
