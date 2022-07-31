@@ -51,7 +51,7 @@ export async function RequestImageProc(req, res) {
     await compressorUtil(
       requestImageProc.texturePackName,
       'normal',
-      90,
+      95,
       bucket,
       region,
       texturePackDB,
@@ -61,7 +61,7 @@ export async function RequestImageProc(req, res) {
     await compressorUtil(
       requestImageProc.texturePackName,
       'roughness',
-      60,
+      70,
       bucket,
       region,
       texturePackDB,
@@ -71,7 +71,7 @@ export async function RequestImageProc(req, res) {
     await compressorUtil(
       requestImageProc.texturePackName,
       'metalness',
-      60,
+      70,
       bucket,
       region,
       texturePackDB,
@@ -86,7 +86,7 @@ export async function RequestImageProc(req, res) {
         pmaaaoFile,
       );
 
-      const fileCompressed = await compressTexture(pmaaaoFile, 70);
+      const fileCompressed = await compressTexture(pmaaaoFile, 75);
 
       await s3.putObject(
         bucket,

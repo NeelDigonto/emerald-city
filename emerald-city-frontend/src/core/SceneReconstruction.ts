@@ -71,17 +71,96 @@ export async function ensureImportedMesh(
   );
 }
 
+export async function ensureTexturePack(
+  renderEngine: RenderEngine,
+  texturePackID: string
+) {
+  if (texturePackID === undefined || texturePackID === "") return;
+
+  const texturePack = store
+    .getState()
+    .texturePack.find((atexturePack) => atexturePack.id === texturePackID)!;
+
+  if (texturePack === undefined) return;
+
+  if (
+    renderEngine.textureStore.has(texturePack.albedoCompressed!.fuuid) ||
+    renderEngine.textureStore.has(texturePack.pmaaaoCompressed!.fuuid)
+  ) {
+    return;
+  }
+
+  //console.log("texturePack", texturePack);
+
+  if (texturePack.pmaaaoCompressed !== undefined) {
+    if (!renderEngine.textureStore.has(texturePack.pmaaaoCompressed.fuuid)) {
+      const tex = await renderEngine.textureLoader.loadAsync(
+        await getPresignedDownloadUrl(texturePack.pmaaaoCompressed)
+      );
+      tex.encoding = THREE.sRGBEncoding;
+      renderEngine.textureStore.set(texturePack.pmaaaoCompressed.fuuid, tex);
+    }
+  } else if (texturePack.albedoCompressed !== undefined) {
+    if (!renderEngine.textureStore.has(texturePack.albedoCompressed.fuuid)) {
+      const tex = await renderEngine.textureLoader.loadAsync(
+        await getPresignedDownloadUrl(texturePack.albedoCompressed)
+      );
+      tex.encoding = THREE.sRGBEncoding;
+      renderEngine.textureStore.set(texturePack.albedoCompressed.fuuid, tex);
+    }
+  }
+
+  if (texturePack.normalCompressed !== undefined) {
+    if (!renderEngine.textureStore.has(texturePack.normalCompressed.fuuid)) {
+      const tex = await renderEngine.textureLoader.loadAsync(
+        await getPresignedDownloadUrl(texturePack.normalCompressed)
+      );
+      renderEngine.textureStore.set(texturePack.normalCompressed.fuuid, tex);
+    }
+  }
+
+  if (texturePack.roughnessCompressed !== undefined) {
+    if (!renderEngine.textureStore.has(texturePack.roughnessCompressed.fuuid)) {
+      const tex = await renderEngine.textureLoader.loadAsync(
+        await getPresignedDownloadUrl(texturePack.roughnessCompressed)
+      );
+      renderEngine.textureStore.set(texturePack.roughnessCompressed.fuuid, tex);
+    }
+  }
+
+  if (texturePack.metalnessCompressed !== undefined) {
+    if (!renderEngine.textureStore.has(texturePack.metalnessCompressed.fuuid)) {
+      const tex = await renderEngine.textureLoader.loadAsync(
+        await getPresignedDownloadUrl(texturePack.metalnessCompressed)
+      );
+      renderEngine.textureStore.set(texturePack.metalnessCompressed.fuuid, tex);
+    }
+  }
+}
+
+const getWrap = (dbWrap: api.WrapMode) => {
+  if (dbWrap === api.WrapMode.ClampToEdgeWrapping)
+    return THREE.ClampToEdgeWrapping;
+
+  if (dbWrap === api.WrapMode.MirroredRepeatWrapping)
+    return THREE.MirroredRepeatWrapping;
+
+  if (dbWrap === api.WrapMode.RepeatWrapping) return THREE.RepeatWrapping;
+
+  return THREE.ClampToEdgeWrapping;
+};
+
 export async function ensureMaterial(
   renderEngine: RenderEngine,
   materialID: string
 ) {
   if (materialID === undefined || materialID === "") return;
-  if (renderEngine.materialStore.has(materialID)) return;
+  if (renderEngine.materialStore.has(materialID)) {
+    return;
+  }
 
   const state = store.getState();
   const _material = state.material.find((mat) => mat.id === materialID)!;
-
-  //console.log("_material", _material);
 
   let material: THREE.MeshStandardMaterial | THREE.MeshPhysicalMaterial;
   if (_material.type === api.MaterialType.Standard)
@@ -98,63 +177,79 @@ export async function ensureMaterial(
 
   const texturePack = state.texturePack.find(
     (atexturePack) => atexturePack.id === _material.texturePackID
-  )!;
-
-  //console.log("texturePack", texturePack);
+  );
 
   if (texturePack === undefined) {
     renderEngine.materialStore.set(_material.id, material);
     return;
   }
 
-  if (texturePack.pmaaaoCompressed !== undefined) {
-    if (!renderEngine.textureStore.has(texturePack.pmaaaoCompressed.fuuid)) {
-      const tex = await renderEngine.textureLoader.loadAsync(
-        await getPresignedDownloadUrl(texturePack.pmaaaoCompressed)
-      );
-      tex.encoding = THREE.sRGBEncoding;
-      renderEngine.textureStore.set(texturePack.pmaaaoCompressed.fuuid, tex);
-      material.map = tex;
-    }
-  } else if (texturePack.albedoCompressed !== undefined) {
-    if (!renderEngine.textureStore.has(texturePack.albedoCompressed.fuuid)) {
-      const tex = await renderEngine.textureLoader.loadAsync(
-        await getPresignedDownloadUrl(texturePack.albedoCompressed)
-      );
-      tex.encoding = THREE.sRGBEncoding;
-      renderEngine.textureStore.set(texturePack.albedoCompressed.fuuid, tex);
-      material.map = tex;
-    }
+  //console.log("_material", _material);
+
+  await ensureTexturePack(renderEngine, _material.texturePackID!);
+  console.log(renderEngine.textureStore);
+
+  if (
+    texturePack.pmaaaoCompressed !== undefined &&
+    renderEngine.textureStore.has(texturePack.pmaaaoCompressed.fuuid)
+  ) {
+    const tex = renderEngine.textureStore
+      .get(texturePack.pmaaaoCompressed.fuuid)!
+      .clone();
+    tex.wrapS = getWrap(_material.wrapS);
+    tex.wrapT = getWrap(_material.wrapT);
+    tex.repeat.set(_material.repeatX, _material.repeatY);
+    material.map = tex;
+  } else if (
+    texturePack.albedoCompressed !== undefined &&
+    renderEngine.textureStore.has(texturePack.albedoCompressed.fuuid)
+  ) {
+    const tex = renderEngine.textureStore
+      .get(texturePack.albedoCompressed.fuuid)!
+      .clone();
+    tex.wrapS = getWrap(_material.wrapS);
+    tex.wrapT = getWrap(_material.wrapT);
+    tex.repeat.set(_material.repeatX, _material.repeatY);
+    material.map = tex;
   }
 
-  if (texturePack.normalCompressed !== undefined) {
-    if (!renderEngine.textureStore.has(texturePack.normalCompressed.fuuid)) {
-      const tex = await renderEngine.textureLoader.loadAsync(
-        await getPresignedDownloadUrl(texturePack.normalCompressed)
-      );
-      renderEngine.textureStore.set(texturePack.normalCompressed.fuuid, tex);
-      material.normalMap = tex;
-    }
+  if (
+    texturePack.normalCompressed !== undefined &&
+    renderEngine.textureStore.has(texturePack.normalCompressed.fuuid)
+  ) {
+    const tex = renderEngine.textureStore
+      .get(texturePack.normalCompressed.fuuid)!
+      .clone();
+    tex.wrapS = getWrap(_material.wrapS);
+    tex.wrapT = getWrap(_material.wrapT);
+    tex.repeat.set(_material.repeatX, _material.repeatY);
+    material.normalMap = tex;
   }
 
-  if (texturePack.roughnessCompressed !== undefined) {
-    if (!renderEngine.textureStore.has(texturePack.roughnessCompressed.fuuid)) {
-      const tex = await renderEngine.textureLoader.loadAsync(
-        await getPresignedDownloadUrl(texturePack.roughnessCompressed)
-      );
-      renderEngine.textureStore.set(texturePack.roughnessCompressed.fuuid, tex);
-      material.roughnessMap = tex;
-    }
+  if (
+    texturePack.roughnessCompressed !== undefined &&
+    renderEngine.textureStore.has(texturePack.roughnessCompressed.fuuid)
+  ) {
+    const tex = renderEngine.textureStore
+      .get(texturePack.roughnessCompressed.fuuid)!
+      .clone();
+    tex.wrapS = getWrap(_material.wrapS);
+    tex.wrapT = getWrap(_material.wrapT);
+    tex.repeat.set(_material.repeatX, _material.repeatY);
+    material.roughnessMap = tex;
   }
 
-  if (texturePack.metalnessCompressed !== undefined) {
-    if (!renderEngine.textureStore.has(texturePack.metalnessCompressed.fuuid)) {
-      const tex = await renderEngine.textureLoader.loadAsync(
-        await getPresignedDownloadUrl(texturePack.metalnessCompressed)
-      );
-      renderEngine.textureStore.set(texturePack.metalnessCompressed.fuuid, tex);
-      material.metalnessMap = tex;
-    }
+  if (
+    texturePack.metalnessCompressed !== undefined &&
+    renderEngine.textureStore.has(texturePack.metalnessCompressed.fuuid)
+  ) {
+    const tex = renderEngine.textureStore
+      .get(texturePack.metalnessCompressed.fuuid)!
+      .clone();
+    tex.wrapS = getWrap(_material.wrapS);
+    tex.wrapT = getWrap(_material.wrapT);
+    tex.repeat.set(_material.repeatX, _material.repeatY);
+    material.metalnessMap = tex;
   }
 
   renderEngine.materialStore.set(_material.id, material);

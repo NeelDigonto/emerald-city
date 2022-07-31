@@ -3,6 +3,7 @@ import * as api from '../types/api/Core.js';
 
 import * as s3 from '../util/aws-wrapper.js';
 import { compressTexture } from './img-proc.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function stream2buffer(
   stream: Readable | Stream,
@@ -42,12 +43,14 @@ export const compressorUtil = async (
   );
 
   texturePackDB[fname] = {
+    fuuid: uuidv4(),
     bucket,
     key: `textures/${texturePackName}/${fname}.jpg`,
     byteLength: file.byteLength,
   };
 
   texturePackDB[`${fname}Compressed`] = {
+    fuuid: uuidv4(),
     bucket,
     key: `textures/${texturePackName}/${fname}_compressed.jpg`,
     byteLength: fileCompressed.byteLength,
