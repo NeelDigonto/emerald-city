@@ -135,9 +135,11 @@ GNU Affero General Public License 3.0 (AGPL-3.0-only)
 
 ## Code Owners
 
-- Saikat Dey [Team Lead] (notfathomless) digonto.pvt.2021@gmail.com https://github.com/notfathomless
-- Sayantan Pal (sayantan135) palsayantan2002@gmail.com https://github.com/sayantan135
-- Sudip Ghosh sudip.leo07@gmail.com https://github.com/SUDIP1969
+Name                    | Username      | Link                           | Email                      |
+------------------------|---------------|--------------------------------|----------------------------|
+Saikat Dey [Team Lead]  | notfathomless | https://github.com/notfathomles| digonto.pvt.2021@gmail.com |
+Sayantan Pal            | sayantan135   | https://github.com/sayantan135 | palsayantan2002@gmail.com  |
+Sudip Ghosh             | SUDIP1969     | https://github.com/SUDIP1969   | sudip.leo07@gmail.com      |
 
 ## Team Name
 
