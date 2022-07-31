@@ -152,6 +152,7 @@ export interface GameState {
 
 export enum ServerResponseType {
   PlayerJoined,
+  ReportSelfID,
   PlayerExit,
   GameStateUpdate,
 }
@@ -165,6 +166,7 @@ export interface ServerResponse {
   playerExitedID?: string;
   gameState?: GameState;
   playerStates?: PlayerStates;
+  selfID?: string;
 }
 
 export enum PlayerResponseType {
