@@ -99,7 +99,7 @@ class Player {
       return;
     }
 
-    let playerStates: PlayerStates = {};
+    const playerStates: PlayerStates = {};
 
     this.playerPool.forEach((aPlayer) => {
       //if (aPlayer.playerID === this.playerID) return;
@@ -174,7 +174,7 @@ class Player {
 export class GameServer {
   playerPool: Map<string, Player> = new Map<string, Player>();
   server: WebSocketServer;
-  p1: boolean = true;
+  p1 = true;
 
   constructor() {
     this.server = new WebSocketServer({ port: 7000, perMessageDeflate: false });
