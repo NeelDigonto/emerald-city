@@ -6,6 +6,7 @@ import * as api from '../../types/api/Core.js';
 import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import { ObjectId } from 'mongodb';
 
 export async function UpdateModel(req, res) {
   const model: api.Model = req.body;
@@ -19,12 +20,14 @@ export async function UpdateModel(req, res) {
 
   const updateResult = await collection.updateOne(
     {
-      id: id,
+      _id: new ObjectId(id),
     },
     { $set: model },
   );
 
-  res.send({ status: 'ok' });
+  console.log(updateResult);
+
+  res.send(updateResult);
 
   await connection.close();
 }

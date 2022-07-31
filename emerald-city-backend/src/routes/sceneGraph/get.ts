@@ -15,7 +15,7 @@ export async function GetSceneGraph(req, res) {
 
   const sceneGraph = (await collection.find({}).toArray())[0];
 
-  res.send(sceneGraph);
+  res.send({ sceneGraph: sceneGraph });
 
   await connection.close();
 }

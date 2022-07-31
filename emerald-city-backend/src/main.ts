@@ -95,7 +95,7 @@ function main() {
       break;
     default:
       mainBackendServer();
-      new GameServer();
+      //new GameServer();
       break;
   }
 }

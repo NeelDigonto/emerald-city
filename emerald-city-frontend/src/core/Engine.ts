@@ -101,7 +101,11 @@ export class Engine {
       .then(() =>
         fetch("http://localhost:5000/sceneGraph/get")
           .then((response) => response.json())
-          .then((dbSceneObject) => this.reconstructSceneGraph(dbSceneObject))
+
+          .then((dbSceneObject) => {
+            if (dbSceneObject && dbSceneObject !== undefined)
+              this.reconstructSceneGraph(dbSceneObject.sceneGraph);
+          })
       )
       .then(() => (this.isSceneGraphInitialized = true))
       .then(() => {

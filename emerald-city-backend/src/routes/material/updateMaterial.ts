@@ -6,6 +6,7 @@ import * as api from '../../types/api/Core.js';
 import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import { ObjectId } from 'mongodb';
 
 export async function UpdateMaterial(req, res) {
   const material: api.Material = req.body;
@@ -19,7 +20,7 @@ export async function UpdateMaterial(req, res) {
 
   const updateResult = await collection.updateOne(
     {
-      id: id,
+      _id: new ObjectId(id),
     },
     { $set: material },
   );
