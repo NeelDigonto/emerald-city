@@ -123,7 +123,7 @@ export class EditorControls {
 
     this.transformControls.setTranslationSnap(0.1);
     this.transformControls.setRotationSnap(THREE.MathUtils.degToRad(10));
-    this.transformControls.setScaleSnap(0.005);
+    this.transformControls.setScaleSnap(0.5);
 
     this.renderEngine.mainScene.add(this.transformControls);
   }
@@ -243,9 +243,12 @@ export class EditorControls {
         this.keyState.cntrl = true;
         break;
       case "Delete": {
-        const object = this.transformControls.object;
-        object?.removeFromParent();
+        const object = this.transformControls.object!;
         this.transformControls.detach();
+        this.sceneGraph.remove(
+          this.sceneGraph.renderObjectToSceneObjectMap.get(object.uuid)!
+        );
+
         this.lastSelectedObject = null;
         break;
       }

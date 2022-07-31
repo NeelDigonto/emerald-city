@@ -156,6 +156,7 @@ const ModelViewer = () => {
                       .toLowerCase()
                       .includes(filterModelName.trim().toLowerCase())
                 )
+                .filter((model) => model.type !== api.ModelType.Basic)
                 .map((model, index) => <AModel model={model} key={index} />)}
           </SidebarListHeading>
         </FireNav>

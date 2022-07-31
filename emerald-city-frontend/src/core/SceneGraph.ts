@@ -76,9 +76,24 @@ export class SceneGraph {
     return this.renderObjectToSceneObjectMap.get(renderObjectID);
   }
 
-  /*   remove(objectID: number) {
-    const result = this.objectCache.delete(objectID);
+  remove(sceneObject: SceneObject) {
+    sceneObject.renderObject.traverse((subObj) =>
+      this.renderObjectToSceneObjectMap.delete(subObj.uuid)
+    );
+
+    sceneObject.renderObject.removeFromParent();
+
+    const result = this.objectCache.delete(sceneObject.id);
+
+    const deleteID = sceneObject.id;
+
+    let parent = sceneObject.parent;
+
+    parent.childrens = parent.childrens.filter(
+      (_sceneObject) => _sceneObject.id !== deleteID
+    );
+
     this.onChangeCallbacks.forEach((callback) => callback());
     return result;
-  } */
+  }
 }

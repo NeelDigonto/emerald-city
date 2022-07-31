@@ -120,7 +120,7 @@ export class Engine {
                 "Content-Type": "application/json",
               },
             });
-          }, 5000);
+          }, 1000);
         }
       });
   }
