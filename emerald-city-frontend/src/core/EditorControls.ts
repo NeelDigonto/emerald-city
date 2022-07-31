@@ -86,7 +86,7 @@ export class EditorControls {
     domElement: HTMLElement,
     camera: THREE.PerspectiveCamera
   ) {
-    console.log("Controller attached");
+    console.log("Editor Controller attached");
 
     this.renderEngine = renderEngine;
     this.sceneGraph = sceneGraph;

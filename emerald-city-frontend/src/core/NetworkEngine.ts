@@ -13,6 +13,8 @@ import { Engine } from "./Engine";
 export class NetworkEngine {
   gameServer: WebSocket;
   engine: Engine;
+  selfID: string = "";
+
   constructor(engine: Engine) {
     this.engine = engine;
     this.gameServer = new WebSocket("ws://localhost:7000");
@@ -46,10 +48,15 @@ export class NetworkEngine {
 
       switch (serverResponse.type) {
         case ServerResponseType.GameStateUpdate: {
+          console.log(
+            this.selfID,
+            this.engine.players,
+            serverResponse.playerStates
+          );
           Object.entries(serverResponse.playerStates!).forEach(
             ([playerID, playerState]) => {
-              console.log(this.engine.players, [playerID, playerState]);
-              this.engine.setPlayerState(playerID, playerState);
+              if (playerID !== this.selfID && this.engine.players.has(playerID))
+                this.engine.setPlayerState(playerID, playerState);
             }
           );
 
@@ -63,6 +70,11 @@ export class NetworkEngine {
             character: serverResponse.playerJoinedCharacter!,
             playerState: serverResponse.playerJoinedState!,
           });
+          break;
+        }
+
+        case ServerResponseType.ReportSelfID: {
+          this.selfID = serverResponse.selfID!;
           break;
         }
 

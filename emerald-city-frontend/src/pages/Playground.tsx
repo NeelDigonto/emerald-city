@@ -57,12 +57,7 @@ const Playground = () => {
 
       engine.play();
 
-      setupScene(
-        engine.renderEngine!.mainScene,
-        engine.renderEngine!.camera,
-        engine.sceneGraph,
-        engine.renderEngine!
-      );
+      engine.setupBaseScene();
     }
   }, [engine, canvasContainerRef.current, canvasRef.current]);
 
