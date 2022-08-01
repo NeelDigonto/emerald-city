@@ -20,6 +20,18 @@ yarn install
 yarn run dev
 ```
 
+
+```
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
+AWS_SESSION_TOKEN=""
+
+MONGO_USER_NAME=""
+MONGO_USER_PASSWORD=""
+DB_NAME=""
+
+```
+
 ## USAGE
 
 - TODO
