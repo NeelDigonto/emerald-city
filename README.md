@@ -20,7 +20,7 @@ yarn install
 yarn run dev
 ```
 
-
+# In emerald-city-backend/.env
 ```
 AWS_ACCESS_KEY_ID=""
 AWS_SECRET_ACCESS_KEY=""
