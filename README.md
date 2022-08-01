@@ -8,7 +8,17 @@
 
 ## GETTING STARTED
 
-- TODO
+- To Run
+
+```
+cd emerald-city-frontend
+yarn install
+yarn start
+
+cd emerald-city-backend
+yarn install
+yarn run dev
+```
 
 ## USAGE
 
