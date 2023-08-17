@@ -25,6 +25,12 @@ import { UpdateSceneGraph } from './routes/sceneGraph/udpate.js';
 import { UpdateModel } from './routes/model/update.js';
 import { UpdateMaterial } from './routes/material/updateMaterial.js';
 import { audioServer } from './WebRTCAudioServer.js';
+import {
+  getObject,
+  getPresignedGetUrl,
+  getPresignedPostUrl,
+} from './util/aws-wrapper.js';
+import { AWS_S3_BUCKET, AWS_S3_REGION } from './Constants.js';
 
 function frontendServer() {
   const app = express();
@@ -110,3 +116,37 @@ function main() {
 }
 
 main();
+/*
+import FormData from 'form-data';
+import axios from 'axios';
+
+export const uploadFile = async (url: string, fields: any, file: Buffer) => {
+  const formData = new FormData();
+
+  Object.entries(fields).forEach(([key, value]) => {
+    formData.append(key, value as any);
+  });
+
+  formData.append('file', file);
+  //console.log(fields);
+
+  return new Promise<void>((resolve, reject) => {
+    axios.post(url, formData).then(() => resolve());
+
+    //resolve();
+  });
+};
+
+const res = await getPresignedPostUrl(
+  AWS_S3_BUCKET,
+  AWS_S3_REGION,
+  'vfvndhsga_Preview.png',
+);
+//console.log(res);
+const ures = await uploadFile(
+  res.url,
+  res.fields,
+  fs.readFileSync('vfvndhsga_Preview.png'),
+);
+console.log(ures);
+//console.log(fs.readFileSync('vfvndhsga_Preview.png')); */

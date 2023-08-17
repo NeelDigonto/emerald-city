@@ -6,13 +6,14 @@ import * as api from '../../types/api/Core.js';
 import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import { AWS_S3_BUCKET, AWS_S3_REGION, DB_NAME } from '../../Constants.js';
 
 export async function RequestImageProc(req, res) {
   const requestImageProc: api.RequestImageProc =
     req.body as api.RequestImageProc;
 
-  const bucket = 'emerald-city';
-  const region = 'ap-south-1';
+  const bucket = AWS_S3_BUCKET;
+  const region = AWS_S3_REGION;
 
   const hasAlbedo: boolean = requestImageProc.albedo;
   const hasAO: boolean = requestImageProc.ao;
@@ -112,9 +113,7 @@ export async function RequestImageProc(req, res) {
   }
 
   const connection = await getMongoConnection();
-  const collection = connection
-    .db(process.env.DB_NAME)
-    .collection(api.Table.TexturePack);
+  const collection = connection.db(DB_NAME).collection(api.Table.TexturePack);
 
   await collection.insertOne(texturePackDB);
 

@@ -7,6 +7,7 @@ import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
+import { DB_NAME } from '../../Constants.js';
 
 export async function UpdateMaterial(req, res) {
   const material: api.Material = req.body;
@@ -14,9 +15,7 @@ export async function UpdateMaterial(req, res) {
   delete material.id;
 
   const connection = await getMongoConnection();
-  const collection = connection
-    .db(process.env.DB_NAME)
-    .collection(api.Table.Material);
+  const collection = connection.db(DB_NAME).collection(api.Table.Material);
 
   const updateResult = await collection.updateOne(
     {

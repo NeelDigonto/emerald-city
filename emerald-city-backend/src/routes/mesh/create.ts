@@ -6,6 +6,7 @@ import * as api from '../../types/api/Core.js';
 import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import { DB_NAME } from '../../Constants.js';
 
 export async function CreateMesh(req, res) {
   const requestMeshProc: api.RequestMeshProc = req.body as api.RequestMeshProc;
@@ -14,9 +15,7 @@ export async function CreateMesh(req, res) {
   const region = 'ap-south-1';
 
   const connection = await getMongoConnection();
-  const collection = connection
-    .db(process.env.DB_NAME)
-    .collection(api.Table.ImportedMesh);
+  const collection = connection.db(DB_NAME).collection(api.Table.ImportedMesh);
 
   const meshDB: Omit<api.ImportedMesh, 'id'> = {
     type: api.ImportedMeshType.FBX,

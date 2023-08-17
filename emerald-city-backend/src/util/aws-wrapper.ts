@@ -8,13 +8,21 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { response } from 'express';
 import fs, { write } from 'fs';
 import { Readable } from 'stream';
+import { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } from '../Constants.js';
 
 export async function getObject(
   bucket: string,
   region: string,
   key: string,
 ): Promise<Readable> {
-  const client = new S3Client({ region: region, apiVersion: '2006-03-01' });
+  const client = new S3Client({
+    region: region,
+    apiVersion: '2006-03-01',
+    credentials: {
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    },
+  });
   const command = new GetObjectCommand({ Bucket: bucket, Key: key });
   const response = await client.send(command);
   return response.Body as Readable;
@@ -26,7 +34,14 @@ export async function putObject(
   key: string,
   file: Readable | Buffer,
 ) {
-  const client = new S3Client({ region: region, apiVersion: '2006-03-01' });
+  const client = new S3Client({
+    region: region,
+    apiVersion: '2006-03-01',
+    credentials: {
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    },
+  });
   const command = new PutObjectCommand({
     Bucket: bucket,
     Key: key,
@@ -41,7 +56,14 @@ export async function getPresignedGetUrl(
   key: string,
   expires: number = 10 * 60,
 ) {
-  const client = new S3Client({ region: region, apiVersion: '2006-03-01' });
+  const client = new S3Client({
+    region: region,
+    apiVersion: '2006-03-01',
+    credentials: {
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    },
+  });
   const command = new GetObjectCommand({
     Bucket: bucket,
     Key: key,
@@ -60,11 +82,21 @@ export async function getPresignedPostUrl(
   const Fields = {
     acl: 'public-read',
   };
-  const client = new S3Client({ region: region, apiVersion: '2006-03-01' });
-  return createPresignedPost(client, {
+  const client = new S3Client({
+    region: region,
+    apiVersion: '2006-03-01',
+    credentials: {
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    },
+  });
+  const res = await createPresignedPost(client, {
     Bucket: bucket,
     Key: key,
-    Fields,
+    //Fields,
     Expires: expires,
   });
+
+  //console.log(res);
+  return res;
 }

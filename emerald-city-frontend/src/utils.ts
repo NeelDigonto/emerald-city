@@ -8,6 +8,7 @@ export const uploadFile = async (url: string, fields: any, file: File) => {
   });
 
   formData.append("file", file);
+  console.log(fields);
 
   return new Promise<void>((resolve, reject) => {
     const xhr = new XMLHttpRequest();

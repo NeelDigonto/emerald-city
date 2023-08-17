@@ -1,7 +1,8 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MONGO_URI } from '../Constants.js';
 
 const getMongoUri = () => {
-  return `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_USER_PASSWORD}@cluster0.bavoa.mongodb.net/?retryWrites=true&w=majority`;
+  return MONGO_URI;
 };
 
 export async function getMongoClient() {

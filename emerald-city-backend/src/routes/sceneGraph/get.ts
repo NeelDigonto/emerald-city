@@ -6,12 +6,11 @@ import * as api from '../../types/api/Core.js';
 import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import { DB_NAME } from '../../Constants.js';
 
 export async function GetSceneGraph(req, res) {
   const connection = await getMongoConnection();
-  const collection = connection
-    .db(process.env.DB_NAME)
-    .collection(api.Table.SceneGraph);
+  const collection = connection.db(DB_NAME).collection(api.Table.SceneGraph);
 
   const sceneGraph = (await collection.find({}).toArray())[0];
 

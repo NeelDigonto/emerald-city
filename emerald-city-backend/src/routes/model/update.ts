@@ -7,6 +7,7 @@ import * as s3 from '../../util/aws-wrapper.js';
 import { getMongoClient, getMongoConnection } from '../../util/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
+import { DB_NAME } from '../../Constants.js';
 
 export async function UpdateModel(req, res) {
   const model: api.Model = req.body;
@@ -14,9 +15,7 @@ export async function UpdateModel(req, res) {
   delete model.id;
 
   const connection = await getMongoConnection();
-  const collection = connection
-    .db(process.env.DB_NAME)
-    .collection(api.Table.Model);
+  const collection = connection.db(DB_NAME).collection(api.Table.Model);
 
   const updateResult = await collection.updateOne(
     {
